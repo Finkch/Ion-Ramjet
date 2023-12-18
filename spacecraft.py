@@ -22,8 +22,8 @@ class spacecraft:
         self.reactor = reactor
 
         # Gets the mass of the craft
-        self.total_mass = 0
-        self.total_mass = self.get_mass()
+        self.mass = 0
+        self.mass = self.get_mass()
     
     # Returns the current mass of the craft
     def get_mass(self):
@@ -54,26 +54,42 @@ class thruster:
 #   Accepts deionized gas and power
 #   Outputs ionized gas
 class ionizer:
-    def __init__(self):
-        pass
+    def __init__(self, mass, power_per, in_flow, out_flow):
+        
+        self.mass = mass
+
+        self.power_per = power_per
+        self.in_flow = in_flow
+        self.out_flow = out_flow
 
 # Scoops up gas from the interstellar medium
 #   Accepts power
 #   Outputs (mostly) deionized gas
 class scoop:
-    def __init__(self):
-        pass
+    def __init__(self, mass, power, radius):
+        
+        self.mass = mass
+
+        self.power = power
+        self.radius = radius
 
 # Hold fuel
 #   (Optionally) accepts gas
 #   Outputs gas
 class tank:
-    def __init__(self):
-        pass
+    def __init__(self, mass, fuel, max_fuel):
+        
+        self.mass = mass
+
+        self.fuel = fuel
+        self.max_fuel = max_fuel
 
 # Creates power
 #   (Depends on type) accepts sun or fuel
 #   Outputs power
 class reactor:
-    def __init__(self):
-        pass
+    def __init__(self, mass, generation):
+        
+        self.mass = mass
+
+        self.generation = generation
