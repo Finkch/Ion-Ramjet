@@ -7,14 +7,17 @@ import time as t
 import gravity as g
 import constants as c
 import util
+from graphics import *
+import visuals as vis
 
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
 
+    screen = vis.init_visuals(512, 512)
+
     # Important parameters
     time_step = 86400
-
 
     # Mass, v_e, F_per, P_per
     test_thruster = sc.thruster(10, 1e3, 1e-27, 1e-23)
@@ -34,7 +37,7 @@ def setup():
 
 
     # core mass, thruster, ionizer, scoop, tank, reactor
-    test_craft = sc.spacecraft("ioRam-0", 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
+    test_craft = sc.spacecraft("ioRam-0", 5, 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
 
 
     # Some initial movement
@@ -43,13 +46,17 @@ def setup():
 
 
     # Simulates
-    exist(time_step, [test_craft])
+    exist(time_step, [test_craft], screen)
+
+    screen.close()
+
 
 
 
 # Simulates
-def exist(time_step, crafts):
+def exist(time_step, crafts, screen):
     
+
     # Keeps track of timulation time
     time = 0
 
@@ -57,7 +64,7 @@ def exist(time_step, crafts):
     simulate = True
 
     # Sun mass
-    sun = sc.actor("sun", 3.995e30)
+    sun = sc.actor("sun", c.sun_mass, c.sun_radius)
     
 
     while simulate:
@@ -74,13 +81,17 @@ def exist(time_step, crafts):
             sun(time_step)
             craft(time_step)
             print(craft)
+            print("Dif:", util.dif(sun.pos(), craft.pos()))
+
 
 
         # Keeps track of time
         time += time_step
 
+        #vis.draw(screen, sun, crafts)
+
         # Pauses to make readouts easier to read
-        t.sleep(0.5)
+        #t.sleep(0.5)
 
 # Gets everything going
 setup()

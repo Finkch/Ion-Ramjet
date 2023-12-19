@@ -8,10 +8,11 @@
 # All these components have some mass
 
 import vector as v
+import visuals as vis
 
 
 class actor(object):
-    def __init__(self, name, mass):
+    def __init__(self, name, mass, radius):
 
         self.spacetime = v.spacetime()
 
@@ -19,6 +20,8 @@ class actor(object):
 
         # The most crucial part: the name
         self.name = name
+
+        self.shape_data = vis.shape(radius)
 
     # Updates the craft
     def __call__(self, time_step):
@@ -28,16 +31,46 @@ class actor(object):
         return self.name + "\n" + str(self.spacetime)
     
 
+    # Returns the shape associated with this object
+    def draw(self, screen):
+        try:
+            self.shape.undraw()
+        except:
+            pass
+
+        self.shape = self.shape_data(self.pos()).draw(screen)
+        self.shape.setFill(self.shape_data.fill_colour)
+        self.shape.setOutline(self.shape_data.outline_colour)
+        return self.shape
 
     # Exerts a force on the actor
     def force(self, force):
         # Imparts the force as acceleration on the craft
         self.spacetime.acceleration += force / self.mass
 
+    # Some getters
+    def pos(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.position
+        else:
+            return self.spacetime.position()[dir]
+    
+    def vel(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.velocity
+        else:
+            return self.spacetime.velocity()[dir]
+        
+    def acc(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.acceleration
+        else:
+            return self.spacetime.acceleration()[dir]
+
 
 # This is the core, the glue that holds everything together
 class spacecraft(actor):
-    def __init__(self, name, core_mass, thruster, ionizer, scoop, tank, reactor):
+    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
         # Requires an angular orientation
         #   Wrap this in a class?
@@ -56,7 +89,7 @@ class spacecraft(actor):
         self.reactor = reactor
 
         # Gets the mass of the craft
-        super().__init__(name, self.get_mass())
+        super().__init__(name, self.get_mass(), radius)
 
     
     # Returns the current mass of the craft
