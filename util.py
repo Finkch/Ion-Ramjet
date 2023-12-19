@@ -28,14 +28,12 @@ def phi(vec):
 # Splits a radial vector into its cartesian components.
 # It is assumed that vec is a vector with the same orientation
 # but a different magnitude
-def radial_to_cartesian(radial, vec):
-    th = theta(vec)
-    ph = phi(vec)
-
+def radial_to_cartesian(radial, theta, phi):
     return v.vector(
-        radial * np.sin(th) * np.cos(ph),
-        radial * np.sin(th) * np.sin(ph),
-        radial * np.cos(th)
+        radial * np.sin(theta) * np.cos(phi),
+        radial * np.sin(theta) * np.sin(phi),
+        radial * np.cos(theta)
+    )
 
 # Converts time to a human-readable format
 def readable_time(time):

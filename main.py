@@ -6,6 +6,7 @@ import spacecraft as sc
 import time as t
 import gravity as g
 import constants as c
+import util
 
 # First, there was nothing.
 # Then, there was "setup".
@@ -61,11 +62,12 @@ def exist(time_step, crafts):
 
     while simulate:
 
-        print("\n\nTime:\t{time:.2e}".format(time = time))
+        print("\n\n" + util.readable_time(time))
 
         # Simulates each craft
         for craft in crafts:
             #craft.force(v.vector(0, craft.mass, 0))
+            print("phi:\t{phi:.2f}\ntheta:\t{theta:.2f}".format(phi = util.phi(sun.spacetime.position - craft.spacetime.position), theta = util.theta(sun.spacetime.position - craft.spacetime.position)))
             
             g.easy_gravity([sun], [craft])
 
