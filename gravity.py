@@ -1,7 +1,7 @@
 # Simulates gravity
 
 import constants as c
-import util
+from util import *
 
 # Calculates gravitational attraction between all releveant bodies
 #   "easy" gravity since we only care about a small set of gravity producers
@@ -32,15 +32,15 @@ def easy_gravity(affecters, effectees):
 # Puts gravity from one onto the other
 def gravity(a, b):
 
-    position_vector = b.spacetime.position - a.spacetime.position
+    position_vector = b.pos() - a.pos()
 
     # F = G M m / r^2
 
     # This approach won't work since G is based on the radial component
-    force = c.G * a.mass * b.mass / util.hypo(position_vector) ** 2
+    force = c.G * a.mass * b.mass / hypo(position_vector) ** 2
 
     # Split the radial vector into the components
-    force = util.radial_to_cartesian(force, util.theta(position_vector), util.phi(position_vector))
+    force = radial_to_cartesian(force, theta(position_vector), phi(position_vector))
 
     # Applies the equal force in opposite directions
     a.force(force)
