@@ -40,7 +40,7 @@ def gravity(a, b):
     force = c.G * a.mass * b.mass / util.hypo(position_vector) ** 2
 
     # Split the radial vector into the components
-    force = util.radial_to_cartesian(force, position_vector)
+    force = util.radial_to_cartesian(force, util.theta(position_vector), util.phi(position_vector))
 
     # Applies the equal force in opposite directions
     a.force(force)
