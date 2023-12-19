@@ -45,3 +45,8 @@ def readable_time(time):
         minutes = (time // 60) % 60,
         seconds = time % 60
     )
+
+
+# Calculates the diference between vectors
+def dif(a, b):
+    return hypo(a - b)
