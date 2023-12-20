@@ -17,6 +17,11 @@ class shape:
 def init_visuals(width, height):
     pygame.init()
     screen = pygame.display.set_mode((width, height))
+    
+    # Sets a global font
+    global FONT
+    FONT = pygame.font.SysFont('futura', 12)
+
     return screen
 
 # Draws everything
