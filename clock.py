@@ -2,13 +2,13 @@
 import time as t
 
 class clock:
-    def __init__(self, goal = -1, compensate = False):
+    def __init__(self, goal = -1, compensate = False, length = 2):
 
         # Gets the start time
         self.start = self()
 
         # Two initial pushes prevent peek errors
-        self.time_stamps = [self.start, 0]
+        self.time_stamps = [self.start] + [0 for i in range(length - 1)]
 
         # The goal to aim for
         self.goal = goal
@@ -26,9 +26,8 @@ class clock:
         # Pushes item to the front
         self.time_stamps.insert(0, self())
 
-        # If the list is too long, pops the last item
-        if len(self.time_stamps) > 5:
-            self.time_stamps.pop(-1)
+        # Prevents the list from growing too long
+        self.time_stamps.pop(-1)
 
     # Looks at the most recent item
     def peek(self, i = 0):
