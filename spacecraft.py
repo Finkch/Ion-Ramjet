@@ -8,14 +8,17 @@
 # All these components have some mass
 
 import vector as v
+import visuals as vis
 
 
 class actor(object):
-    def __init__(self, name, mass):
+    def __init__(self, name, mass, radius):
 
         self.spacetime = v.spacetime()
 
         self.mass = mass
+
+        self.shape = vis.shape(radius)
 
         # The most crucial part: the name
         self.name = name
