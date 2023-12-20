@@ -9,6 +9,7 @@
 
 import vector as v
 import visuals as vis
+from util import *
 
 
 class actor(object):
@@ -61,12 +62,8 @@ class actor(object):
 class spacecraft(actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        # Requires an angular orientation
-        #   Wrap this in a class?
-        #   Yeah, then can have functions to convert magnitude to directions
-        self.phi = 0
-        self.theta = 0
-
+        # Angular orientation
+        self.orientation = orientation
 
 
         # Creates the craft from the components
@@ -94,7 +91,13 @@ class spacecraft(actor):
         return mass
 
 
+# Describes the orientation in space
+class orientation:
+    def __init__(self, position = v.vector()):
 
+        # Default orientation is based on the starting position
+        self.theta = theta(position)
+        self.phi = phi(position)
 
 
 # What produces the thrust
