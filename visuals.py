@@ -128,7 +128,7 @@ def draw_labels(screen, actor, pixel_position, radius):
 
 
 # Renders a single bit of text
-def render_text(screen, string, position, pad = True, down = True, size = 'medium', colour = 'white', antialias = True):
+def render_text(screen, string, position, pad = True, down = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
     # Obtains the font object
     text = None
@@ -147,9 +147,15 @@ def render_text(screen, string, position, pad = True, down = True, size = 'mediu
 
     # Places the text
     if down:
-        text_shape.topleft = (padding + position[0], padding + position[1])
+        if left:
+            text_shape.topleft = (padding + position[0], padding + position[1])
+        else:
+            text_shape.topright = (padding + position[0], padding + position[1])
     else:
-        text_shape.topleft = (padding + position[0], HEIGHT - padding - position[1])
+        if left:
+            text_shape.topleft = (padding + position[0], HEIGHT - padding - position[1])
+        else:
+            text_shape.topright = (padding + position[0], HEIGHT - padding - position[1])
 
     # Renders the text
     screen.blit(text, text_shape)
@@ -227,6 +233,8 @@ def draw_scale(screen, max_distance, scale):
     # Draws the current scale
     pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
     pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
+
+    render_text(screen, f'{max_distance:.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 def draw_tick(screen, i, x_pos, distance):
 
