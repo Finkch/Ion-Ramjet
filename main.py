@@ -46,7 +46,7 @@ def setup():
 
     # Some initial movement
     test_craft.spacetime.position = v.vector(c.au, 0, 0)
-    test_craft.spacetime.velocity = v.vector(0, -c.earth_speed, 0)
+    test_craft.spacetime.velocity = v.vector(0, c.earth_speed, 0)
 
 
     # Simulates

@@ -38,7 +38,7 @@ def radial_to_cartesian(radial, theta, phi):
 # Converts time to a human-readable format
 def readable_time(time):
     time = int(time)
-    return "{years:.2e} y, {days} d, {hours} h, {minutes} mi, {seconds} s".format(
+    return "{years:.0e} y, {days} d, {hours} h, {minutes} mi, {seconds} s".format(
         years = time // 3.154e+7,
         days = (time // 86400) % 365,
         hours = (time // 3600) % 24,
