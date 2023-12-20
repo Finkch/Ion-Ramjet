@@ -7,7 +7,8 @@ class clock:
         # Gets the start time
         self.start = self()
 
-        self.time_stamps = [self.start]
+        # Two initial pushes prevent peek errors
+        self.time_stamps = [self.start, 0]
 
         self.goal = goal
     
@@ -26,8 +27,12 @@ class clock:
             self.time_stamps.pop(-1)
 
     # Looks at the most recent item
-    def peek(self):
-        return self.time_stamps[0]
+    def peek(self, i = 0):
+        return self.time_stamps[i]
+    
+    # Look at the difference between the most recent two
+    def peek_dif(self):
+        return self.peek(0) - self.peek(1)
 
     # Returns the time since the previous stamp
     def dif(self):
