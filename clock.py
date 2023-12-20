@@ -2,7 +2,7 @@
 import time as t
 
 class clock:
-    def __init__(self, goal = -1):
+    def __init__(self, goal = -1, compensate = False):
 
         # Gets the start time
         self.start = self()
@@ -10,7 +10,11 @@ class clock:
         # Two initial pushes prevent peek errors
         self.time_stamps = [self.start, 0]
 
+        # The goal to aim for
         self.goal = goal
+
+        # Tracks whether to compensate from previous frames
+        self.compensate = compensate
     
     # Returns the current time (in ms)
     def __call__(self):
@@ -42,8 +46,24 @@ class clock:
     def elasped(self, amount):
         return amount < self.dif()
     
+    # Returns true if the time hit was the goal
+    #   Performs a timestamp is so
     def time(self):
-        hit_goal = self.elasped(self.goal)
+
+        # Checks whether we compensate for previous slow frames
+        if not self.compensate:
+            hit_goal = self.elasped(self.goal)
+        else:
+            hit_goal = self.elasped(self.goal - self.overtime())
+
+        # If the goal was hit, perform a timestamp
         if hit_goal:
             self.stamp()
+
+        # Returns whether the goal was hit
         return hit_goal
+    
+    # Returns the difference between the timestamp and the goal
+    #   Despite the name, also is the undertime
+    def overtime(self):
+        return self.peek_dif() - self.goal

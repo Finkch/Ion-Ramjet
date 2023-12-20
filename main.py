@@ -19,7 +19,7 @@ def setup():
     global framerate
     framerate = clock.clock(1000 / 60) # Aim for 60 FPS
     global real_time
-    real_time = clock.clock(1000 / 60) # Max one sim step per millisecond
+    real_time = clock.clock(1000 / 60, True) # Max one sim step per millisecond
 
 
 
