@@ -24,10 +24,21 @@ def init_visuals(width, height):
 
     return screen
 
+
+def should_draw(framerate_clock):
+    return framerate_clock.time()
+
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, focus, actors):
+def draw(screen, focus, actors, framerate_clock):
     
+
+    # Limits the framerate
+    if not should_draw(framerate_clock):
+        return
+
+
+
     # Clears screen to black
     screen.fill("black")
 
@@ -46,6 +57,10 @@ def draw(screen, focus, actors):
 
     # Draws?
     pygame.display.flip()
+
+
+    # Looks through pygame's events
+    return handle_pygame()
     
 
 # Draws the actors
@@ -83,3 +98,11 @@ def draw_labels(screen, actor, pixel_position, radius):
 
     # Draws a line from the text to the actor
     pygame.draw.line(screen, "white", (pixel_position[0] + radius, pixel_position[1] + radius), (pixel_position[0] + radius_scale, pixel_position[1] + radius_scale))
+
+
+# Checks for a quit event
+def handle_pygame():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return False
+    return True
