@@ -74,11 +74,14 @@ def draw(screen, focus, actors, framerate_clock, sim_time):
     # Adds a readout for the current sim time
     draw_time(screen, sim_time)
 
-    # Draws?
+    # Draws some craft informatiom
+    draw_craft_readout(screen, [actors[1]])
+
+    # Draws
     pygame.display.flip()
 
-
     # Looks through pygame's events
+    #   Used only for game_exit
     return handle_pygame()
     
 
@@ -127,16 +130,46 @@ def draw_time(screen, sim_time):
 
     # Sets up the font
     text = MEDIUM_FONT.render(readable_time(sim_time), True, "white")
+# Renders a single bit of text
+def render_text(screen, string, position, pad = True, down = True):
+    
+    # Obtains the font object
+    text = MEDIUM_FONT.render(string, True, "white")
     text_shape = text.get_rect()
 
-    # Distance to the corner
-    distance = 10
+    # Gets the correct amount of padding
+    padding = PIXEL_PADDING
+    if not pad:
+        padding = 0
 
-    # Places the label just below the actor
-    text_shape.topleft = (distance, distance)
+    # Places the text
+    if down:
+        text_shape.topleft = (padding + position[0], padding + position[1])
+    else:
+        text_shape.topleft = (padding + position[0], HEIGHT - padding - position[1])
 
-    # Draws the text to screen
+    # Renders the text
     screen.blit(text, text_shape)
+        
+
+# Renders a column of text in rows as specified by strings
+def render_text_column(screen, strings, position, down = True):
+    
+    # Iterates over all strings
+    draw_at = [None, None]
+    for i in range(len(strings)):
+
+        # Obtains the position to draw them at
+        draw_at[0] = position[0]
+        if down:
+            draw_at[1] = position[1] + i * STRING_PADDING
+        else:
+            draw_at[1] = position[1] - (len(strings) - i) * STRING_PADDING + 8
+        
+
+        # Renders the text row
+        render_text(screen, strings[i], draw_at, down)
+
 
 def draw_velocity():
     pass
