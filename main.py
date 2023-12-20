@@ -17,9 +17,9 @@ DEBUG = False
 def setup():
 
     global framerate
-    framerate = clock.clock(1 / 60) # Aim for 60 FPS
+    framerate = clock.clock(1000 / 60) # Aim for 60 FPS
     global real_time
-    real_time = clock.clock(1 / 60) # Max one sim step per millisecond
+    real_time = clock.clock(1000 / 60) # Max one sim step per millisecond
 
 
 
@@ -78,7 +78,6 @@ def exist(time_step, crafts, screen):
 
     # Simulates
     while simulate:
-
 
         if real_time.time():
             # Performs one stpe
