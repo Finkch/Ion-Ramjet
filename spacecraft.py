@@ -37,6 +37,25 @@ class actor(object):
         # Imparts the force as acceleration on the craft
         self.spacetime.acceleration += force / self.mass
 
+    # Some getters
+    def pos(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.position
+        else:
+            return self.spacetime.position()[dir]
+    
+    def vel(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.velocity
+        else:
+            return self.spacetime.velocity()[dir]
+        
+    def acc(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.acceleration
+        else:
+            return self.spacetime.acceleration()[dir]
+
 
 # This is the core, the glue that holds everything together
 class spacecraft(actor):
