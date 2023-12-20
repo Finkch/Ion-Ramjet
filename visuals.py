@@ -1,6 +1,7 @@
 import pygame
 import constants as c
 from util import *
+import numpy as np
 
 MIN_SIZE = c.au
 MIN_RADIUS = 2
@@ -8,9 +9,11 @@ PADDING = 1.2
 PIXEL_PADDING = 10
 STRING_PADDING = 18
 TYPE_FACE = 'courier'
-SMALL_FONT_SIZE = 12
+SMALLER_FONT_SIZE = 12
+SMALL_FONT_SIZE = 14
 MEDIUM_FONT_SIZE = 16
-
+GREY4 = (255 // 4, 255 // 4, 255 // 4)
+GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
 # Holds some basic information on how to draw an object
 class shape:
@@ -31,7 +34,8 @@ def init_visuals(width, height):
     HEIGHT = height
     
     # Sets a global font
-    global SMALL_FONT, MEDIUM_FONT
+    global SMALLER_FONT, SMALL_FONT, MEDIUM_FONT
+    SMALLER_FONT = pygame.font.SysFont(TYPE_FACE, SMALLER_FONT_SIZE)
     SMALL_FONT = pygame.font.SysFont(TYPE_FACE, SMALL_FONT_SIZE)
     MEDIUM_FONT = pygame.font.SysFont(TYPE_FACE, MEDIUM_FONT_SIZE)
 
@@ -67,6 +71,9 @@ def draw(screen, focus, actors, framerate_clock, sim_time):
     # Extra factor of two is for half the screen
     scale = WIDTH / (max_distance * PADDING) / 2
 
+    # Draws the reference axis and ticks
+    draw_axis(screen)
+    draw_scale(screen, max_distance, scale)
 
     # Draws the actors to screen
     draw_actors(screen, focus, actors, scale)
@@ -128,10 +135,16 @@ def draw_labels(screen, actor, pixel_position, radius):
 
 
 # Renders a single bit of text
-def render_text(screen, string, position, pad = True, down = True):
+def render_text(screen, string, position, pad = True, down = True, size = 'medium', colour = 'white', antialias = True):
     
     # Obtains the font object
-    text = MEDIUM_FONT.render(string, True, "white")
+    text = None
+    if size == 'medium':
+        text = MEDIUM_FONT.render(string, antialias, colour)
+    elif size == "small":
+        text = SMALL_FONT.render(string, antialias, colour)
+    else:
+        text = SMALLER_FONT.render(string, antialias, colour)
     text_shape = text.get_rect()
 
     # Gets the correct amount of padding
