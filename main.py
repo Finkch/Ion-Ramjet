@@ -9,10 +9,17 @@ import constants as c
 import util
 import pygame
 import visuals as vis
+import clock
 
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
+
+    global framerate
+    framerate = clock.clock(1 / 60)
+    #global sim
+    #sim = clock.clock()
+
 
 
     # Sets up the visuals
@@ -90,14 +97,12 @@ def exist(time_step, crafts, screen):
                 # change the value to False, to exit the main loop
                 simulate = False
 
-        vis.draw(screen, sun, [sun, crafts[0]])
-
+        if framerate.time():
+            vis.draw(screen, sun, [sun, crafts[0]])
 
         # Keeps track of time
         time += time_step
 
-        # Pauses to make readouts easier to read
-        #t.sleep(0.5)
 
 # Gets everything going
 setup()
