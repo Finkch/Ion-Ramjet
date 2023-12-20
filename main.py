@@ -7,13 +7,20 @@ import time as t
 import gravity as g
 import constants as c
 import util
+import pygame
+import visuals as vis
 
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
 
+
+    # Sets up the visuals
+    screen = vis.init_visuals(512, 512)
+
+
     # Important parameters
-    time_step = 86400
+    time_step = c.day
 
 
     # Mass, v_e, F_per, P_per
@@ -43,12 +50,12 @@ def setup():
 
 
     # Simulates
-    exist(time_step, [test_craft])
+    exist(time_step, [test_craft], screen)
 
 
 
 # Simulates
-def exist(time_step, crafts):
+def exist(time_step, crafts, screen):
     
     # Keeps track of timulation time
     time = 0
