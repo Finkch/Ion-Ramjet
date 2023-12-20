@@ -130,6 +130,9 @@ def draw_labels(screen, actor, pixel_position, radius):
 # Renders a single bit of text
 def render_text(screen, string, position, pad = True, down = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
+    # 'Fixes' scientific notation
+    string = string.replace("e+", "e")
+
     # Obtains the font object
     text = None
     if size == 'medium':
@@ -196,7 +199,7 @@ def draw_craft_readout(screen, crafts):
     # Sets up the components to render
     strings = [
         craft.name, 
-        f'v {hypo(craft.vel()):.3e} m/s'
+        f'v {hypo(craft.vel()):.2e} m/s'
     ]
 
     # Renders the text into a column
@@ -235,6 +238,8 @@ def draw_scale(screen, max_distance, scale):
     pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
 
     render_text(screen, f'{max_distance:.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
+
+
 
 def draw_tick(screen, i, x_pos, distance):
 
@@ -275,7 +280,7 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the major ticks
     if i == 10:
         height *= 3
-        render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 2), False, size = "smaller", colour = text_col)
+        render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
 
     # Draws the minor ticks
     pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
