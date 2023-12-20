@@ -126,10 +126,7 @@ def draw_labels(screen, actor, pixel_position, radius):
     # Draws a line from the text to the actor
     pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
-def draw_time(screen, sim_time):
 
-    # Sets up the font
-    text = MEDIUM_FONT.render(readable_time(sim_time), True, "white")
 # Renders a single bit of text
 def render_text(screen, string, position, pad = True, down = True):
     
@@ -171,8 +168,28 @@ def render_text_column(screen, strings, position, down = True):
         render_text(screen, strings[i], draw_at, down)
 
 
-def draw_velocity():
-    pass
+
+
+# Adds a time readout
+def draw_time(screen, sim_time):
+
+    # Sets up the strings to render
+    render_text(screen, readable_time(sim_time), [0, 0])
+
+
+# Adds some of craft information readout
+def draw_craft_readout(screen, crafts):
+    craft = crafts[0]
+
+    # Sets up the components to render
+    strings = [
+        craft.name, 
+        f'v {hypo(craft.vel()):.3e} m/s'
+    ]
+
+    # Renders the text into a column
+    render_text_column(screen, strings, [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
+
 
 def draw_axis():
     pass
