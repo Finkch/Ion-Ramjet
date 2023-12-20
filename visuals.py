@@ -42,7 +42,7 @@ def draw(screen, focus, actors):
     scale = screen.get_width() / (max_distance * PADDING) / 2
 
 
-    draw_actors(screen, actors)
+    draw_actors(screen, focus, actors, scale)
 
     # Draws?
     pygame.display.flip()
@@ -61,4 +61,25 @@ def draw_actors(screen, focus, actors, scale):
 
         # Draws the shape
         pixel_position = (((actor.pos() - focus.pos()) * scale) + v.vector(screen.get_width() / 2, screen.get_height() / 2, 0)).plane()
-        pygame.draw.circle(screen, "white", pixel_position, radius)    
+        pygame.draw.circle(screen, "white", pixel_position, radius)
+
+        # Draws labels on each actor
+        draw_labels(screen, actor, pixel_position, radius)
+
+
+# Labels an actor
+def draw_labels(screen, actor, pixel_position, radius):
+
+    # Sets up the font
+    text = FONT.render(actor.name, True, "white")
+    text_shape = text.get_rect()
+
+    # Places the label just below the actor
+    radius_scale = radius * np.sqrt(1/2) + 4
+    text_shape.topleft = (pixel_position[0] + radius_scale, pixel_position[1] + radius_scale)
+
+    # Draws the text to screen
+    screen.blit(text, text_shape)
+
+    # Draws a line from the text to the actor
+    pygame.draw.line(screen, "white", (pixel_position[0] + radius, pixel_position[1] + radius), (pixel_position[0] + radius_scale, pixel_position[1] + radius_scale))
