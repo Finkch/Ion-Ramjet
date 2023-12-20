@@ -35,7 +35,7 @@ def draw(screen, focus, actors, framerate_clock):
 
     # Limits the framerate
     if not should_draw(framerate_clock):
-        return
+        return True
 
 
 
