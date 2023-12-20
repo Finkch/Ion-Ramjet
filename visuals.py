@@ -5,8 +5,14 @@ from util import *
 MIN_SIZE = c.au
 MIN_RADIUS = 2
 PADDING = 1.2
+PIXEL_PADDING = 10
+STRING_PADDING = 18
+TYPE_FACE = 'courier'
+SMALL_FONT_SIZE = 12
+MEDIUM_FONT_SIZE = 16
 
 
+# Holds some basic information on how to draw an object
 class shape:
     def __init__(self, radius):
         self.radius = radius
@@ -14,30 +20,37 @@ class shape:
 
 
 
+# Prepares the graphics
 def init_visuals(width, height):
     pygame.init()
     screen = pygame.display.set_mode((width, height))
+
+    # Sets global screen size
+    global WIDTH, HEIGHT
+    WIDTH = width
+    HEIGHT = height
     
     # Sets a global font
     global SMALL_FONT, MEDIUM_FONT
-    SMALL_FONT = pygame.font.SysFont('futura', 12)
-    MEDIUM_FONT = pygame.font.SysFont('futura', 16)
+    SMALL_FONT = pygame.font.SysFont(TYPE_FACE, SMALL_FONT_SIZE)
+    MEDIUM_FONT = pygame.font.SysFont(TYPE_FACE, MEDIUM_FONT_SIZE)
 
     return screen
 
 
+# Checks whether enough time has passed to perform a draw
 def should_draw(framerate_clock):
     return framerate_clock.time()
+
+
 
 # Draws everything
 #   focus is the actor at the centre of the display
 def draw(screen, focus, actors, framerate_clock, sim_time):
     
-
     # Limits the framerate
     if not should_draw(framerate_clock):
         return True
-
 
 
     # Clears screen to black
@@ -48,10 +61,11 @@ def draw(screen, focus, actors, framerate_clock, sim_time):
     if max_distance < MIN_SIZE:
         max_distance = MIN_SIZE
 
+
     # Finds the maximum distance between the crafts and the PoR.
     # This distance is used to scale everything to fit on screen.
     # Extra factor of two is for half the screen
-    scale = screen.get_width() / (max_distance * PADDING) / 2
+    scale = WIDTH / (max_distance * PADDING) / 2
 
 
     # Draws the actors to screen
@@ -80,7 +94,7 @@ def draw_actors(screen, focus, actors, scale):
 
 
         # Draws the shape
-        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.vector(screen.get_width() / 2, screen.get_height() / 2, 0)).plane()
+        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
         pygame.draw.circle(screen, "white", pixel_position, radius)
 
         # Draws labels on each actor
