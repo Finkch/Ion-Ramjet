@@ -19,8 +19,9 @@ def init_visuals(width, height):
     screen = pygame.display.set_mode((width, height))
     
     # Sets a global font
-    global FONT
-    FONT = pygame.font.SysFont('futura', 12)
+    global SMALL_FONT, MEDIUM_FONT
+    SMALL_FONT = pygame.font.SysFont('futura', 12)
+    MEDIUM_FONT = pygame.font.SysFont('futura', 16)
 
     return screen
 
@@ -30,7 +31,7 @@ def should_draw(framerate_clock):
 
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, focus, actors, framerate_clock):
+def draw(screen, focus, actors, framerate_clock, sim_time):
     
 
     # Limits the framerate
@@ -53,7 +54,11 @@ def draw(screen, focus, actors, framerate_clock):
     scale = screen.get_width() / (max_distance * PADDING) / 2
 
 
+    # Draws the actors to screen
     draw_actors(screen, focus, actors, scale)
+
+    # Adds a readout for the current sim time
+    draw_time(screen, sim_time)
 
     # Draws?
     pygame.display.flip()
@@ -86,14 +91,14 @@ def draw_actors(screen, focus, actors, scale):
 def draw_labels(screen, actor, pixel_position, radius):
 
     # Sets up the font
-    text = FONT.render(actor.name, True, "white")
+    text = SMALL_FONT.render(actor.name, True, "white")
     text_shape = text.get_rect()
 
     # Special angle in a triangle for π/4 radians
     radius_scaled = radius * np.sqrt(1/2) + 2
     
     # The length of the line
-    distance = 4
+    distance = 6
 
     # Places the label just below the actor
     text_shape.topleft = (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance)
@@ -104,6 +109,29 @@ def draw_labels(screen, actor, pixel_position, radius):
     # Draws a line from the text to the actor
     pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
+def draw_time(screen, sim_time):
+
+    # Sets up the font
+    text = MEDIUM_FONT.render(readable_time(sim_time), True, "white")
+    text_shape = text.get_rect()
+
+    # Distance to the corner
+    distance = 10
+
+    # Places the label just below the actor
+    text_shape.topleft = (distance, distance)
+
+    # Draws the text to screen
+    screen.blit(text, text_shape)
+
+def draw_velocity():
+    pass
+
+def draw_axis():
+    pass
+
+def draw_scale():
+    pass
 
 # Checks for a quit event
 def handle_pygame():
