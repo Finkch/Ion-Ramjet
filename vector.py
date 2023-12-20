@@ -90,6 +90,19 @@ class vector:
     def mag(self):
         return util.hypo(self())
     
+
+    # Returns one of the planes of the vector
+    def plane(self, exclude = "z"):
+        if exclude == "z":
+            return (self.x, self.y)
+        elif exclude == "y":
+            return (self.x, self.y)
+        else:
+            return (self.y, self.z)
+
+
+
+    
 # Holds position, velocity, and acceleration
 class spacetime:
     def __init__(self):
