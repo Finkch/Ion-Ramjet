@@ -199,8 +199,8 @@ def draw_craft_readout(screen, crafts):
 
 # Draws two orthogonal lines for the axis
 def draw_axis(screen):
-    pygame.draw.line(screen, GREY4, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
-    pygame.draw.line(screen, GREY4, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
+    pygame.draw.line(screen, GREY4, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2))
+    pygame.draw.line(screen, GREY4, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING))
 
 def draw_scale(screen, max_distance, scale):
 
@@ -236,8 +236,8 @@ def draw_tick(screen, i, x_pos, distance):
     # The multiplier of how solid and large the ticks are
     solid = (x_pos / WIDTH * 2 - cutoff) / fade_start
     
-    # Don't draw anything below the cutoff
-    if solid < 0:
+    # Don't draw anything below the cutoff or beyond the edge of the axis
+    if solid < 0 or x_pos > WIDTH / 2 - PIXEL_PADDING:
         return
     
     # Fades the attributes
