@@ -24,7 +24,7 @@ def setup():
 
 
     # Sets up the visuals
-    screen = vis.init_visuals(512, 512)
+    screen = vis.init_visuals(768, 768)
 
 
     # Important parameters
