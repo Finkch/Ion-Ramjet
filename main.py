@@ -41,7 +41,7 @@ def setup():
 
 
     # core mass, thruster, ionizer, scoop, tank, reactor
-    test_craft = sc.spacecraft("ioRam-0", 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
+    test_craft = sc.spacecraft("ioRam-0", 5, 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
 
 
     # Some initial movement
@@ -64,7 +64,7 @@ def exist(time_step, crafts, screen):
     simulate = True
 
     # Sun mass
-    sun = sc.actor("sun", 3.995e30)
+    sun = sc.actor("sun", c.sun_mass, c.sun_radius)
     
 
     while simulate:
@@ -82,12 +82,22 @@ def exist(time_step, crafts, screen):
             craft(time_step)
             print(craft)
 
+        
+        # event handling, gets all event from the event queue
+        for event in pygame.event.get():
+            # only do something if the event is of type QUIT
+            if event.type == pygame.QUIT:
+                # change the value to False, to exit the main loop
+                simulate = False
+
+        vis.draw(screen, sun, [sun, craft])
+
 
         # Keeps track of time
         time += time_step
 
         # Pauses to make readouts easier to read
-        t.sleep(0.5)
+        #t.sleep(0.5)
 
 # Gets everything going
 setup()
