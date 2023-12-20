@@ -37,6 +37,14 @@ def draw(screen, focus, actors):
     scale = screen.get_width() / (max_distance * PADDING) / 2
 
 
+    draw_actors(screen, actors)
+
+    # Draws?
+    pygame.display.flip()
+    
+
+# Draws the actors
+def draw_actors(screen, focus, actors, scale):
     # Draws each actor
     for actor in actors:
 
@@ -49,12 +57,3 @@ def draw(screen, focus, actors):
         # Draws the shape
         pixel_position = (((actor.pos() - focus.pos()) * scale) + v.vector(screen.get_width() / 2, screen.get_height() / 2, 0)).plane()
         pygame.draw.circle(screen, "white", pixel_position, radius)    
-
-    # Draws?
-    pygame.display.flip()
-    
-
-
-
-
-
