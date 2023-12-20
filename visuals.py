@@ -266,6 +266,7 @@ def draw_tick(screen, i, x_pos, distance):
 
     # Draws the minor ticks
     pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
+    pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
 
 
 # Checks for a quit event
