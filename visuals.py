@@ -197,11 +197,76 @@ def draw_craft_readout(screen, crafts):
     render_text_column(screen, strings, [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
 
 
-def draw_axis():
-    pass
+# Draws two orthogonal lines for the axis
+def draw_axis(screen):
+    pygame.draw.line(screen, GREY4, (0, HEIGHT / 2), (WIDTH, HEIGHT / 2))
+    pygame.draw.line(screen, GREY4, (WIDTH / 2, 0), (WIDTH / 2, HEIGHT))
 
-def draw_scale():
-    pass
+def draw_scale(screen, max_distance, scale):
+
+    log_scale = int(np.log10(max_distance))
+    
+    # Iterates over both the current order and within one order
+    for order in range(log_scale - 1, log_scale + 1):
+
+        # Iterate over 0 - 10 inclusive
+        for i in range(1, 11):
+
+            # Gets the position on the screen offset from the centre
+            distance = i * 10 ** order
+            x_pos = distance * scale
+
+            # Stop drawing if the x_pos is too large
+            if x_pos > WIDTH / 2:
+                break
+
+            # Draws the tick
+            draw_tick(screen, i, x_pos, distance)
+
+def draw_tick(screen, i, x_pos, distance):
+
+    # Gets parameters of the line
+    height = 4
+    col = GREY2
+    text_col = "white"
+
+    cutoff = 0.05
+    fade_start = 0.3
+
+    # The multiplier of how solid and large the ticks are
+    solid = (x_pos / WIDTH * 2 - cutoff) / fade_start
+    
+    # Don't draw anything below the cutoff
+    if solid < 0:
+        return
+    
+    # Fades the attributes
+    if solid < 1:
+        
+        # Obtains the faded text colour
+        text_col = 255 * solid
+        text_col = (text_col, text_col, text_col)
+
+        # Fades the tick to the axis colour
+        #   GREY2 -> GREY4
+        col = 127 - 64 * (1 - solid)
+        col = (col, col, col)
+
+        # Scales the height of the tick
+        height *= solid
+
+
+    # Offsets the tick towards the centre
+    x_pos += WIDTH / 2
+
+    # Draws the major ticks
+    if i == 10:
+        height *= 3
+        render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 2), False, size = "smaller", colour = text_col)
+
+    # Draws the minor ticks
+    pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
+
 
 # Checks for a quit event
 def handle_pygame():
