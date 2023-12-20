@@ -222,6 +222,11 @@ def draw_scale(screen, max_distance, scale):
 
             # Draws the tick
             draw_tick(screen, i, x_pos, distance)
+    
+
+    # Draws the current scale
+    pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
+    pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
 
 def draw_tick(screen, i, x_pos, distance):
 
@@ -266,6 +271,9 @@ def draw_tick(screen, i, x_pos, distance):
 
     # Draws the minor ticks
     pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
+
+    # Draws the ticks on the y-axis
+    #   NOTE! Only works if the screen is a square
     pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
 
 
