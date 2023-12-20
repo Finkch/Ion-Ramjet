@@ -13,7 +13,7 @@ class clock:
     
     # Returns the current time (in ms)
     def __call__(self):
-        return t.time_ns() / 1000
+        return t.time_ns() / 1000000
 
     # Pushes the current time to the queue
     def stamp(self):
