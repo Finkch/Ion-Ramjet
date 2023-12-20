@@ -3,25 +3,23 @@
 
 import vector as v
 import spacecraft as sc
-import time as t
 import gravity as g
 import constants as c
 import util
-import pygame
 import visuals as vis
 import clock
 
 # Should debug printout
-DEBUG = True
+DEBUG = False
 
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
 
     global framerate
-    framerate = clock.clock(1 / 60)
+    framerate = clock.clock(1 / 60) # Aim for 60 FPS
     global real_time
-    sim = clock.clock()
+    real_time = clock.clock(1 / 60) # Max one sim step per millisecond
 
 
 
@@ -81,11 +79,13 @@ def exist(time_step, crafts, screen):
     # Simulates
     while simulate:
 
-        # Performs one stpe
-        step(time_step, crafts, [sun])
 
-        # Performs a debug printout
-        debug(time, crafts, [sun])
+        if real_time.time():
+            # Performs one stpe
+            step(time_step, crafts, [sun])
+
+            # Performs a debug printout
+            debug(time, crafts, [sun])
 
         # Does a step of drawing
         simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate)
@@ -112,6 +112,10 @@ def step(time_step, crafts, other_actors):
 
 # Performs a debug readout
 def debug(time, crafts, other_actors):
+
+    if not DEBUG:
+        return
+
     print("\n\n" + util.readable_time(time))
     for craft in crafts:
         print(craft)
