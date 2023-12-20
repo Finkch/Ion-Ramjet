@@ -2,7 +2,7 @@
 
 G =             6.67e-11
 
-year =          154e+7
+year =          3.154e+7
 day =           86400
 hour =          3600
 minute =        60
