@@ -2,7 +2,10 @@
 
 G =             6.67e-11
 
+year =          154e+7
 day =           86400
+hour =          3600
+minute =        60
 
 au =            1.496e11
 earth_speed =   29951.68
