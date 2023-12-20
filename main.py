@@ -86,12 +86,12 @@ def exist(time_step, crafts, screen):
             # Performs a debug printout
             debug(time, crafts, [sun])
 
+            # Tracks uptime
+            time += time_step
+            steps += 1
+
         # Does a step of drawing
         simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate, time)
-
-        # Tracks uptime
-        time += time_step
-        steps += 1
 
 
 # One step of simulation
