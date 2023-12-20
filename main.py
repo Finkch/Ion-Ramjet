@@ -90,7 +90,7 @@ def exist(time_step, crafts, screen):
                 # change the value to False, to exit the main loop
                 simulate = False
 
-        vis.draw(screen, sun, [sun, craft])
+        vis.draw(screen, sun, [sun, crafts[0]])
 
 
         # Keeps track of time
