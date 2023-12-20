@@ -59,7 +59,7 @@ class actor(object):
 
 # This is the core, the glue that holds everything together
 class spacecraft(actor):
-    def __init__(self, name, core_mass, thruster, ionizer, scoop, tank, reactor):
+    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
         # Requires an angular orientation
         #   Wrap this in a class?
@@ -78,7 +78,7 @@ class spacecraft(actor):
         self.reactor = reactor
 
         # Gets the mass of the craft
-        super().__init__(name, self.get_mass())
+        super().__init__(name, self.get_mass(), radius)
 
     
     # Returns the current mass of the craft
