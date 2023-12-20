@@ -11,14 +11,17 @@ import pygame
 import visuals as vis
 import clock
 
+# Should debug printout
+DEBUG = True
+
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
 
     global framerate
     framerate = clock.clock(1 / 60)
-    #global sim
-    #sim = clock.clock()
+    global real_time
+    sim = clock.clock()
 
 
 
@@ -66,6 +69,7 @@ def exist(time_step, crafts, screen):
     
     # Keeps track of timulation time
     time = 0
+    steps = 0
 
     # Keeps track of simulation duration
     simulate = True
@@ -74,34 +78,43 @@ def exist(time_step, crafts, screen):
     sun = sc.actor("sun", c.sun_mass, c.sun_radius)
     
 
+    # Simulates
     while simulate:
 
-        print("\n\n" + util.readable_time(time))
+        # Performs one stpe
+        step(time_step, crafts, [sun])
 
-        # Simulates each craft
-        for craft in crafts:
-            #craft.force(v.vector(0, craft.mass, 0))
-            print("phi:\t{phi:.2f}\ntheta:\t{theta:.2f}".format(phi = util.phi(sun.spacetime.position - craft.spacetime.position), theta = util.theta(sun.spacetime.position - craft.spacetime.position)))
-            
-            g.easy_gravity([sun], [craft])
+        # Performs a debug printout
+        debug(time, crafts, [sun])
 
-            sun(time_step)
-            craft(time_step)
-            print(craft)
+        # Does a step of drawing
+        simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate)
 
-        
-        # event handling, gets all event from the event queue
-        for event in pygame.event.get():
-            # only do something if the event is of type QUIT
-            if event.type == pygame.QUIT:
-                # change the value to False, to exit the main loop
-                simulate = False
-
-        if framerate.time():
-            vis.draw(screen, sun, [sun, crafts[0]])
-
-        # Keeps track of time
+        # Tracks uptime
         time += time_step
+        steps += 1
+
+
+# One step of simulation
+def step(time_step, crafts, other_actors):
+
+    # Applies gravity
+    g.easy_gravity(other_actors, crafts)
+
+    # Simulates each craft
+    for craft in crafts:
+        craft(time_step)
+
+    # Performs a step of simulation for "linear" actors
+    for actor in other_actors:
+        actor(time_step)
+
+
+# Performs a debug readout
+def debug(time, crafts, other_actors):
+    print("\n\n" + util.readable_time(time))
+    for craft in crafts:
+        print(craft)
 
 
 # Gets everything going
