@@ -1,7 +1,7 @@
 # Handles time for framerate
 import time as t
 
-class clock:
+class Clock:
     def __init__(self, goal = -1, length = 10):
 
         # Gets the start time

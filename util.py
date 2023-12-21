@@ -23,14 +23,14 @@ def theta(vec):
 def phi(vec):
 
     # phi = sgn(y) * arccos(x / rho)
-    return np.sign(vec.y) * np.arccos(vec.x / hypo(v.vector(vec.x, vec.y)))
+    return np.sign(vec.y) * np.arccos(vec.x / hypo(v.Vector(vec.x, vec.y)))
 
 
 # Splits a radial vector into its cartesian components.
 # It is assumed that vec is a vector with the same orientation
 # but a different magnitude
 def radial_to_cartesian(radial, theta, phi):
-    return v.vector(
+    return v.Vector(
         radial * np.sin(theta) * np.cos(phi),
         radial * np.sin(theta) * np.sin(phi),
         radial * np.cos(theta)

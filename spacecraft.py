@@ -13,7 +13,7 @@ import visuals as vis
 from util import *
 
 
-class actor(object):
+class Actor(object):
     def __init__(self, name, mass, radius):
 
         self.spacetime = v.spacetime()
@@ -60,7 +60,7 @@ class actor(object):
 
 
 # This is the core, the glue that holds everything together
-class spacecraft(actor):
+class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
         self.orientation = orientation()
