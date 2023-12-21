@@ -6,16 +6,21 @@
 #   Tank
 #   Reactor
 # All these components have some mass
+# Everything is in terms of SI units
 
 import vector as v
+import visuals as vis
+from util import *
 
 
 class actor(object):
-    def __init__(self, name, mass):
+    def __init__(self, name, mass, radius):
 
         self.spacetime = v.spacetime()
 
         self.mass = mass
+
+        self.shape = vis.shape(radius)
 
         # The most crucial part: the name
         self.name = name
@@ -34,18 +39,31 @@ class actor(object):
         # Imparts the force as acceleration on the craft
         self.spacetime.acceleration += force / self.mass
 
+    # Some getters
+    def pos(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.position
+        else:
+            return self.spacetime.position()[dir]
+    
+    def vel(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.velocity
+        else:
+            return self.spacetime.velocity()[dir]
+        
+    def acc(self, dir = -1):
+        if dir == -1:
+            return self.spacetime.acceleration
+        else:
+            return self.spacetime.acceleration()[dir]
+
 
 # This is the core, the glue that holds everything together
 class spacecraft(actor):
-    def __init__(self, name, core_mass, thruster, ionizer, scoop, tank, reactor):
+    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        # Requires an angular orientation
-        #   Wrap this in a class?
-        #   Yeah, then can have functions to convert magnitude to directions
-        self.phi = 0
-        self.theta = 0
-
-
+        self.orientation = orientation()
 
         # Creates the craft from the components
         self.core_mass = core_mass
@@ -56,7 +74,7 @@ class spacecraft(actor):
         self.reactor = reactor
 
         # Gets the mass of the craft
-        super().__init__(name, self.get_mass())
+        super().__init__(name, self.get_mass(), radius)
 
     
     # Returns the current mass of the craft
@@ -72,20 +90,34 @@ class spacecraft(actor):
         return mass
 
 
+# Describes the orientation in space
+class orientation:
+    def __init__(self):
 
+        # Default orientation is based on the starting position
+        self.theta = 0
+        self.phi = 0
+    
+    # Orients in the direction of the specified vector
+    def goto(self, vec):
+        self.theta = theta(vec)
+        self.phi = phi(vec)
 
 
 # What produces the thrust
 #   Accepts ionized gas and power
 #   Outputs force
 class thruster:
-    def __init__(self, mass, v_e, thrust_per, power_per):
+    def __init__(self, mass, v_e, max_m_d, max_P):
 
         self.mass = mass
         
-        self.v_e = v_e    # Exhaust velocity
-        self.thrust_per = thrust_per
-        self.power_per = power_per
+        self.v_e = v_e              # Exhaust velocity
+        self.max_m_d = max_m_d      # Max mass flow
+        self.max_P = max_P
+
+    def __call__(self, ionizer, reactor):
+        return self.max_F
     
     def get_mass(self):
         return self.mass
@@ -97,10 +129,10 @@ class ionizer:
     def __init__(self, mass, power_per, in_flow, out_flow):
         
         self.mass = mass
-
         self.power_per = power_per
         self.in_flow = in_flow
         self.out_flow = out_flow
+
     
     def get_mass(self):
         return self.mass
