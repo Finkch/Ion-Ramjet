@@ -16,6 +16,10 @@ DEBUG = False
 # Then, there was "setup".
 def setup():
 
+    # Important parameters
+    time_step = c.day
+
+
     global framerate
     framerate = clock.clock(1000 / 60) # Aim for 60 FPS
     global real_time
@@ -25,10 +29,6 @@ def setup():
 
     # Sets up the visuals
     screen = vis.init_visuals(768, 768)
-
-
-    # Important parameters
-    time_step = c.day
 
 
     # Mass, v_e, F_per, P_per
@@ -55,6 +55,7 @@ def setup():
     # Some initial movement
     test_craft.spacetime.position = v.vector(c.au, 0, 0)
     test_craft.spacetime.velocity = v.vector(0, 3 * c.earth_speed, 0)
+    #test_craft.spacetime.velocity = v.vector(0, c.earth_speed, 0)
     
     test_craft.orientation.goto(test_craft.pos())
 
@@ -96,6 +97,7 @@ def exist(time_step, crafts, screen):
         simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate, time)
 
 
+
 # One step of simulation
 def step(time_step, crafts, other_actors):
 
@@ -105,6 +107,7 @@ def step(time_step, crafts, other_actors):
     # Simulates each craft
     for craft in crafts:
         craft(time_step)
+        craft.orientation.goto(craft.vel())
 
     # Performs a step of simulation for "linear" actors
     for actor in other_actors:
