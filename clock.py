@@ -80,6 +80,7 @@ class Clock:
         return self.peek_dif() - self.goal
 
 
+# A dynamic clock aims to create some rate (it's goal) based on the frequency of stamps
 class DynamicClock(Clock):
     def __init__(self, goal):
         super().__init__(goal, 1) # Converts goal from seconds to milliseconds
@@ -107,4 +108,30 @@ class DynamicClock(Clock):
             return 0
 
         return self.goal * self.average_fps
+    
+
+# Handles time and steps
+class time:
+    def __init__(self, rate):
+        self.steps = 0
+        self.time = 0
+
+        # How many times faster than real time it should simulate
+        self.rate = rate
+
+        self.timer = DynamicClock(rate)
+
+    # Calling this class steps forward once
+    def __call__(self):
+        time = self.timer()
+        self.steps += 1
+        self.time += time
+
+        return time
+    
+    def faster(self):
+        pass
+
+    def slower(self):
+        pass
 
