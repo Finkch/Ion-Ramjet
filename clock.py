@@ -70,3 +70,30 @@ class Clock:
     #   Despite the name, also is the undertime
     def overtime(self):
         return self.peek_dif() - self.goal
+
+
+class DynamicClock(Clock):
+    def __init__(self, goal):
+        super().__init__(goal * 1000, 1) # Converts goal from seconds to milliseconds
+
+        # Starts the average at the goal
+        self.average_fps = goal
+
+        # Sets the length so that the stamp array starts with only 1 item
+        self.length = 10
+    
+    def change_goal(self):
+
+        # Removes all timestamps but the most recent
+        self.time_stamps = self.time_stamps[:1]
+
+    def time(self):
+        self.stamp()
+
+        self.average_fps = sum([self.peek_dif(i) for i in range(len(self.time_stamps) - 1)]) / len(self.time_stamps)
+
+        if self.average_fps == 0:
+            return 0
+
+        return self.goal / self.average_fps / 1000
+
