@@ -2,26 +2,26 @@
 import time as t
 
 class clock:
-    def __init__(self, goal = -1, compensate = False, length = 2):
+    def __init__(self, goal = -1, length = 10):
 
         # Gets the start time
         self.start = self()
 
         # Two initial pushes prevent peek errors
-        self.time_stamps = [self.start] + [0 for i in range(length - 1)]
+        self.time_stamps = [self.start for i in range(length)]
+
+        self.length = length
 
         # The goal to aim for
         self.goal = goal
 
-        # Tracks whether to compensate from previous frames
-        self.compensate = compensate
     
     # Returns the current time (in ms)
     def __call__(self):
         return t.time_ns() / 1000000
 
     # Pushes the current time to the queue
-    def stamp(self):
+    def stamp(self, offset = 0):
 
         # Pushes item to the front
         self.time_stamps.insert(0, self())
@@ -31,11 +31,15 @@ class clock:
 
     # Looks at the most recent item
     def peek(self, i = 0):
+        if i >= self.length:
+            return -1
         return self.time_stamps[i]
     
     # Look at the difference between the most recent two
-    def peek_dif(self):
-        return self.peek(0) - self.peek(1)
+    def peek_dif(self, i = 0):
+        if i >= self.length - 1:
+            return -1
+        return self.peek(i) - self.peek(i + 1)
 
     # Returns the time since the previous stamp
     def dif(self):
@@ -44,20 +48,19 @@ class clock:
     # Checks if the argument's amount of time has passed
     def elasped(self, amount):
         return amount < self.dif()
+
     
     # Returns true if the time hit was the goal
     #   Performs a timestamp is so
     def time(self):
 
         # Checks whether we compensate for previous slow frames
-        if not self.compensate:
-            hit_goal = self.elasped(self.goal)
-        else:
-            hit_goal = self.elasped(self.goal - self.overtime())
+        hit_goal = self.elasped(self.goal)
 
         # If the goal was hit, perform a timestamp
         if hit_goal:
             self.stamp()
+            
 
         # Returns whether the goal was hit
         return hit_goal
