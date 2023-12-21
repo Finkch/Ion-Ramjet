@@ -82,26 +82,29 @@ class Clock:
 
 class DynamicClock(Clock):
     def __init__(self, goal):
-        super().__init__(goal * 1000, 1) # Converts goal from seconds to milliseconds
+        super().__init__(goal, 1) # Converts goal from seconds to milliseconds
 
         # Starts the average at the goal
-        self.average_fps = goal
+        self.average_fps = 0
 
         # Sets the length so that the stamp array starts with only 1 item
-        self.length = 10
-    
+        self.length = 20
+
     def change_goal(self):
 
-        # Removes all timestamps but the most recent
+        # Removes all stamps but the most recent
         self.time_stamps = self.time_stamps[:1]
+        self.difs = self.difs[:1]
 
+    # Returns the correct amount of simulation time to match the goal's pace
     def time(self):
         self.stamp()
 
-        self.average_fps = sum([self.peek_dif(i) for i in range(len(self.time_stamps) - 1)]) / len(self.time_stamps)
+        # Mean time per simulation step in seconds
+        self.average_fps = sum(self.difs) / len(self.difs) / 1000
 
         if self.average_fps == 0:
             return 0
 
-        return self.goal / self.average_fps / 1000
+        return self.goal * self.average_fps
 
