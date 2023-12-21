@@ -209,17 +209,8 @@ def draw_time(screen, sim_time):
 def draw_craft_readout(screen, crafts):
     craft = crafts[0]
 
-    # Sets up the components to render
-    strings = [
-        craft.name,
-        f'phi {craft.orientation.phi:.2f}',
-        f'{craft.mass:.2e} kg',
-        f'pos {hypo(craft.pos()):.2e} m',
-        f'vel {hypo(craft.vel()):.2e} m/s'
-    ]
-
     # Renders the text into a column
-    render_text_column(screen, strings, [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
+    render_text_column(screen, craft.get_printout(), [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
 
 
 # Draws two orthogonal lines for the axis

@@ -32,6 +32,14 @@ class Actor(object):
     def __str__(self):
         return self.name + "\n" + str(self.spacetime)
     
+    def get_printout(self):
+        return [
+            f'{self.name}',
+            f'{self.mass}',
+            f'{self.pos()}'
+        ]
+                
+    
 
 
     # Exerts a force on the actor
@@ -97,6 +105,15 @@ class Spacecraft(Actor):
         mass += self.reactor.get_mass()
 
         return mass
+    
+    def get_printout(self):
+        return [
+            self.name,
+            f'phi {self.orientation.phi:.2f}',
+            f'{self.mass:.2e} kg',
+            f'pos {hypo(self.pos()):.2e} m',
+            f'vel {hypo(self.vel()):.2e} m/s'
+        ]
 
 
 # Describes the orientation in space
