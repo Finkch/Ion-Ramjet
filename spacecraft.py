@@ -63,11 +63,6 @@ class actor(object):
 class spacecraft(actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        # Angular orientation
-        self.theta
-        self.phi
-
-
         # Creates the craft from the components
         self.core_mass = core_mass
         self.thruster = thruster
@@ -78,16 +73,6 @@ class spacecraft(actor):
 
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
-
-    def __call__(self, time_step):
-
-        # Gets the generated thrust
-        thrust = self.thruster(self.ionizer, self.reactor) * time_step
-
-        # Gets the force vector
-        force = radial_to_cartesian(thrust, self.theta, self.phi)
-
-        self.force(force)
 
     
     # Returns the current mass of the craft
@@ -124,10 +109,6 @@ class thruster:
         self.max_m_d = max_m_d      # Max mass flow
         self.max_P = max_P
 
-        self.max_F = v_e * max_m_d  # Max thrust
-        self.thrust_per = self.max_F
-        self.power_per = self.max_P
-
     def __call__(self, ionizer, reactor):
         return self.max_F
     
@@ -138,22 +119,16 @@ class thruster:
 #   Accepts deionized gas and power
 #   Outputs ionized gas
 class ionizer:
-    def __init__(self, mass, max_m_d, power_per, in_flow, out_flow):
+    def __init__(self, mass, power_per, in_flow, out_flow):
         
         self.mass = mass
-
-        self.max_m_d = max_m_d
         self.power_per = power_per
         self.in_flow = in_flow
         self.out_flow = out_flow
 
-
-    def ionize_rate(self, reactor):
-        return self.in_flow * reactor.power(self)
-
     
     def get_mass(self):
-        return self.mass + (self.tank_de + self.tank_io) * c.H
+        return self.mass
 
 # Scoops up gas from the interstellar medium
 #   Accepts power
@@ -192,9 +167,6 @@ class reactor:
         self.mass = mass
 
         self.generation = generation
-
-    def power(self, part):
-        pass
     
     def get_mass(self):
         return self.mass
