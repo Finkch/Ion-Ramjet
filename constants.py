@@ -1,4 +1,5 @@
 # A bunch of constant values
+import numpy as np
 
 G =             6.67e-11
 
@@ -9,6 +10,7 @@ minute =        60
 
 au =            1.496e11
 earth_speed =   29951.68
+au_speed =      earth_speed * np.sqrt(2) # Earth speed but it words
 
 sun_mass =      3.995e30
 sun_radius =    696340e3
