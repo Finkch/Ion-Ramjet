@@ -213,6 +213,7 @@ def draw_craft_readout(screen, crafts):
     strings = [
         craft.name,
         f'phi {craft.orientation.phi:.2f}',
+        f'{craft.mass:.2e} kg',
         f'pos {hypo(craft.pos()):.2e} m',
         f'vel {hypo(craft.vel()):.2e} m/s'
     ]
