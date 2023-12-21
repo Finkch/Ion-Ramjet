@@ -76,6 +76,15 @@ class Spacecraft(Actor):
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
 
+    def __call__(self, time_step, fire):
+
+        if fire:
+            thrust = self.thruster(self.ionizer, self.reactor)
+            force = radial_to_cartesian(thrust, self.orientation.theta, self.orientation.phi)
+            self.force(force)
+
+        super().__call__(time_step)
+
     
     # Returns the current mass of the craft
     def get_mass(self):
@@ -108,12 +117,12 @@ class orientation:
 #   Accepts ionized gas and power
 #   Outputs force
 class thruster:
-    def __init__(self, mass, v_e, max_m_d, max_P):
+    def __init__(self, mass, v_e, max_F, max_P):
 
         self.mass = mass
         
         self.v_e = v_e              # Exhaust velocity
-        self.max_m_d = max_m_d      # Max mass flow
+        self.max_F = max_F      # Max mass flow
         self.max_P = max_P
 
     def __call__(self, ionizer, reactor):
