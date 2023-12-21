@@ -198,8 +198,9 @@ def draw_craft_readout(screen, crafts):
 
     # Sets up the components to render
     strings = [
-        craft.name, 
-        f'v {hypo(craft.vel()):.2e} m/s'
+        craft.name,
+        f'phi {craft.orientation.phi:.2f}',
+        f'vel {hypo(craft.vel()):.2e} m/s'
     ]
 
     # Renders the text into a column
