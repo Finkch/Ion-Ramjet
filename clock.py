@@ -135,7 +135,7 @@ class Time:
     def __call__(self):
         time = self.timer()
         self.steps += 1
-        self.time += time
+        self.sim_time += time
 
         return time
     
