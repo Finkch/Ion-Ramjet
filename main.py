@@ -8,6 +8,7 @@ import constants as c
 import util
 import visuals as vis
 import clock
+import numpy as np
 
 # Should debug printout
 DEBUG = False
@@ -32,7 +33,7 @@ def setup():
 
 
     # Mass, v_e, F_per, P_per
-    test_thruster = sc.thruster(10, 1e3, 1e-27, 1e-23)
+    test_thruster = sc.thruster(10, 4.81e4, 26.3, 1e-23)
 
 
     # Mass, P_per, md_in, md_out
@@ -107,7 +108,7 @@ def step(time_step, crafts, other_actors):
 
     # Simulates each craft
     for craft in crafts:
-        craft(time_step)
+        craft(time_step, False)
         craft.orientation.goto(craft.vel())
 
     # Performs a step of simulation for "linear" actors
