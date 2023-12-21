@@ -110,15 +110,25 @@ class DynamicClock(Clock):
         return self.goal * self.average_fps
     
 
+
 # Handles time and steps
 class time:
     def __init__(self, rate):
+        
+        # Simulation steps taken
         self.steps = 0
-        self.time = 0
+        
+        # Tracks simulation time
+        self.sim_time = 0
+
+        # Tracks actual uptime
+        self.real_time = Clock()
 
         # How many times faster than real time it should simulate
         self.rate = rate
 
+        # Does the work of ensuring the system stays on track;
+        # Handles real-time to sim-time conversion
         self.timer = DynamicClock(rate)
 
     # Calling this class steps forward once
