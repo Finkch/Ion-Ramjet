@@ -2,6 +2,7 @@ import pygame
 import constants as c
 from util import *
 import numpy as np
+import spacecraft as sc
 
 MIN_SIZE = c.au
 MIN_RADIUS = 2
@@ -110,6 +111,18 @@ def draw_actors(screen, focus, actors, scale):
         # Draws labels on each actor
         draw_labels(screen, actor, pixel_position, radius)
 
+        # Draws craft's orientation
+        if isinstance(actor, sc.spacecraft):
+
+            # Gets the position of the orientation indicator
+            distance = 2
+            indicator = (
+                    pixel_position[0] + (radius * 3 / 2 + distance) * np.cos(actor.orientation.phi), 
+                    pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
+                )
+
+            pygame.draw.circle(screen, "white", indicator, radius / 2)
+
 
 # Labels an actor
 def draw_labels(screen, actor, pixel_position, radius):
@@ -198,8 +211,9 @@ def draw_craft_readout(screen, crafts):
 
     # Sets up the components to render
     strings = [
-        craft.name, 
-        f'v {hypo(craft.vel()):.2e} m/s'
+        craft.name,
+        f'phi {craft.orientation.phi:.2f}',
+        f'vel {hypo(craft.vel()):.2e} m/s'
     ]
 
     # Renders the text into a column
