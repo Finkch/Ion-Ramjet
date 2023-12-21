@@ -32,6 +32,14 @@ class Actor(object):
     def __str__(self):
         return self.name + "\n" + str(self.spacetime)
     
+    def get_printout(self):
+        return [
+            f'{self.name}',
+            f'{self.mass}',
+            f'{self.pos()}'
+        ]
+                
+    
 
 
     # Exerts a force on the actor
@@ -73,6 +81,8 @@ class Spacecraft(Actor):
         self.tank = tank
         self.reactor = reactor
 
+        self.force_preview = v.Vector()
+
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
 
@@ -82,6 +92,7 @@ class Spacecraft(Actor):
             thrust = self.thruster(self.ionizer, self.reactor)
             force = radial_to_cartesian(thrust, self.orientation.theta, self.orientation.phi)
             self.force(force)
+            self.force_preview = force
 
         super().__call__(time_step)
 
@@ -97,6 +108,16 @@ class Spacecraft(Actor):
         mass += self.reactor.get_mass()
 
         return mass
+    
+    def get_printout(self):
+        return [
+            self.name,
+            f'phi {self.orientation.phi:.2f}',
+            f'{self.mass:.2e} kg',
+            f'pos {hypo(self.pos()):.2e} m',
+            f'vel {hypo(self.vel()):.2e} m/s',
+            f'frc {hypo(self.force_preview):.2e} N'
+        ]
 
 
 # Describes the orientation in space

@@ -107,7 +107,7 @@ def step(time_step, crafts, other_actors):
 
     # Simulates each craft
     for craft in crafts:
-        craft(time_step, False)
+        craft(time_step, True)
         craft.orientation.goto(craft.vel())
 
     # Performs a step of simulation for "linear" actors
