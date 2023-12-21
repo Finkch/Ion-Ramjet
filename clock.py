@@ -27,17 +27,18 @@ class Clock:
         self.time_stamps.insert(0, self())
 
         # Prevents the list from growing too long
-        self.time_stamps.pop(-1)
+        if len(self.time_stamps) > self.length:
+            self.time_stamps.pop(-1)
 
     # Looks at the most recent item
     def peek(self, i = 0):
-        if i >= self.length:
+        if i >= len(self.time_stamps) - 1:
             return -1
         return self.time_stamps[i]
     
     # Look at the difference between the most recent two
     def peek_dif(self, i = 0):
-        if i >= self.length - 1:
+        if i >= len(self.time_stamps) - 2:
             return -1
         return self.peek(i) - self.peek(i + 1)
 
