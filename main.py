@@ -54,8 +54,7 @@ def setup():
 
     # Some initial movement
     test_craft.spacetime.position = v.Vector(c.au, 0, 0)
-    test_craft.spacetime.velocity = v.Vector(0, 3 * c.earth_speed, 0)
-    #test_craft.spacetime.velocity = v.Vector(0, c.earth_speed, 0)
+    test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
     
     test_craft.orientation.goto(test_craft.pos())
 

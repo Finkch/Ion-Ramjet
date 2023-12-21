@@ -18,7 +18,7 @@ def easy_gravity(affecters, effectees):
         for i in range(len(affecters)):
             for j in range(len(affecter) - i):
                 gravity(affecters[i], affecters[j])
-    
+        return
 
     # If supplied with 2 arrays, then compute gravity
     # between each pair between the arrays, but not
@@ -35,8 +35,6 @@ def gravity(a, b):
     position_vector = b.pos() - a.pos()
 
     # F = G M m / r^2
-
-    # This approach won't work since G is based on the radial component
     force = c.G * a.mass * b.mass / hypo(position_vector) ** 2
 
     # Split the radial vector into the components
