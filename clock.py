@@ -112,7 +112,7 @@ class DynamicClock(Clock):
 
 
 # Handles time and steps
-class time:
+class Time:
     def __init__(self, rate):
         
         # Simulation steps taken
