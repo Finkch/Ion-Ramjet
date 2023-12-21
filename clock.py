@@ -9,6 +9,7 @@ class Clock:
 
         # Two initial pushes prevent peek errors
         self.time_stamps = [self.start for i in range(length)]
+        self.difs = []
 
         self.length = length
 
@@ -23,12 +24,19 @@ class Clock:
     # Pushes the current time to the queue
     def stamp(self, offset = 0):
 
+        time = self()
+
+        # Inserts the difference
+        self.difs.insert(0, time - self.time_stamps[0])
+
         # Pushes item to the front
-        self.time_stamps.insert(0, self())
+        self.time_stamps.insert(0, time)
+
 
         # Prevents the list from growing too long
         if len(self.time_stamps) > self.length:
             self.time_stamps.pop(-1)
+            self.difs.pop(-1)
 
     # Looks at the most recent item
     def peek(self, i = 0):
@@ -38,9 +46,9 @@ class Clock:
     
     # Look at the difference between the most recent two
     def peek_dif(self, i = 0):
-        if i >= len(self.time_stamps) - 2:
+        if i >= len(self.difs) - 1:
             return -1
-        return self.peek(i) - self.peek(i + 1)
+        return self.difs[i]
 
     # Returns the time since the previous stamp
     def dif(self):
