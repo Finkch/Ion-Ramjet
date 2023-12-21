@@ -13,13 +13,11 @@ import numpy as np
 # Should debug printout
 DEBUG = False
 
+TIME_STEP = c.day
+
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
-
-    # Important parameters
-    time_step = c.day
-
 
     global framerate
     framerate = clock.Clock(1000 / 60) # Aim for 60 FPS
@@ -61,7 +59,7 @@ def setup():
 
 
     # Simulates
-    exist(time_step, [test_craft], screen)
+    exist(TIME_STEP, [test_craft], screen)
 
 
 
