@@ -1,5 +1,5 @@
 # Defines basic vectors and their operations
-import util
+from util import *
 
 # Default step in time, in seconds
 DEFAULT_TIME = 10
@@ -88,7 +88,21 @@ class vector:
 
     # Returns the magnitude of the position
     def mag(self):
-        return util.hypo(self())
+        return hypo(self())
+    
+    # Calculates the dot-product between two vectors
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    # Caclulates the cross-product between two vectors
+    #   (a2*b3-a3*b2, a3*b1-a1*b3, a1*b2-a2*b1); thanks stack overflow
+    def cross(self, other):
+        return vector(
+            self.y * other.z - self.z * other.y,
+            self.z * other.x - self.x * other.z,
+            self.x * other.y - self.y * other.x
+        )
+        
     
 
     # Returns one of the planes of the vector
@@ -134,9 +148,9 @@ class spacetime:
 
     def __str__(self):
         out = ""
-        out += "Position:\t{mag:.2e}".format(mag = util.hypo(self.position)) + str(self.position)
-        out += "\nVelocity:\t{mag:.2e}".format(mag = util.hypo(self.velocity)) + str(self.velocity)
-        out += "\nAcceleration:\t{mag:.2e}".format(mag = util.hypo(self.acceleration_preview)) + str(self.acceleration_preview)
+        out += "Position:\t{mag:.2e}".format(mag = hypo(self.position)) + str(self.position)
+        out += "\nVelocity:\t{mag:.2e}".format(mag = hypo(self.velocity)) + str(self.velocity)
+        out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
 
         return out
     
