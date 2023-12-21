@@ -4,7 +4,7 @@ from util import *
 # Default step in time, in seconds
 DEFAULT_TIME = 10
 
-class vector:
+class Vector:
     def __init__(self, x = 0, y = 0, z = 0):
         self.x = x
         self.y = y
@@ -20,55 +20,55 @@ class vector:
     def __add__(self, other):
 
         if type(other) == "list":
-            return vector(
+            return Vector(
                 self.x + other[0],
                 self.y + other[1],
                 self.z + other[2]
             )
         else:
-            return vector(
+            return Vector(
                 self.x + other.x, 
                 self.y + other.y,
                 self.z + other.z
             )
     
     def __sub__(self, other):
-        return vector(
+        return Vector(
             self.x - other.x, 
             self.y - other.y,
             self.z - other.z
         )
     
     def __mul__(self, other):  # Multiplication by a constant
-        return vector(
+        return Vector(
             self.x * other,
             self.y * other,
             self.z * other
         )
 
     def __rmul__(self, other):
-        return vector(
+        return Vector(
             other * self.x,
             other * self.y,
             other * self.z
         )
     
     def __truediv__(self, other):   # Division by a constant
-        return vector(
+        return Vector(
             self.x / other,
             self.y / other,
             self.z / other
         )
     
     def __rtruediv__(self, other):   # Division by a constant
-        return vector(
+        return Vector(
             other / self.x,
             other / self.y,
             other / self.z
         )
     
     def __pow__(self, other):
-        return vector(
+        return Vector(
             self.x ** other,
             self.y ** other,
             self.z ** other
@@ -80,7 +80,7 @@ class vector:
     
     
     def invert(self):
-        return vector(
+        return Vector(
             self.x * -1,
             self.y * -1,
             self.z * -1
@@ -96,8 +96,9 @@ class vector:
 
     # Caclulates the cross-product between two vectors
     #   (a2*b3-a3*b2, a3*b1-a1*b3, a1*b2-a2*b1); thanks stack overflow
+    #   Oh, of course, that's just the determinent - silly me
     def cross(self, other):
-        return vector(
+        return Vector(
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x
@@ -123,13 +124,13 @@ class spacetime:
 
         self.time = 0
 
-        self.position = vector()
-        self.velocity = vector()
-        self.acceleration = vector()
+        self.position = Vector()
+        self.velocity = Vector()
+        self.acceleration = Vector()
 
         # Since acceleration necessarily resets, this
         # is use to view acceleration
-        self.acceleration_preview = vector()
+        self.acceleration_preview = Vector()
     
     # Calling spacetime updates it by one step
     def __call__(self, time_step = DEFAULT_TIME):
@@ -144,7 +145,7 @@ class spacetime:
         self.acceleration_preview = self.acceleration
 
         # Resets acceleration
-        self.acceleration = vector()
+        self.acceleration = Vector()
 
     def __str__(self):
         out = ""

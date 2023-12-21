@@ -21,9 +21,9 @@ def setup():
 
 
     global framerate
-    framerate = clock.clock(1000 / 60) # Aim for 60 FPS
+    framerate = clock.Clock(1000 / 60) # Aim for 60 FPS
     global real_time
-    real_time = clock.clock(1000 / 60) # Max one sim step per millisecond
+    real_time = clock.Clock(1000 / 60) # Max one sim step per millisecond
 
 
 
@@ -49,13 +49,13 @@ def setup():
 
 
     # core mass, thruster, ionizer, scoop, tank, reactor
-    test_craft = sc.spacecraft("ioRam-0", 5, 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
+    test_craft = sc.Spacecraft("ioRam-0", 5, 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
 
 
     # Some initial movement
-    test_craft.spacetime.position = v.vector(c.au, 0, 0)
-    test_craft.spacetime.velocity = v.vector(0, 3 * c.earth_speed, 0)
-    #test_craft.spacetime.velocity = v.vector(0, c.earth_speed, 0)
+    test_craft.spacetime.position = v.Vector(c.au, 0, 0)
+    test_craft.spacetime.velocity = v.Vector(0, 3 * c.earth_speed, 0)
+    #test_craft.spacetime.velocity = v.Vector(0, c.earth_speed, 0)
     
     test_craft.orientation.goto(test_craft.pos())
 
@@ -76,7 +76,7 @@ def exist(time_step, crafts, screen):
     simulate = True
 
     # Sun mass
-    sun = sc.actor("sun", c.sun_mass, c.sun_radius)
+    sun = sc.Actor("sun", c.sun_mass, c.sun_radius)
     
 
     # Simulates

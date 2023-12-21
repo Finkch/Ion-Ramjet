@@ -105,14 +105,14 @@ def draw_actors(screen, focus, actors, scale):
 
 
         # Draws the shape
-        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
+        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
         pygame.draw.circle(screen, "white", pixel_position, radius)
 
         # Draws labels on each actor
         draw_labels(screen, actor, pixel_position, radius)
 
         # Draws craft's orientation
-        if isinstance(actor, sc.spacecraft):
+        if isinstance(actor, sc.Spacecraft):
 
             # Gets the position of the orientation indicator
             distance = 2
