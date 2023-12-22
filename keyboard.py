@@ -51,16 +51,16 @@ class Keyboard:
             
 
         # Handles inputs
-        if self.held('up'):
+        if self.pressed('up'):
             self.timer.faster()
 
-        if self.held('down'):
+        if self.pressed('down'):
             self.timer.slower()
 
-        if self.held('right'):
+        if self.pressed('right'):
             self.zoom.next()
 
-        if self.held('left'):
+        if self.pressed('left'):
             self.zoom.previous()
 
         if self.held('quote'):
@@ -69,10 +69,10 @@ class Keyboard:
         if self.held('slash'):
             self.zoom.decrease()
 
-        if self.held('return'):
+        if self.pressed('return'):
             self.timer.fasterer()
 
-        if self.held('rshift'):
+        if self.pressed('rshift'):
             self.timer.slowerer()
             
 
@@ -96,6 +96,11 @@ class Keyboard:
         else:
             self.keys[key]['count'] = 0
     
-    # Gets whether holding down a key should return True
+    # Returns true so long as the button is held
     def held(self, key):
+        return self.keys[key]['count'] >= 1
+
+    # Returns True intermittently, allowing for easy small changes
+    def pressed(self, key):
         return self.keys[key]['count'] == 1 or (self.keys[key]['count'] >= self.delay and self.keys[key]['count'] % self.repeat == 0)
+    
