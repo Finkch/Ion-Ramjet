@@ -163,7 +163,11 @@ class Time:
 
         # Updates the rate
         self.update_rate()
-
+    
+    # Significantly increases the goal
+    def fasterer(self):
+        self.order += 1
+        self.update_rate()
 
     # Descreases the simulation rate
     def slower(self):
@@ -177,5 +181,10 @@ class Time:
             self.order -= 1
 
         # Updates the rate
+        self.update_rate()
+
+    # Significantly decreases the goal
+    def slowerer(self):
+        self.order -= 1
         self.update_rate()
 
