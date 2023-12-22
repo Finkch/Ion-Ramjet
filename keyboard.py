@@ -11,8 +11,8 @@ class Keyboard:
         self.keys = {
             'up': {'count': 0, 'type': pygame.K_UP}, 
             'down': {'count': 0, 'type': pygame.K_DOWN},
-            'left': {'count': 0, 'type': pygame.K_LEFT},
             'right': {'count': 0, 'type': pygame.K_RIGHT},
+            'left': {'count': 0, 'type': pygame.K_LEFT},
             'return': {'count': 0, 'type': pygame.K_RETURN},
             'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
         }
@@ -54,6 +54,12 @@ class Keyboard:
 
         if self.held('down'):
             self.timer.slower()
+
+        if self.held('right'):
+            self.zoom.next()
+
+        if self.held('left'):
+            self.zoom.previous()
 
         if self.held('return'):
             self.timer.fasterer()
