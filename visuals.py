@@ -173,8 +173,8 @@ def render_text_column(screen, strings, position, pad = True, down = True, left 
 
 # Draws two orthogonal lines for the axis
 def draw_axis(screen):
-    pygame.draw.line(screen, GREY4, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2))
-    pygame.draw.line(screen, GREY4, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING))
+    line(screen, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2), GREY4)
+    line(screen, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING), GREY4)
 
 def draw_scale(screen, zoom, scale):
 
@@ -199,8 +199,8 @@ def draw_scale(screen, zoom, scale):
     
 
     # Draws the current scale
-    pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
-    pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
+    line(screen, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16), GREY2)
+    line(screen, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING), GREY2)
 
     render_text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
@@ -249,11 +249,11 @@ def draw_tick(screen, i, x_pos, distance):
         render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
 
     # Draws the minor ticks
-    pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
+    line(screen, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height), col)
 
     # Draws the ticks on the y-axis
     #   NOTE! Only works if the screen is a square
-    pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
+    line(screen, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos), col)
 
 
 
@@ -273,7 +273,7 @@ def draw_actors(screen, zoom, actors, scale):
 
         # Draws the shape
         pixel_position = (((actor.pos() - zoom.focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
-        pygame.draw.circle(screen, "white", pixel_position, radius)
+        circle(screen, pixel_position, radius)
 
         # Draws labels on each actor
         draw_labels(screen, actor, pixel_position, radius)
@@ -288,7 +288,7 @@ def draw_actors(screen, zoom, actors, scale):
                     pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
                 )
 
-            pygame.draw.circle(screen, "white", indicator, radius / 2)
+            circle(screen, indicator, radius / 2)
 
 
 # Labels an actor
@@ -304,7 +304,7 @@ def draw_labels(screen, actor, pixel_position, radius):
     render_text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
 
     # Draws a line from the text to the actor
-    pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
+    line(screen, (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
 
 
