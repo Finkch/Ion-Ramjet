@@ -9,17 +9,21 @@ class Keyboard:
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
-            'up': {'count': 0, 'type': pygame.K_UP}, 
-            'down': {'count': 0, 'type': pygame.K_DOWN},
-            'right': {'count': 0, 'type': pygame.K_RIGHT},
-            'left': {'count': 0, 'type': pygame.K_LEFT},
-            'return': {'count': 0, 'type': pygame.K_RETURN},
-            'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
-            'quote': {'count': 0, 'type': pygame.K_QUOTE},
-            'slash': {'count': 0, 'type': pygame.K_SLASH},
-            'semicolon': {'count': 0, 'type': pygame.K_SEMICOLON},
-            'period': {'count': 0, 'type': pygame.K_PERIOD},
+            'up':           {'count': 0, 'type': pygame.K_UP,           'function': None}, 
+            'down':         {'count': 0, 'type': pygame.K_DOWN,         'function': None}, 
+            'right':        {'count': 0, 'type': pygame.K_RIGHT,        'function': None}, 
+            'left':         {'count': 0, 'type': pygame.K_LEFT,         'function': None}, 
+            'return':       {'count': 0, 'type': pygame.K_RETURN,       'function': None}, 
+            'rshift':       {'count': 0, 'type': pygame.K_RSHIFT,       'function': None}, 
+            'quote':        {'count': 0, 'type': pygame.K_QUOTE,        'function': None}, 
+            'slash':        {'count': 0, 'type': pygame.K_SLASH,        'function': None}, 
+            'semicolon':    {'count': 0, 'type': pygame.K_SEMICOLON,    'function': None}, 
+            'period':       {'count': 0, 'type': pygame.K_PERIOD,       'function': None}, 
         }
+
+        # Parameters for repeated inputs on button being held down
+        self.delay = 45
+        self.repeat = 5
 
         # Parameters for repeated inputs on button being held down
         self.delay = 45
