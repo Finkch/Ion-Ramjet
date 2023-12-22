@@ -29,6 +29,11 @@ class Keyboard:
             if event.type == pygame.QUIT:
                 return False
             
+            # Hanldes specific key events
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
+            
 
         # Handles inputs
         if self.held('up'):
