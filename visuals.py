@@ -70,7 +70,7 @@ def draw(screen, focus, actors, timer):
     draw_actors(screen, focus, actors, scale)
 
     # Adds a readout for the current sim time
-    draw_time(screen, timer.sim_time)
+    draw_time(screen, timer)
 
     # Draws some craft informatiom
     draw_craft_readout(screen, [actors[1]])
@@ -185,11 +185,14 @@ def render_text_column(screen, strings, position, down = True):
 
 
 # Adds a time readout
-def draw_time(screen, sim_time):
+def draw_time(screen, timer):
 
-    # Sets up the strings to render
-    render_text(screen, readable_time(sim_time), [0, 0])
+    # Renders the time
+    render_text(screen, readable_time(timer.sim_time), [0, 0])
 
+    # Renders the current sim rate
+    render_text(screen, f'{timer.timer.goal:.0e}', [0, STRING_PADDING * 3 / 2])
+    
 
 # Adds some of craft information readout
 def draw_craft_readout(screen, crafts):
