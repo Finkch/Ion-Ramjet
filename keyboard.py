@@ -57,8 +57,8 @@ class Keyboard:
             
 
         # Handles inputs
-        for key in self.keys.keys:
-            if self.keys[key]['type']():
+        for key in self.keys.keys():
+            if self.keys[key]['type'](key):
                 self.keys[key]['function']()
             
 
