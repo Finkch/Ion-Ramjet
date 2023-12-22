@@ -84,7 +84,7 @@ def draw(screen, focus, actors, timer):
 
 
 # Renders a single bit of text
-def render_text(screen, string, position, pad = True, down = True, size = 'medium', colour = 'white', antialias = True, left = True):
+def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
     # 'Fixes' scientific notation
     string = string.replace("e+", "e")
@@ -105,38 +105,36 @@ def render_text(screen, string, position, pad = True, down = True, size = 'mediu
         padding = 0
 
     # Places the text
-    if down:
-        if left:
-            text_shape.topleft = (padding + position[0], padding + position[1])
-        else:
-            text_shape.topright = (padding + position[0], padding + position[1])
+    if left:
+        text_shape.topleft = (padding + position[0], padding + position[1])
     else:
-        if left:
-            text_shape.topleft = (padding + position[0], HEIGHT - padding - position[1])
-        else:
-            text_shape.topright = (padding + position[0], HEIGHT - padding - position[1])
+        text_shape.topright = (padding + position[0], padding + position[1])
 
     # Renders the text
     screen.blit(text, text_shape)
         
 
 # Renders a column of text in rows as specified by strings
-def render_text_column(screen, strings, position, down = True, left = True):
+def render_text_column(screen, strings, position, pad = True, down = True, left = True):
     
+    # Gets the correct amount of padding
+    padding = PIXEL_PADDING
+    if not pad:
+        padding = 0
+
     # Iterates over all strings
     draw_at = [None, None]
     for i in range(len(strings)):
 
         # Obtains the position to draw them at
-        draw_at[0] = position[0]
+        draw_at[0] = padding + position[0]
         if down:
-            draw_at[1] = position[1] + i * STRING_PADDING
+            draw_at[1] = padding + position[1] + i * STRING_PADDING
         else:
-            draw_at[1] = position[1] - (len(strings) - i) * STRING_PADDING + 8
-        
+            draw_at[1] = position[1] - padding - (len(strings) - i) * STRING_PADDING
 
         # Renders the text row
-        render_text(screen, strings[i], draw_at, down = down, left = left)
+        render_text(screen, strings[i], draw_at, pad = False, left = left)
 
 
 
@@ -295,4 +293,5 @@ def draw_craft_readout(screen, crafts):
     craft = crafts[0]
 
     # Renders the text into a column
-    render_text_column(screen, craft.get_printout(), [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
+    render_text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
+
