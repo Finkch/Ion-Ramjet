@@ -75,8 +75,8 @@ def exist(timer, crafts, screen, kb, zoom):
 
     # Sun mass
     sun = sc.Actor("sun", c.sun_mass, c.sun_radius)
-    zoom.focus_at(sun.pos())
     zoom.actors = [sun, crafts[0]]
+    zoom.update_focus()
 
 
     # Simulates a workload for a moment to normalise the timer

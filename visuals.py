@@ -239,7 +239,7 @@ def draw_actors(screen, zoom, actors, scale):
 
 
         # Draws the shape
-        pixel_position = (((actor.pos() - zoom.position) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
+        pixel_position = (((actor.pos() - zoom.focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
         pygame.draw.circle(screen, "white", pixel_position, radius)
 
         # Draws labels on each actor
