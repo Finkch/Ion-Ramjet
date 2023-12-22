@@ -54,7 +54,7 @@ def dif(a, b):
     return hypo(a - b)
 
 
-class orders:
+class Orders:
     def __init__(self, initial):
         self.set_order(initial)
 
@@ -62,4 +62,35 @@ class orders:
     def set_order(self, num):
         self.scale = int(str(num)[:1])
         self.order = int(np.log10(num))
+
+
+    # Increases the simulatoin rate
+    def increase(self):
+
+        # Increases scale
+        self.scale += 1
+
+        # Hanlde boundry changes
+        if self.scale >= 10:
+            self.scale = 1
+            self.order += 1
+    
+    # Significantly increases the goal
+    def increase_order(self):
+        self.order += 1
+
+    # Descreases the simulation rate
+    def decrease(self):
+        
+        # Descreases scale
+        self.scale -= 1
+
+        # Handles boundry change
+        if self.scale <= 0:
+            self.scale = 9
+            self.order -= 1
+
+    # Significantly decreases the goal
+    def decrease_order(self):
+        self.order -= 1
 
