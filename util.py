@@ -75,10 +75,10 @@ class Orders:
 
 
     # Increases the simulatoin rate
-    def increase(self):
+    def increase(self, multiplier = 1):
 
         # Increases scale
-        self.scale += self.step_size
+        self.scale += self.step_size * multiplier
 
         # Hanlde boundry changes
         if self.scale >= 10:
@@ -90,10 +90,10 @@ class Orders:
         self.order += 1
 
     # Descreases the simulation rate
-    def decrease(self):
+    def decrease(self, multiplier = 1):
         
         # Descreases scale
-        self.scale -= self.step_size
+        self.scale -= self.step_size * multiplier
 
         # Handles boundry change
         if self.scale <= 0:
