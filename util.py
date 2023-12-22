@@ -52,3 +52,14 @@ def readable_time(time):
 # Calculates the diference between vectors
 def dif(a, b):
     return hypo(a - b)
+
+
+class orders:
+    def __init__(self, initial):
+        self.set_order(initial)
+
+    # Given a number, extract the scale and the order
+    def set_order(self, num):
+        self.scale = int(str(num)[:1])
+        self.order = int(np.log10(num))
+
