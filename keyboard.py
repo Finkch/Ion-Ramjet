@@ -9,9 +9,7 @@ class Keyboard:
 
     # Handles accepting input and performing an action
     def __call__(self):
-        keys = pygame.key.get_pressed()
-        print(keys)
-
+        
         # Looks through pygame events
         for event in pygame.event.get():
             
@@ -21,7 +19,13 @@ class Keyboard:
             
             # Handles keyboard inputs
             if event.type == pygame.KEYDOWN:
-                pass
+                
+                # Adjust time
+                if event.key == pygame.K_UP:
+                    self.timer.faster()
+
+                if event.key == pygame.K_DOWN:
+                    self.timer.slower()
             
         # Returns simulation status
         return True
