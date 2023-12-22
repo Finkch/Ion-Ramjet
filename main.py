@@ -97,7 +97,7 @@ def exist(timer, crafts, screen, kb):
         debug(sim_time, crafts, [sun])
 
         # Handles an input/draw frame
-        if timer.timer.time():
+        if timer.real_time.time():
             
             # Draws the screen
             vis.draw(screen, sun, [sun, crafts[0]], timer)
