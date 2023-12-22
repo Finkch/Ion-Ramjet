@@ -9,6 +9,7 @@ import util
 import visuals as vis
 import clock
 import numpy as np
+import keyboard
 
 # Should debug printout
 DEBUG = False
@@ -53,13 +54,17 @@ def setup():
     test_craft.orientation.goto(test_craft.pos())
 
 
+    crafts = [test_craft]
+
+    kb = keyboard.Keyboard(timer, crafts)
+
     # Simulates
-    exist(timer, [test_craft], screen)
+    exist(timer, crafts, screen, kb)
 
 
 
 # Simulates
-def exist(timer, crafts, screen):
+def exist(timer, crafts, screen, kb):
 
     # Keeps track of simulation duration
     simulate = True
@@ -78,7 +83,6 @@ def exist(timer, crafts, screen):
             craft.spacetime.acceleration = v.Vector()
 
 
-
     # Simulates
     while simulate:
 
@@ -92,8 +96,15 @@ def exist(timer, crafts, screen):
         # Performs a debug printout
         debug(sim_time, crafts, [sun])
 
-        # Does a step of drawing
-        simulate = vis.draw(screen, sun, [sun, crafts[0]], timer)
+        # Handles an input/draw frame
+        if timer.timer.time():
+            
+            # Draws the screen
+            vis.draw(screen, sun, [sun, crafts[0]], timer)
+
+            simulate = kb()
+
+
 
 
 

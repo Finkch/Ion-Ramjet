@@ -43,19 +43,9 @@ def init_visuals(width, height):
     return screen
 
 
-# Checks whether enough time has passed to perform a draw
-def should_draw(timer):
-    return timer.real_time.time()
-
-
-
 # Draws everything
 #   focus is the actor at the centre of the display
 def draw(screen, focus, actors, timer):
-    
-    # Limits the framerate
-    if not should_draw(timer):
-        return True
     
 
     # Clears screen to black
@@ -87,10 +77,6 @@ def draw(screen, focus, actors, timer):
 
     # Draws
     pygame.display.flip()
-
-    # Looks through pygame's events
-    #   Used only for game_exit
-    return handle_pygame()
     
 
 # Draws the actors
@@ -295,11 +281,3 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the ticks on the y-axis
     #   NOTE! Only works if the screen is a square
     pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
-
-
-# Checks for a quit event
-def handle_pygame():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False
-    return True
