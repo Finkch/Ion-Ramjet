@@ -15,6 +15,8 @@ class Keyboard:
             'left': {'count': 0, 'type': pygame.K_LEFT},
             'return': {'count': 0, 'type': pygame.K_RETURN},
             'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
+            'quote': {'count': 0, 'type': pygame.K_QUOTE},
+            'slash': {'count': 0, 'type': pygame.K_SLASH},
         }
 
         # Parameters for repeated inputs on button being held down
@@ -60,6 +62,12 @@ class Keyboard:
 
         if self.held('left'):
             self.zoom.previous()
+
+        if self.held('quote'):
+            self.zoom.increase()
+        
+        if self.held('slash'):
+            self.zoom.decrease()
 
         if self.held('return'):
             self.timer.fasterer()
