@@ -9,16 +9,16 @@ class Keyboard:
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
-            'up':           {'count': 0, 'type': pygame.K_UP,           'function': None}, 
-            'down':         {'count': 0, 'type': pygame.K_DOWN,         'function': None}, 
-            'right':        {'count': 0, 'type': pygame.K_RIGHT,        'function': None}, 
-            'left':         {'count': 0, 'type': pygame.K_LEFT,         'function': None}, 
-            'return':       {'count': 0, 'type': pygame.K_RETURN,       'function': None}, 
-            'rshift':       {'count': 0, 'type': pygame.K_RSHIFT,       'function': None}, 
-            'quote':        {'count': 0, 'type': pygame.K_QUOTE,        'function': None}, 
-            'slash':        {'count': 0, 'type': pygame.K_SLASH,        'function': None}, 
-            'semicolon':    {'count': 0, 'type': pygame.K_SEMICOLON,    'function': None}, 
-            'period':       {'count': 0, 'type': pygame.K_PERIOD,       'function': None}, 
+            'up':           {'count': 0, 'key': pygame.K_UP,           'type': None,    'function': None}, 
+            'down':         {'count': 0, 'key': pygame.K_DOWN,         'type': None,    'function': None}, 
+            'right':        {'count': 0, 'key': pygame.K_RIGHT,        'type': None,    'function': None}, 
+            'left':         {'count': 0, 'key': pygame.K_LEFT,         'type': None,    'function': None}, 
+            'return':       {'count': 0, 'key': pygame.K_RETURN,       'type': None,    'function': None}, 
+            'rshift':       {'count': 0, 'key': pygame.K_RSHIFT,       'type': None,    'function': None}, 
+            'quote':        {'count': 0, 'key': pygame.K_QUOTE,        'type': None,    'function': None}, 
+            'slash':        {'count': 0, 'key': pygame.K_SLASH,        'type': None,    'function': None}, 
+            'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,    'type': None,    'function': None}, 
+            'period':       {'count': 0, 'key': pygame.K_PERIOD,       'type': None,    'function': None}, 
         }
 
         # Parameters for repeated inputs on button being held down
@@ -103,7 +103,7 @@ class Keyboard:
 
     # Updates a key's held-down count
     def update_key(self, keys, key):
-        if keys[self.keys[key]['type']]:
+        if keys[self.keys[key]['key']]:
             self.keys[key]['count'] += 1
         else:
             self.keys[key]['count'] = 0
