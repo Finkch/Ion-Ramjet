@@ -118,7 +118,7 @@ class DynamicClock(Clock):
 
 
 # Handles time and steps
-class Time:
+class Time(Orders):
     def __init__(self, rate, goal):
         
         # Simulation steps taken
@@ -134,13 +134,11 @@ class Time:
         # Handles real-time to sim-time conversion
         self.timer = DynamicClock(rate)
 
-        # Allows for easier transitions between rates scales.
-        # Sets the initial values based on the rate argument
-        self.scale = int(str(rate)[:1])
-        self.order = int(np.log10(rate))
-
         # If the simulation is paused
         self.paused = False
+
+        # Sets the orders
+        super().__init__(rate)
 
     # Calling this class steps forward once
     def __call__(self):
@@ -152,7 +150,7 @@ class Time:
     
     # Returns the current rate
     def rate(self):
-        return self.scale * 10 ** self.order
+        return self.get_order()
 
     # Updates the rate and sets the goal
     def update_rate(self):
@@ -162,39 +160,29 @@ class Time:
     # Increases the simulatoin rate
     def faster(self):
 
-        # Increases scale
-        self.scale += 1
-
-        # Hanlde boundry changes
-        if self.scale == 10:
-            self.scale = 1
-            self.order += 1
+        # Increases rate
+        self.increase()
 
         # Updates the rate
         self.update_rate()
     
     # Significantly increases the goal
     def fasterer(self):
-        self.order += 1
+        self.increase_order()
         self.update_rate()
 
     # Descreases the simulation rate
     def slower(self):
         
-        # Descreases scale
-        self.scale -= 1
-
-        # Handles boundry change
-        if self.scale == 0:
-            self.scale = 9
-            self.order -= 1
+        # Decreases rate
+        self.decrease()
 
         # Updates the rate
         self.update_rate()
 
     # Significantly decreases the goal
     def slowerer(self):
-        self.order -= 1
+        self.decrease_order()
         self.update_rate()
 
     # Toggles pause

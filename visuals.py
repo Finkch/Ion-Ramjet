@@ -46,29 +46,24 @@ def init_visuals(width, height):
 
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, focus, actors, timer):
+def draw(screen, actors, timer, zoom):
     
 
     # Clears screen to black
     screen.fill("black")
 
-    # Calculates the scale using the greates seperation distance to the focus
-    max_distance = max([abs(dif(focus.pos(), actor.pos())) for actor in actors])
-    if max_distance < MIN_SIZE:
-        max_distance = MIN_SIZE
-
 
     # Finds the maximum distance between the crafts and the PoR.
     # This distance is used to scale everything to fit on screen.
     # Extra factor of two is for half the screen
-    scale = WIDTH / (max_distance * PADDING) / 2
+    scale = WIDTH / (zoom.zoom() * PADDING) / 2
 
     # Draws the reference axis and ticks
     draw_axis(screen)
-    draw_scale(screen, max_distance, scale)
+    draw_scale(screen, zoom, scale)
 
     # Draws the actors to screen
-    draw_actors(screen, focus, actors, scale)
+    draw_actors(screen, zoom, actors, scale)
 
     # Adds a readout for the current sim time
     draw_time(screen, timer)
@@ -148,9 +143,9 @@ def draw_axis(screen):
     pygame.draw.line(screen, GREY4, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2))
     pygame.draw.line(screen, GREY4, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING))
 
-def draw_scale(screen, max_distance, scale):
+def draw_scale(screen, zoom, scale):
 
-    log_scale = int(np.log10(max_distance))
+    log_scale = int(np.log10(zoom.zoom()))
     
     # Iterates over both the current order and within one order
     for order in range(log_scale - 1, log_scale + 1):
@@ -174,7 +169,7 @@ def draw_scale(screen, max_distance, scale):
     pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
     pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
 
-    render_text(screen, f'{max_distance:.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
+    render_text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 
 
@@ -231,7 +226,7 @@ def draw_tick(screen, i, x_pos, distance):
 
 
 # Draws the actors
-def draw_actors(screen, focus, actors, scale):
+def draw_actors(screen, zoom, actors, scale):
     # Draws each actor
     for actor in actors:
 
@@ -244,7 +239,7 @@ def draw_actors(screen, focus, actors, scale):
 
 
         # Draws the shape
-        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
+        pixel_position = (((actor.pos() - zoom.focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
         pygame.draw.circle(screen, "white", pixel_position, radius)
 
         # Draws labels on each actor

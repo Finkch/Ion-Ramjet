@@ -2,16 +2,23 @@
 import pygame
 
 class Keyboard:
-    def __init__(self, timer, crafts):
+    def __init__(self, timer, zoom, crafts):
         self.timer = timer
+        self.zoom = zoom
         self.crafts = crafts
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
             'up': {'count': 0, 'type': pygame.K_UP}, 
             'down': {'count': 0, 'type': pygame.K_DOWN},
+            'right': {'count': 0, 'type': pygame.K_RIGHT},
+            'left': {'count': 0, 'type': pygame.K_LEFT},
             'return': {'count': 0, 'type': pygame.K_RETURN},
             'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
+            'quote': {'count': 0, 'type': pygame.K_QUOTE},
+            'slash': {'count': 0, 'type': pygame.K_SLASH},
+            'semicolon': {'count': 0, 'type': pygame.K_SEMICOLON},
+            'period': {'count': 0, 'type': pygame.K_PERIOD},
         }
 
         # Parameters for repeated inputs on button being held down
@@ -46,16 +53,34 @@ class Keyboard:
             
 
         # Handles inputs
-        if self.held('up'):
+        if self.pressed('up'):
             self.timer.faster()
 
-        if self.held('down'):
+        if self.pressed('down'):
             self.timer.slower()
 
-        if self.held('return'):
+        if self.pressed('right'):
+            self.zoom.next()
+
+        if self.pressed('left'):
+            self.zoom.previous()
+
+        if self.held('quote'):
+            self.zoom.increase()
+        
+        if self.held('slash'):
+            self.zoom.decrease()
+
+        if self.pressed('semicolon'):
+            self.zoom.increase_order()
+
+        if self.pressed('period'):
+            self.zoom.decrease_order()
+
+        if self.pressed('return'):
             self.timer.fasterer()
 
-        if self.held('rshift'):
+        if self.pressed('rshift'):
             self.timer.slowerer()
             
 
@@ -67,10 +92,9 @@ class Keyboard:
     def held_keys(self):
         keys = pygame.key.get_pressed()
         
-        self.update_key(keys, 'up')
-        self.update_key(keys, 'down')
-        self.update_key(keys, 'return')
-        self.update_key(keys, 'rshift')
+        # Updates all key status
+        for key in self.keys.keys():
+            self.update_key(keys, key)
 
 
     # Updates a key's held-down count
@@ -80,6 +104,11 @@ class Keyboard:
         else:
             self.keys[key]['count'] = 0
     
-    # Gets whether holding down a key should return True
+    # Returns true so long as the button is held
     def held(self, key):
+        return self.keys[key]['count'] >= 1
+
+    # Returns True intermittently, allowing for easy small changes
+    def pressed(self, key):
         return self.keys[key]['count'] == 1 or (self.keys[key]['count'] >= self.delay and self.keys[key]['count'] % self.repeat == 0)
+    

@@ -10,6 +10,7 @@ import visuals as vis
 import clock
 import numpy as np
 import keyboard
+import zoom as z
 
 # Should debug printout
 DEBUG = False
@@ -58,21 +59,24 @@ def setup():
 
     crafts = [test_craft]
 
-    kb = keyboard.Keyboard(timer, crafts)
+    zoom = z.Zoom(1.5e11, timer, crafts)
+    kb = keyboard.Keyboard(timer, zoom, crafts)
 
     # Simulates
-    exist(timer, crafts, screen, kb)
+    exist(timer, crafts, screen, kb, zoom)
 
 
 
 # Simulates
-def exist(timer, crafts, screen, kb):
+def exist(timer, crafts, screen, kb, zoom):
 
     # Keeps track of simulation duration
     simulate = True
 
     # Sun mass
     sun = sc.Actor("sun", c.sun_mass, c.sun_radius)
+    zoom.actors = [sun, crafts[0]]
+    zoom.update_focus()
 
 
     # Simulates a workload for a moment to normalise the timer
@@ -104,7 +108,7 @@ def exist(timer, crafts, screen, kb):
         if timer.real_time.time():
             
             # Draws the screen
-            vis.draw(screen, sun, [sun, crafts[0]], timer)
+            vis.draw(screen, [sun, crafts[0]], timer, zoom)
 
             # Handles keyboard inputs
             simulate = kb()
