@@ -17,12 +17,8 @@ DEBUG = False
 # Then, there was "setup".
 def setup():
 
-    global framerate
-    framerate = clock.Clock(1000 / 60) # Aim for 60 FPS
-
-    global timer
-    timer = clock.Time(c.day)
-
+    # Hanldes real-time and sim-time
+    timer = clock.Time(c.day, 1000 / 60)
 
 
     # Sets up the visuals
@@ -58,12 +54,12 @@ def setup():
 
 
     # Simulates
-    exist([test_craft], screen)
+    exist(timer, [test_craft], screen)
 
 
 
 # Simulates
-def exist(crafts, screen):
+def exist(timer, crafts, screen):
 
     # Keeps track of simulation duration
     simulate = True
@@ -96,11 +92,8 @@ def exist(crafts, screen):
         # Performs a debug printout
         debug(sim_time, crafts, [sun])
 
-
-
         # Does a step of drawing
-        simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate, sim_time)
-
+        simulate = vis.draw(screen, sun, [sun, crafts[0]], timer)
 
 
 
