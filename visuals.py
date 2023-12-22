@@ -182,7 +182,7 @@ def draw_axis(screen):
 
 def draw_scale(screen, zoom, scale):
 
-    log_scale = int(np.log10(zoom.zoom()))
+    log_scale = int(np.log10(float(zoom.zoom())))
     
     # Iterates over both the current order and within one order
     for order in range(log_scale - 1, log_scale + 1):
