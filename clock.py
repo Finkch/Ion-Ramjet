@@ -1,5 +1,6 @@
 # Handles time for framerate
 import time as t
+import numpy as np
 
 class Clock:
     def __init__(self, goal = -1, length = 10):
@@ -126,9 +127,6 @@ class Time:
         # Tracks actual uptime
         self.real_time = Clock(goal)
 
-        # How many times faster than real time it should simulate
-        self.rate = rate
-
         # Does the work of ensuring the system stays on track;
         # Handles real-time to sim-time conversion
         self.timer = DynamicClock(rate)
@@ -147,8 +145,7 @@ class Time:
     
     # Updates the rate and sets the goal
     def update_rate(self):
-        self.rate = self.scale * 10 ** self.order
-        self.timer.change_goal(self.rate)
+        self.timer.change_goal(self.scale * 10 ** self.order)
     
     # Increases the simulatoin rate
     def faster(self):
