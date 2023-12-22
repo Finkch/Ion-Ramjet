@@ -118,7 +118,7 @@ class Vector:
 
 
 # Describes the orientation in space
-class orientation:
+class Orientation:
     def __init__(self):
 
         # Default orientation is based on the starting position
@@ -134,7 +134,7 @@ class orientation:
 
     
 # Holds position, velocity, and acceleration
-class spacetime:
+class Spacetime:
     def __init__(self):
 
         self.time = 0

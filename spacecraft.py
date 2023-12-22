@@ -16,7 +16,7 @@ from util import *
 class Actor(object):
     def __init__(self, name, mass, radius):
 
-        self.spacetime = v.spacetime()
+        self.spacetime = v.Spacetime()
 
         self.mass = mass
 
@@ -71,7 +71,7 @@ class Actor(object):
 class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        self.orientation = v.orientation()
+        self.orientation = v.Orientation()
 
         # Creates the craft from the components
         self.core_mass = core_mass
