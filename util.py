@@ -55,7 +55,7 @@ def dif(a, b):
 
 
 class Orders:
-    def __init__(self, initial, step_size = 0, digits = 1):
+    def __init__(self, initial, step_size = 1, digits = 1):
         self.step_size = step_size
         self.digits = digits if digits < 9 else 9 # Enforces an upper limit on digits
         self.set_order(initial)
@@ -93,7 +93,7 @@ class Orders:
     def decrease(self):
         
         # Descreases scale
-        self.scale -= 1
+        self.scale -= self.step_size
 
         # Handles boundry change
         if self.scale <= 0:
