@@ -10,6 +10,8 @@ class Keyboard:
         self.keys = {
             'up': {'count': 0, 'type': pygame.K_UP}, 
             'down': {'count': 0, 'type': pygame.K_DOWN},
+            'left': {'count': 0, 'type': pygame.K_LEFT},
+            'right': {'count': 0, 'type': pygame.K_RIGHT},
             'return': {'count': 0, 'type': pygame.K_RETURN},
             'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
         }
@@ -67,10 +69,9 @@ class Keyboard:
     def held_keys(self):
         keys = pygame.key.get_pressed()
         
-        self.update_key(keys, 'up')
-        self.update_key(keys, 'down')
-        self.update_key(keys, 'return')
-        self.update_key(keys, 'rshift')
+        # Updates all key status
+        for key in self.keys.keys():
+            self.update_key(keys, key)
 
 
     # Updates a key's held-down count
