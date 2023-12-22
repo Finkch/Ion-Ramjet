@@ -21,7 +21,7 @@ def setup():
     # Hanldes real-time and sim-time
     #   Initial simulation rate
     #   Framerate
-    timer = clock.Time(1, 1000 / 60)
+    timer = clock.Time(1e5, 1000 / 60)
 
 
     # Sets up the visuals
@@ -51,7 +51,7 @@ def setup():
 
     # Some initial movement
     test_craft.spacetime.position = v.Vector(c.au, 0, 0)
-    #test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
+    test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
     
     test_craft.orientation.goto(test_craft.pos())
 
