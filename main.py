@@ -13,17 +13,12 @@ import numpy as np
 # Should debug printout
 DEBUG = False
 
-TIME_STEP = c.day
-
 # First, there was nothing.
 # Then, there was "setup".
 def setup():
 
-    global framerate
-    framerate = clock.Clock(1000 / 60) # Aim for 60 FPS
-    global real_time
-    real_time = clock.Clock(1000 / 60) # Max one sim step per millisecond
-
+    # Hanldes real-time and sim-time
+    timer = clock.Time(c.day, 1000 / 60)
 
 
     # Sets up the visuals
@@ -59,41 +54,46 @@ def setup():
 
 
     # Simulates
-    exist(TIME_STEP, [test_craft], screen)
+    exist(timer, [test_craft], screen)
 
 
 
 # Simulates
-def exist(time_step, crafts, screen):
-    
-    # Keeps track of timulation time
-    time = 0
-    steps = 0
+def exist(timer, crafts, screen):
 
     # Keeps track of simulation duration
     simulate = True
 
     # Sun mass
     sun = sc.Actor("sun", c.sun_mass, c.sun_radius)
-    
+
+
+    # Simulates a workload for a moment to normalise the timer
+    timer.real_time.stamp()
+    while timer.real_time.dif() < 100:
+        timer.timer.time()
+        g.easy_gravity([sun], crafts)
+        sun.spacetime.acceleration = v.Vector()
+        for craft in crafts:
+            craft.spacetime.acceleration = v.Vector()
+
+
 
     # Simulates
     while simulate:
 
-        if real_time.time():
-            # Performs one stpe
-            step(time_step, crafts, [sun])
+        # Gets the sim time for this step
+        time_step = timer()
+        sim_time = timer.sim_time
 
-            # Performs a debug printout
-            debug(time, crafts, [sun])
+        # Performs one stpe
+        step(time_step, crafts, [sun])
 
-            # Tracks uptime
-            time += time_step
-            steps += 1
-
+        # Performs a debug printout
+        debug(sim_time, crafts, [sun])
 
         # Does a step of drawing
-        simulate = vis.draw(screen, sun, [sun, crafts[0]], framerate, time)
+        simulate = vis.draw(screen, sun, [sun, crafts[0]], timer)
 
 
 

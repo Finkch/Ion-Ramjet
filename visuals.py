@@ -44,19 +44,19 @@ def init_visuals(width, height):
 
 
 # Checks whether enough time has passed to perform a draw
-def should_draw(framerate_clock):
-    return framerate_clock.time()
+def should_draw(timer):
+    return timer.real_time.time()
 
 
 
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, focus, actors, framerate_clock, sim_time):
+def draw(screen, focus, actors, timer):
     
     # Limits the framerate
-    if not should_draw(framerate_clock):
+    if not should_draw(timer):
         return True
-
+    
 
     # Clears screen to black
     screen.fill("black")
@@ -80,7 +80,7 @@ def draw(screen, focus, actors, framerate_clock, sim_time):
     draw_actors(screen, focus, actors, scale)
 
     # Adds a readout for the current sim time
-    draw_time(screen, sim_time)
+    draw_time(screen, timer.sim_time)
 
     # Draws some craft informatiom
     draw_craft_readout(screen, [actors[1]])
