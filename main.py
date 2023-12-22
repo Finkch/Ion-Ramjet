@@ -59,7 +59,7 @@ def setup():
 
     crafts = [test_craft]
 
-    zoom = z.Zoom(c.au, timer, crafts)
+    zoom = z.Zoom(1.5e11, timer, crafts)
     kb = keyboard.Keyboard(timer, zoom, crafts)
 
     # Simulates
