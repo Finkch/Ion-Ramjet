@@ -8,7 +8,7 @@ class Keyboard:
 
 
     # Handles accepting input and performing an action
-    def __call__(self, timer, crafts):
+    def __call__(self):
         keys = pygame.key.get_pressed()
         print(keys)
 
