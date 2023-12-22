@@ -43,20 +43,10 @@ def init_visuals(width, height):
     return screen
 
 
-# Checks whether enough time has passed to perform a draw
-def should_draw(framerate_clock):
-    return framerate_clock.time()
-
-
-
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, focus, actors, framerate_clock, sim_time):
+def draw(screen, focus, actors, timer):
     
-    # Limits the framerate
-    if not should_draw(framerate_clock):
-        return True
-
 
     # Clears screen to black
     screen.fill("black")
@@ -80,17 +70,13 @@ def draw(screen, focus, actors, framerate_clock, sim_time):
     draw_actors(screen, focus, actors, scale)
 
     # Adds a readout for the current sim time
-    draw_time(screen, sim_time)
+    draw_time(screen, timer)
 
     # Draws some craft informatiom
     draw_craft_readout(screen, [actors[1]])
 
     # Draws
     pygame.display.flip()
-
-    # Looks through pygame's events
-    #   Used only for game_exit
-    return handle_pygame()
     
 
 # Draws the actors
@@ -199,11 +185,14 @@ def render_text_column(screen, strings, position, down = True):
 
 
 # Adds a time readout
-def draw_time(screen, sim_time):
+def draw_time(screen, timer):
 
-    # Sets up the strings to render
-    render_text(screen, readable_time(sim_time), [0, 0])
+    # Renders the time
+    render_text(screen, readable_time(timer.sim_time), [0, 0])
 
+    # Renders the current sim rate
+    render_text(screen, f'{timer.timer.goal:.0e}', [0, STRING_PADDING * 3 / 2])
+    
 
 # Adds some of craft information readout
 def draw_craft_readout(screen, crafts):
@@ -295,11 +284,3 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the ticks on the y-axis
     #   NOTE! Only works if the screen is a square
     pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
-
-
-# Checks for a quit event
-def handle_pygame():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return False
-    return True

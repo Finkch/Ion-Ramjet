@@ -1,5 +1,6 @@
 # Handles time for framerate
 import time as t
+import numpy as np
 
 class Clock:
     def __init__(self, goal = -1, length = 10):
@@ -8,7 +9,8 @@ class Clock:
         self.start = self()
 
         # Two initial pushes prevent peek errors
-        self.time_stamps = [self.start for i in range(length)]
+        self.time_stamps = [self.start]
+        self.difs = []
 
         self.length = length
 
@@ -23,23 +25,29 @@ class Clock:
     # Pushes the current time to the queue
     def stamp(self, offset = 0):
 
+        time = self()
+
         # Pushes item to the front
-        self.time_stamps.insert(0, self())
+        self.difs.insert(0, time - self.time_stamps[0])
+        self.time_stamps.insert(0, time)
+            
 
         # Prevents the list from growing too long
-        self.time_stamps.pop(-1)
+        if len(self.time_stamps) > self.length:
+            self.time_stamps.pop(-1)
+            self.difs.pop(-1)
 
     # Looks at the most recent item
     def peek(self, i = 0):
-        if i >= self.length:
+        if i >= len(self.time_stamps) - 1:
             return -1
         return self.time_stamps[i]
     
     # Look at the difference between the most recent two
     def peek_dif(self, i = 0):
-        if i >= self.length - 1:
+        if i >= len(self.difs) - 1:
             return -1
-        return self.peek(i) - self.peek(i + 1)
+        return self.difs[i]
 
     # Returns the time since the previous stamp
     def dif(self):
@@ -60,7 +68,6 @@ class Clock:
         # If the goal was hit, perform a timestamp
         if hit_goal:
             self.stamp()
-            
 
         # Returns whether the goal was hit
         return hit_goal
@@ -69,3 +76,104 @@ class Clock:
     #   Despite the name, also is the undertime
     def overtime(self):
         return self.peek_dif() - self.goal
+
+
+# A dynamic clock aims to create some rate (it's goal) based on the frequency of stamps
+class DynamicClock(Clock):
+    def __init__(self, goal):
+        super().__init__(goal, 1) # Converts goal from seconds to milliseconds
+
+        # Starts the average at the goal
+        self.average_fps = 0
+
+        # Sets the length so that the stamp array starts with only 1 item
+        self.length = 20
+
+    # Changes the current goal of this timer
+    def change_goal(self, goal):
+
+        # Updates goal
+        self.goal = goal
+
+        # Removes all stamps but the most recent.
+        # Different bounds ensures the sizes remain constant
+        self.time_stamps = self.time_stamps[:2]
+        self.difs = self.difs[:1]
+
+    # Returns the correct amount of simulation time to match the goal's pace
+    def time(self):
+        self.stamp()
+
+        # Mean time per simulation step in seconds
+        self.average_fps = sum(self.difs) / len(self.difs) / 1000
+
+        if self.average_fps == 0:
+            return 0
+
+        return self.goal * self.average_fps
+    
+
+
+# Handles time and steps
+class Time:
+    def __init__(self, rate, goal):
+        
+        # Simulation steps taken
+        self.steps = 0
+        
+        # Tracks simulation time
+        self.sim_time = 0
+
+        # Tracks actual uptime
+        self.real_time = Clock(goal)
+
+        # Does the work of ensuring the system stays on track;
+        # Handles real-time to sim-time conversion
+        self.timer = DynamicClock(rate)
+
+        # Allows for easier transitions between rates scales
+        # Sets the initial values based on the rate argument
+        self.scale = int(str(rate)[:1])
+        self.order = int(np.log10(rate))
+
+    # Calling this class steps forward once
+    def __call__(self):
+        time = self.timer.time()
+        self.steps += 1
+        self.sim_time += time
+
+        return time
+    
+    # Updates the rate and sets the goal
+    def update_rate(self):
+        self.timer.change_goal(self.scale * 10 ** self.order)
+    
+    # Increases the simulatoin rate
+    def faster(self):
+
+        # Increases scale
+        self.scale += 1
+
+        # Hanlde boundry changes
+        if self.scale == 10:
+            self.scale = 1
+            self.order += 1
+
+        # Updates the rate
+        self.update_rate()
+
+
+    # Descreases the simulation rate
+    def slower(self):
+        
+        # Descreases scale
+        self.scale -= 1
+
+        # Handles boundry change
+        if self.scale == 0:
+            self.scale = 9
+            self.order -= 1
+
+        # Updates the rate
+        self.update_rate()
+
