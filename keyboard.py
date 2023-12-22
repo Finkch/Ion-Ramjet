@@ -35,8 +35,14 @@ class Keyboard:
             
             # Hanldes specific key events
             elif event.type == pygame.KEYDOWN:
+                
+                # Exits
                 if event.key == pygame.K_ESCAPE:
                     return False
+                
+                # Pauses
+                elif event.key == pygame.K_SPACE:
+                    self.timer.pause()
             
 
         # Handles inputs
