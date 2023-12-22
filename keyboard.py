@@ -9,7 +9,9 @@ class Keyboard:
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
             'up': {'count': 0, 'type': pygame.K_UP}, 
-            'down': {'count': 0, 'type': pygame.K_DOWN}
+            'down': {'count': 0, 'type': pygame.K_DOWN},
+            'return': {'count': 0, 'type': pygame.K_RETURN},
+            'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
         }
 
         # Parameters for repeated inputs on button being held down
@@ -43,6 +45,12 @@ class Keyboard:
 
         if self.held('down'):
             self.timer.slower()
+
+        if self.held('return'):
+            self.timer.fasterer()
+
+        if self.held('rshift'):
+            self.timer.slowerer()
             
 
 
@@ -55,6 +63,8 @@ class Keyboard:
         
         self.update_key(keys, 'up')
         self.update_key(keys, 'down')
+        self.update_key(keys, 'return')
+        self.update_key(keys, 'rshift')
 
 
     # Updates a key's held-down count
