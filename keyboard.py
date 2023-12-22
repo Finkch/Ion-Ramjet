@@ -2,8 +2,9 @@
 import pygame
 
 class Keyboard:
-    def __init__(self, timer, crafts):
+    def __init__(self, timer, zoom, crafts):
         self.timer = timer
+        self.zoom = zoom
         self.crafts = crafts
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
