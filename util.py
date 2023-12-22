@@ -55,14 +55,21 @@ def dif(a, b):
 
 
 class Orders:
-    def __init__(self, initial):
+    def __init__(self, initial, step_size = 0, digits = 1):
+        self.step_size = step_size
+        self.digits = digits if digits < 9 else 9 # Enforces an upper limit on digits
         self.set_order(initial)
 
     # Given a number, extract the scale and the order
     def set_order(self, num):
-        self.scale = int(str(num)[:1])
+
+        # Extracts the leading digits
+        self.scale = float(f'{num:.8e}'[:1 if self.digits == 1 else self.digits + 1]) # Accounts for the peroid
+        
+        # Extracts the order of magnitude
         self.order = int(np.log10(num))
 
+    # Returns the number the order represents
     def get_order(self):
         return self.scale * 10 ** self.order
 
@@ -71,7 +78,7 @@ class Orders:
     def increase(self):
 
         # Increases scale
-        self.scale += 1
+        self.scale += self.step_size
 
         # Hanlde boundry changes
         if self.scale >= 10:
@@ -90,7 +97,7 @@ class Orders:
 
         # Handles boundry change
         if self.scale <= 0:
-            self.scale = 9
+            self.scale = 10 - self.step_size
             self.order -= 1
 
     # Significantly decreases the goal
