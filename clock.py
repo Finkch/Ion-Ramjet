@@ -1,6 +1,7 @@
 # Handles time for framerate
 import time as t
 import numpy as np
+from util import *
 
 class Clock:
     def __init__(self, goal = -1, length = 10):
@@ -205,3 +206,11 @@ class Time:
             self.timer.goal = 0
         else:
             self.update_rate()
+
+    # Gets a string prinout
+    def get_printout(self):
+        return [
+            readable_time(self.sim_time),
+            f'{self.rate():.0e}x',
+            'Paused' if self.paused else ''
+        ]
