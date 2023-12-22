@@ -6,10 +6,22 @@ class Keyboard:
         self.timer = timer
         self.crafts = crafts
 
+        self.keys = {
+            'up': {'count': 0, 'type': pygame.K_UP}, 
+            'down': {'count': 0, 'type': pygame.K_DOWN}
+        }
+
+        self.delay = 45
+        self.repeat = 15
+
 
     # Handles accepting input and performing an action
     def __call__(self):
+
+        # Polls currently pressed keys
+        self.held_keys()
         
+
         # Looks through pygame events
         for event in pygame.event.get():
             
@@ -17,15 +29,34 @@ class Keyboard:
             if event.type == pygame.QUIT:
                 return False
             
-            # Handles keyboard inputs
-            if event.type == pygame.KEYDOWN:
-                
-                # Adjust time
-                if event.key == pygame.K_UP:
-                    self.timer.faster()
 
-                if event.key == pygame.K_DOWN:
-                    self.timer.slower()
+        # Handles inputs
+        if self.held('up'):
+            self.timer.faster()
+
+        if self.held('down'):
+            self.timer.slower()
             
+
+
         # Returns simulation status
         return True
+
+    # Update keys held
+    def held_keys(self):
+        keys = pygame.key.get_pressed()
+        
+        self.update_key(keys, 'up')
+        self.update_key(keys, 'down')
+
+
+    # Updates a key's held-down count
+    def update_key(self, keys, key):
+        if keys[self.keys[key]['type']]:
+            self.keys[key]['count'] += 1
+        else:
+            self.keys[key]['count'] = 0
+    
+    # Gets whether holding down a key should return True
+    def held(self, key):
+        return self.keys[key]['count'] == 1 or (self.keys[key]['count'] >= self.delay and self.keys[key]['count'] % self.repeat == 0)
