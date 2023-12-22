@@ -35,6 +35,9 @@ class Keyboard:
 
         # Polls currently pressed keys
         self.held_keys()
+
+        # Performs the actions associated with the key presses
+        self.perform_inputs()
         
 
         # Looks through pygame events
@@ -56,15 +59,19 @@ class Keyboard:
                     self.timer.pause()
             
 
-        # Handles inputs
-        for key in self.keys.keys():
-            if self.keys[key]['type'](key):
-                self.keys[key]['function']()
             
 
 
         # Returns simulation status
         return True
+    
+
+
+    # Handles inputs
+    def perform_inputs(self):
+        for key in self.keys.keys():
+            if self.keys[key]['type'](key):     # Checks if the key is held or pressed
+                self.keys[key]['function']()    # Performs the function associated with this key
 
     # Update keys held
     def held_keys(self):
