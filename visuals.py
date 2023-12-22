@@ -80,6 +80,29 @@ def draw(screen, actors, timer, zoom):
 
 
 
+# Checks if the position is within the screen
+def onscreen(position, offset = 0):
+    
+    # Gets the padded bounds
+    x_bounds = [WIDTH * (1 - PADDING), WIDTH * PADDING]
+    y_bounds = [HEIGHT * (1 - PADDING), HEIGHT * PADDING]
+
+    # Checks the bounds and the offset
+    if offset != 0:
+        return (
+                in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
+            ) or (
+                in_bounds(position[0], x_bounds, offset) and in_bounds(position[1], y_bounds, offset)
+            )
+    
+    # Checks just the bounds
+    return in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
+
+# Checks for one axis whether it is within the specified bounds
+def in_bounds(position, bounds, offset = 0):
+    return position + offset > bounds[0] and position - offset < bounds[1]
+
+
 
 # Renders a single bit of text
 def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
