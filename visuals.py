@@ -80,10 +80,48 @@ def draw(screen, actors, timer, zoom):
 
 
 
+# Checks if the position is within the screen
+def onscreen(position, offset = 0):
+    
+    # Gets the padded bounds
+    x_bounds = [WIDTH * (1 - PADDING), WIDTH * PADDING]
+    y_bounds = [HEIGHT * (1 - PADDING), HEIGHT * PADDING]
+
+    # Checks the bounds and the offset
+    if offset != 0:
+        return (
+                in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
+            ) or (
+                in_bounds(position[0], x_bounds, offset) and in_bounds(position[1], y_bounds, offset)
+            )
+    
+    # Checks just the bounds
+    return in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
+
+# Checks for one axis whether it is within the specified bounds
+def in_bounds(position, bounds, offset = 0):
+    return position + offset > bounds[0] and position - offset < bounds[1]
+
+
+
+# Draws a circle
+def circle(screen, position, radius, colour = 'white'):
+    if onscreen(position, radius):
+        pygame.draw.circle(screen, colour, position, radius)
+
+# Draws a line
+def line(screen, start, stop, colour = 'white', width = 1):
+    if onscreen(start) or onscreen(stop):
+        pygame.draw.line(screen, colour, start, stop, width = width)
 
 # Renders a single bit of text
-def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
+def text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
+
+    # Don't draw if the text is offscreen
+    if not onscreen(position):
+        return
+
     # 'Fixes' scientific notation
     string = string.replace("e+", "e")
 
@@ -113,7 +151,7 @@ def render_text(screen, string, position, pad = True, size = 'medium', colour = 
         
 
 # Renders a column of text in rows as specified by strings
-def render_text_column(screen, strings, position, pad = True, down = True, left = True):
+def text_column(screen, strings, position, pad = True, down = True, left = True):
     
     # Gets the correct amount of padding
     padding = PIXEL_PADDING
@@ -132,7 +170,7 @@ def render_text_column(screen, strings, position, pad = True, down = True, left 
             draw_at[1] = position[1] - padding - (len(strings) - i) * STRING_PADDING
 
         # Renders the text row
-        render_text(screen, strings[i], draw_at, pad = False, left = left)
+        text(screen, strings[i], draw_at, pad = False, left = left)
 
 
 
@@ -140,8 +178,8 @@ def render_text_column(screen, strings, position, pad = True, down = True, left 
 
 # Draws two orthogonal lines for the axis
 def draw_axis(screen):
-    pygame.draw.line(screen, GREY4, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2))
-    pygame.draw.line(screen, GREY4, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING))
+    line(screen, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2), GREY4)
+    line(screen, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING), GREY4)
 
 def draw_scale(screen, zoom, scale):
 
@@ -166,10 +204,10 @@ def draw_scale(screen, zoom, scale):
     
 
     # Draws the current scale
-    pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
-    pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
+    line(screen, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16), GREY2)
+    line(screen, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING), GREY2)
 
-    render_text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
+    text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 
 
@@ -213,14 +251,14 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the major ticks
     if i == 10:
         height *= 3
-        render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
+        text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
 
     # Draws the minor ticks
-    pygame.draw.line(screen, col, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height))
+    line(screen, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height), col)
 
     # Draws the ticks on the y-axis
     #   NOTE! Only works if the screen is a square
-    pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
+    line(screen, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos), col)
 
 
 
@@ -240,7 +278,7 @@ def draw_actors(screen, zoom, actors, scale):
 
         # Draws the shape
         pixel_position = (((actor.pos() - zoom.focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
-        pygame.draw.circle(screen, "white", pixel_position, radius)
+        circle(screen, pixel_position, radius)
 
         # Draws labels on each actor
         draw_labels(screen, actor, pixel_position, radius)
@@ -255,7 +293,7 @@ def draw_actors(screen, zoom, actors, scale):
                     pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
                 )
 
-            pygame.draw.circle(screen, "white", indicator, radius / 2)
+            circle(screen, indicator, radius / 2)
 
 
 # Labels an actor
@@ -268,10 +306,10 @@ def draw_labels(screen, actor, pixel_position, radius):
     distance = 6
 
     # Renders the name of the actor
-    render_text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
+    text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
 
     # Draws a line from the text to the actor
-    pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
+    line(screen, (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
 
 
@@ -280,7 +318,7 @@ def draw_labels(screen, actor, pixel_position, radius):
 def draw_time(screen, timer):
 
     # Renders timer readout
-    render_text_column(screen, timer.get_printout(), [0, 0])
+    text_column(screen, timer.get_printout(), [0, 0])
     
 
 # Adds some of craft information readout
@@ -288,7 +326,7 @@ def draw_craft_readout(screen, crafts):
     craft = crafts[0]
 
     # Renders the text into a column
-    render_text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
+    text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
 
 
 # Adds some performance metrics
@@ -300,4 +338,4 @@ def draw_performance(screen, timer):
         f'{timer.timer.goal * timer.timer.get_average_difs():.02e} stp'
     ]
 
-    render_text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
+    text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
