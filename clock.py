@@ -133,7 +133,7 @@ class Time:
 
     # Calling this class steps forward once
     def __call__(self):
-        time = self.timer()
+        time = self.timer.time()
         self.steps += 1
         self.sim_time += time
 
