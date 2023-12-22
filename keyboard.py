@@ -12,7 +12,7 @@ class Keyboard:
         }
 
         self.delay = 45
-        self.repeat = 15
+        self.repeat = 5
 
 
     # Handles accepting input and performing an action
