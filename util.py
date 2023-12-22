@@ -58,10 +58,12 @@ def dif(a, b):
 
 # Tracks orders of magnitude and changing between them
 class Orders:
-    def __init__(self, initial, step_size = 1, digits = 1):
+    def __init__(self, initial, step_size = 1, digits = 1, minimum = -50, maximum = 150):
         self.step_size = step_size
         self.digits = digits if digits < 9 else 9 # Enforces an upper limit on digits
         self.set_order(initial)
+        self.minimum = minimum
+        self.maximum = maximum
 
     # Given a number, extract the scale and the order
     def set_order(self, num):
@@ -85,12 +87,22 @@ class Orders:
 
         # Hanlde boundry changes
         if self.scale >= 10:
-            self.scale = 1
-            self.order += 1
+            if self.increase_order():
+                self.scale = 1
+            else:
+                self.scale -= self.step_size * multiplier
+            
     
     # Significantly increases the goal
     def increase_order(self):
+
+        # Prevents the order from going above the maximum
+        if self.order >= self.maximum:
+            self.order = self.maximum
+            return False
+        
         self.order += 1
+        return True
 
     # Descreases the simulation rate
     def decrease(self, multiplier = 1):
@@ -100,10 +112,19 @@ class Orders:
 
         # Handles boundry change
         if self.scale < 1:
-            self.scale = 10 - self.step_size
-            self.order -= 1
+            if self.decrease_order():
+                self.scale = 10 - self.step_size
+            else:
+                self.scale = 1
 
     # Significantly decreases the goal
     def decrease_order(self):
+
+        # Prevents going below the minimum
+        if self.order <= self.minimum:
+            self.order = self.minimum
+            return False
+        
         self.order -= 1
+        return True
 
