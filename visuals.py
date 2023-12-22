@@ -117,6 +117,11 @@ def line(screen, start, stop, colour = 'white', width = 1):
 # Renders a single bit of text
 def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
+
+    # Don't draw if the text is offscreen
+    if not onscreen(position):
+        return
+
     # 'Fixes' scientific notation
     string = string.replace("e+", "e")
 
