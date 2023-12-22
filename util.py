@@ -54,6 +54,9 @@ def dif(a, b):
     return hypo(a - b)
 
 
+
+
+# Tracks orders of magnitude and changing between them
 class Orders:
     def __init__(self, initial, step_size = 1, digits = 1):
         self.step_size = step_size
