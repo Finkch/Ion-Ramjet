@@ -9,17 +9,21 @@ class Keyboard:
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
-            'up': {'count': 0, 'type': pygame.K_UP}, 
-            'down': {'count': 0, 'type': pygame.K_DOWN},
-            'right': {'count': 0, 'type': pygame.K_RIGHT},
-            'left': {'count': 0, 'type': pygame.K_LEFT},
-            'return': {'count': 0, 'type': pygame.K_RETURN},
-            'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
-            'quote': {'count': 0, 'type': pygame.K_QUOTE},
-            'slash': {'count': 0, 'type': pygame.K_SLASH},
-            'semicolon': {'count': 0, 'type': pygame.K_SEMICOLON},
-            'period': {'count': 0, 'type': pygame.K_PERIOD},
+            'up':           {'count': 0, 'key': pygame.K_UP,           'type': self.pressed,    'function': self.timer.fasterer}, 
+            'down':         {'count': 0, 'key': pygame.K_DOWN,         'type': self.pressed,    'function': self.timer.slowerer}, 
+            'right':        {'count': 0, 'key': pygame.K_RIGHT,        'type': self.pressed,    'function': self.timer.faster}, 
+            'left':         {'count': 0, 'key': pygame.K_LEFT,         'type': self.pressed,    'function': self.timer.slower}, 
+            'return':       {'count': 0, 'key': pygame.K_RETURN,       'type': self.held,       'function': self.zoom.decrease}, 
+            'rshift':       {'count': 0, 'key': pygame.K_RSHIFT,       'type': self.held,       'function': self.zoom.increase}, 
+            'quote':        {'count': 0, 'key': pygame.K_QUOTE,        'type': self.pressed,    'function': self.zoom.decrease_order}, 
+            'slash':        {'count': 0, 'key': pygame.K_SLASH,        'type': self.pressed,    'function': self.zoom.increase_order}, 
+            'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,    'type': self.pressed,    'function': self.zoom.next}, 
+            'period':       {'count': 0, 'key': pygame.K_PERIOD,       'type': self.pressed,    'function': self.zoom.previous}, 
         }
+
+        # Parameters for repeated inputs on button being held down
+        self.delay = 45
+        self.repeat = 5
 
         # Parameters for repeated inputs on button being held down
         self.delay = 45
@@ -31,6 +35,9 @@ class Keyboard:
 
         # Polls currently pressed keys
         self.held_keys()
+
+        # Performs the actions associated with the key presses
+        self.perform_inputs()
         
 
         # Looks through pygame events
@@ -52,41 +59,19 @@ class Keyboard:
                     self.timer.pause()
             
 
-        # Handles inputs
-        if self.pressed('up'):
-            self.timer.faster()
-
-        if self.pressed('down'):
-            self.timer.slower()
-
-        if self.pressed('right'):
-            self.zoom.next()
-
-        if self.pressed('left'):
-            self.zoom.previous()
-
-        if self.held('quote'):
-            self.zoom.increase()
-        
-        if self.held('slash'):
-            self.zoom.decrease()
-
-        if self.pressed('semicolon'):
-            self.zoom.increase_order()
-
-        if self.pressed('period'):
-            self.zoom.decrease_order()
-
-        if self.pressed('return'):
-            self.timer.fasterer()
-
-        if self.pressed('rshift'):
-            self.timer.slowerer()
             
 
 
         # Returns simulation status
         return True
+    
+
+
+    # Handles inputs
+    def perform_inputs(self):
+        for key in self.keys.keys():
+            if self.keys[key]['type'](key):     # Checks if the key is held or pressed
+                self.keys[key]['function']()    # Performs the function associated with this key
 
     # Update keys held
     def held_keys(self):
@@ -99,7 +84,7 @@ class Keyboard:
 
     # Updates a key's held-down count
     def update_key(self, keys, key):
-        if keys[self.keys[key]['type']]:
+        if keys[self.keys[key]['key']]:
             self.keys[key]['count'] += 1
         else:
             self.keys[key]['count'] = 0
