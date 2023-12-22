@@ -6,11 +6,13 @@ class Keyboard:
         self.timer = timer
         self.crafts = crafts
 
+        # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
             'up': {'count': 0, 'type': pygame.K_UP}, 
             'down': {'count': 0, 'type': pygame.K_DOWN}
         }
 
+        # Parameters for repeated inputs on button being held down
         self.delay = 45
         self.repeat = 5
 
