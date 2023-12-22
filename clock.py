@@ -149,9 +149,14 @@ class Time:
 
         return time
     
+    # Returns the current rate
+    def rate(self):
+        return self.scale * 10 ** self.order
+
     # Updates the rate and sets the goal
     def update_rate(self):
-        self.timer.change_goal(self.scale * 10 ** self.order)
+        self.timer.change_goal(self.rate())
+        self.paused = False
     
     # Increases the simulatoin rate
     def faster(self):
