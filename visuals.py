@@ -4,7 +4,8 @@ from util import *
 import numpy as np
 import spacecraft as sc
 
-MIN_SIZE = c.au
+#MIN_SIZE = c.au
+MIN_SIZE = 0
 MIN_RADIUS = 2
 PADDING = 1.2
 PIXEL_PADDING = 10
