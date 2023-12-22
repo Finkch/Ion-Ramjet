@@ -133,10 +133,13 @@ class Time:
         # Handles real-time to sim-time conversion
         self.timer = DynamicClock(rate)
 
-        # Allows for easier transitions between rates scales
+        # Allows for easier transitions between rates scales.
         # Sets the initial values based on the rate argument
         self.scale = int(str(rate)[:1])
         self.order = int(np.log10(rate))
+
+        # If the simulation is paused
+        self.paused = False
 
     # Calling this class steps forward once
     def __call__(self):
@@ -188,3 +191,12 @@ class Time:
         self.order -= 1
         self.update_rate()
 
+    # Toggles pause
+    def pause(self):
+        self.paused = not self.paused
+        
+        # Updates the goal so sim-time doesn't increase when paused
+        if self.paused:
+            self.timer.goal = 0
+        else:
+            self.update_rate()
