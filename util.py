@@ -86,7 +86,7 @@ class Orders:
         # Hanlde boundry changes
         if self.scale >= 10:
             self.scale = 1
-            self.order += 1
+            self.increase_order()
     
     # Significantly increases the goal
     def increase_order(self):
@@ -101,7 +101,7 @@ class Orders:
         # Handles boundry change
         if self.scale < 1:
             self.scale = 10 - self.step_size
-            self.order -= 1
+            self.decrease_order()
 
     # Significantly decreases the goal
     def decrease_order(self):
