@@ -88,10 +88,15 @@ class DynamicClock(Clock):
         # Sets the length so that the stamp array starts with only 1 item
         self.length = 20
 
-    def change_goal(self):
+    # Changes the current goal of this timer
+    def change_goal(self, goal):
 
-        # Removes all stamps but the most recent
-        self.time_stamps = self.time_stamps[:1]
+        # Updates goal
+        self.goal = goal
+
+        # Removes all stamps but the most recent.
+        # Different bounds ensures the sizes remain constant
+        self.time_stamps = self.time_stamps[:2]
         self.difs = self.difs[:1]
 
     # Returns the correct amount of simulation time to match the goal's pace
