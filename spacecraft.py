@@ -113,7 +113,7 @@ class Spacecraft(Actor):
         return [
             self.name,
             f'phi {self.orientation.phi:.2f}',
-            f'{self.mass:.2e} kg',
+            f'mas {self.mass:.2e} kg',
             f'pos {hypo(self.pos()):.2e} m',
             f'vel {hypo(self.vel()):.2e} m/s',
             f'thr {hypo(self.force_preview):.2e} N'
