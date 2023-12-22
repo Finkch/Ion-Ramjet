@@ -63,6 +63,9 @@ class Orders:
         self.scale = int(str(num)[:1])
         self.order = int(np.log10(num))
 
+    def get_order(self):
+        return self.scale * 10 ** self.order
+
 
     # Increases the simulatoin rate
     def increase(self):
