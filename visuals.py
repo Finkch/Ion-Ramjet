@@ -56,7 +56,7 @@ def draw(screen, actors, timer, zoom):
     # Finds the maximum distance between the crafts and the PoR.
     # This distance is used to scale everything to fit on screen.
     # Extra factor of two is for half the screen
-    scale = WIDTH / (zoom.goal * PADDING) / 2
+    scale = WIDTH / (zoom.zoom() * PADDING) / 2
 
     # Draws the reference axis and ticks
     draw_axis(screen)
@@ -145,7 +145,7 @@ def draw_axis(screen):
 
 def draw_scale(screen, zoom, scale):
 
-    log_scale = int(np.log10(zoom.goal))
+    log_scale = int(np.log10(zoom.zoom()))
     
     # Iterates over both the current order and within one order
     for order in range(log_scale - 1, log_scale + 1):
@@ -169,7 +169,7 @@ def draw_scale(screen, zoom, scale):
     pygame.draw.line(screen, GREY2, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16))
     pygame.draw.line(screen, GREY2, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING))
 
-    render_text(screen, f'{zoom.goal:.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
+    render_text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 
 

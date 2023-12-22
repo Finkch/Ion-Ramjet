@@ -52,3 +52,55 @@ def readable_time(time):
 # Calculates the diference between vectors
 def dif(a, b):
     return hypo(a - b)
+
+
+class Orders:
+    def __init__(self, initial, step_size = 1, digits = 1):
+        self.step_size = step_size
+        self.digits = digits if digits < 9 else 9 # Enforces an upper limit on digits
+        self.set_order(initial)
+
+    # Given a number, extract the scale and the order
+    def set_order(self, num):
+
+        # Extracts the leading digits
+        self.scale = float(f'{num:.8e}'[:1 if self.digits == 1 else self.digits + 1]) # Accounts for the peroid
+        
+        # Extracts the order of magnitude
+        self.order = int(np.log10(num))
+
+    # Returns the number the order represents
+    def get_order(self):
+        return self.scale * 10 ** self.order
+
+
+    # Increases the simulatoin rate
+    def increase(self, multiplier = 1):
+
+        # Increases scale
+        self.scale += self.step_size * multiplier
+
+        # Hanlde boundry changes
+        if self.scale >= 10:
+            self.scale = 1
+            self.order += 1
+    
+    # Significantly increases the goal
+    def increase_order(self):
+        self.order += 1
+
+    # Descreases the simulation rate
+    def decrease(self, multiplier = 1):
+        
+        # Descreases scale
+        self.scale -= self.step_size * multiplier
+
+        # Handles boundry change
+        if self.scale < 1:
+            self.scale = 10 - self.step_size
+            self.order -= 1
+
+    # Significantly decreases the goal
+    def decrease_order(self):
+        self.order -= 1
+
