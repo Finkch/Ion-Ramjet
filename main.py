@@ -19,8 +19,6 @@ def setup():
 
     global framerate
     framerate = clock.Clock(1000 / 60) # Aim for 60 FPS
-    global real_time
-    real_time = clock.Clock(1000 / 60) # Max one sim step per millisecond
 
     global timer
     timer = clock.Time(c.day)
@@ -75,8 +73,8 @@ def exist(crafts, screen):
 
 
     # Simulates a workload for a moment to normalise the timer
-    real_time.stamp()
-    while real_time.dif() < 100:
+    timer.real_time.stamp()
+    while timer.real_time.dif() < 100:
         timer.timer.time()
         g.easy_gravity([sun], crafts)
         sun.spacetime.acceleration = v.Vector()
