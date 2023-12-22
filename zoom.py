@@ -15,7 +15,7 @@ class Zoom (Orders):
         self.focus = self.actors[self.current]
 
         # Sets initial zoom
-        super().__init__(initial_zoom, 0.01, 3)
+        super().__init__(initial_zoom, 0.05, 3)
 
     # Focuses on the next actor
     def next(self):
