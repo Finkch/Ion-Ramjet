@@ -85,8 +85,10 @@ def draw_actors(screen, focus, actors, scale):
     # Draws each actor
     for actor in actors:
 
-        # Scales the radius a bit; enforces minimum radius
-        radius = actor.shape.radius * np.log10(actor.shape.radius) * scale
+        # Gets the actor's radius
+        radius = actor.shape.radius * scale
+
+        # If the radius is too small to see, scale it to the minimum size
         if radius < MIN_RADIUS:
             radius = MIN_RADIUS
 
