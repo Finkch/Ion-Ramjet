@@ -121,7 +121,7 @@ def render_text(screen, string, position, pad = True, down = True, size = 'mediu
         
 
 # Renders a column of text in rows as specified by strings
-def render_text_column(screen, strings, position, down = True):
+def render_text_column(screen, strings, position, down = True, left = True):
     
     # Iterates over all strings
     draw_at = [None, None]
@@ -136,7 +136,7 @@ def render_text_column(screen, strings, position, down = True):
         
 
         # Renders the text row
-        render_text(screen, strings[i], draw_at, down)
+        render_text(screen, strings[i], draw_at, down = down, left = left)
 
 
 
