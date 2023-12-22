@@ -55,7 +55,7 @@ def draw(screen, actors, timer, zoom):
     # Finds the maximum distance between the crafts and the PoR.
     # This distance is used to scale everything to fit on screen.
     # Extra factor of two is for half the screen
-    scale = WIDTH / (zoom.zoom() * PADDING) / 2
+    scale = (WIDTH - PIXEL_PADDING) / (zoom.zoom()) / 2
 
     # Draws the reference axis and ticks
     draw_axis(screen)
@@ -202,10 +202,11 @@ def draw_scale(screen, zoom, scale):
             draw_tick(screen, i, x_pos, distance)
     
 
-    # Draws the current scale
+    # Caps each axis with a line
     line(screen, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16), GREY2)
     line(screen, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING), GREY2)
 
+    # Prints the current scale
     text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 
