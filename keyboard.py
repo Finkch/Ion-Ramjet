@@ -1,6 +1,6 @@
 # This class handles keyboard inputs
 
-class keyboard:
+class Keyboard:
     def __init__(self):
         pass
 
