@@ -57,35 +57,9 @@ class Keyboard:
             
 
         # Handles inputs
-        if self.pressed('up'):
-            self.timer.faster()
-
-        if self.pressed('down'):
-            self.timer.slower()
-
-        if self.pressed('right'):
-            self.zoom.next()
-
-        if self.pressed('left'):
-            self.zoom.previous()
-
-        if self.held('quote'):
-            self.zoom.increase()
-        
-        if self.held('slash'):
-            self.zoom.decrease()
-
-        if self.pressed('semicolon'):
-            self.zoom.increase_order()
-
-        if self.pressed('period'):
-            self.zoom.decrease_order()
-
-        if self.pressed('return'):
-            self.timer.fasterer()
-
-        if self.pressed('rshift'):
-            self.timer.slowerer()
+        for key in self.keys.keys:
+            if self.keys[key]['type']():
+                self.keys[key]['function']()
             
 
 
