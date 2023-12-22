@@ -71,7 +71,7 @@ class Actor(object):
 class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        self.orientation = orientation()
+        self.orientation = v.orientation()
 
         # Creates the craft from the components
         self.core_mass = core_mass
@@ -118,20 +118,6 @@ class Spacecraft(Actor):
             f'vel {hypo(self.vel()):.2e} m/s',
             f'thr {hypo(self.force_preview):.2e} N'
         ]
-
-
-# Describes the orientation in space
-class orientation:
-    def __init__(self):
-
-        # Default orientation is based on the starting position
-        self.theta = 0
-        self.phi = 0
-    
-    # Orients in the direction of the specified vector
-    def goto(self, vec):
-        self.theta = theta(vec)
-        self.phi = phi(vec)
 
 
 # What produces the thrust

@@ -114,6 +114,21 @@ class Vector:
             return (self.x, self.y)
         else:
             return (self.y, self.z)
+        
+
+
+# Describes the orientation in space
+class orientation:
+    def __init__(self):
+
+        # Default orientation is based on the starting position
+        self.theta = 0
+        self.phi = 0
+    
+    # Orients in the direction of the specified vector
+    def goto(self, vec):
+        self.theta = theta(vec)
+        self.phi = phi(vec)
 
 
 
@@ -154,4 +169,3 @@ class spacetime:
         out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
 
         return out
-    
