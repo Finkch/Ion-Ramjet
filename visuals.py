@@ -284,11 +284,8 @@ def draw_labels(screen, actor, pixel_position, radius):
 # Adds a time readout
 def draw_time(screen, timer):
 
-    # Renders the time
-    render_text(screen, readable_time(timer.sim_time), [0, 0])
-
-    # Renders the current sim rate
-    render_text(screen, f'{timer.rate():.0e}x', [0, STRING_PADDING * 3 / 2])
+    # Renders timer readout
+    render_text_column(screen, timer.get_printout(), [0, 0])
     
 
 # Adds some of craft information readout
