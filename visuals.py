@@ -76,6 +76,9 @@ def draw(screen, focus, actors, timer):
     # Draws some craft informatiom
     draw_craft_readout(screen, [actors[1]])
 
+    # Renders the performance onto the screen
+    draw_performance(screen, timer)
+
     # Draws
     pygame.display.flip()
     
@@ -295,3 +298,14 @@ def draw_craft_readout(screen, crafts):
     # Renders the text into a column
     render_text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
 
+
+# Adds some performance metrics
+def draw_performance(screen, timer):
+
+    strings = [
+        f'{1000 / timer.real_time.get_average_difs():.3f} fps',
+        f'{timer.timer.get_average_difs():.02e} per',
+        f'{timer.timer.goal * timer.timer.get_average_difs():.02e} stp'
+    ]
+
+    render_text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
