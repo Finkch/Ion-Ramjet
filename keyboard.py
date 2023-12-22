@@ -17,6 +17,8 @@ class Keyboard:
             'rshift': {'count': 0, 'type': pygame.K_RSHIFT},
             'quote': {'count': 0, 'type': pygame.K_QUOTE},
             'slash': {'count': 0, 'type': pygame.K_SLASH},
+            'semicolon': {'count': 0, 'type': pygame.K_SEMICOLON},
+            'period': {'count': 0, 'type': pygame.K_PERIOD},
         }
 
         # Parameters for repeated inputs on button being held down
@@ -68,6 +70,12 @@ class Keyboard:
         
         if self.held('slash'):
             self.zoom.decrease()
+
+        if self.pressed('semicolon'):
+            self.zoom.increase_order()
+
+        if self.pressed('period'):
+            self.zoom.decrease_order()
 
         if self.pressed('return'):
             self.timer.fasterer()
