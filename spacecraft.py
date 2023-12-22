@@ -20,7 +20,7 @@ class Actor(object):
 
         self.mass = mass
 
-        self.shape = vis.shape(radius)
+        self.shape = vis.Shape(radius)
 
         # The most crucial part: the name
         self.name = name

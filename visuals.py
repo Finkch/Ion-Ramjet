@@ -17,7 +17,7 @@ GREY4 = (255 // 4, 255 // 4, 255 // 4)
 GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
 # Holds some basic information on how to draw an object
-class shape:
+class Shape:
     def __init__(self, radius):
         self.radius = radius
         self.colour = "white"
