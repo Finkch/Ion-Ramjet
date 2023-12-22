@@ -177,6 +177,7 @@ def draw_scale(screen, max_distance, scale):
 
 
 
+# Draws ticks on the axes
 def draw_tick(screen, i, x_pos, distance):
 
     # Gets parameters of the line
