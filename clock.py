@@ -8,7 +8,7 @@ class Clock:
         self.start = self()
 
         # Two initial pushes prevent peek errors
-        self.time_stamps = [self.start for i in range(length)]
+        self.time_stamps = [self.start]
         self.difs = []
 
         self.length = length
@@ -26,12 +26,10 @@ class Clock:
 
         time = self()
 
-        # Inserts the difference
-        self.difs.insert(0, time - self.time_stamps[0])
-
         # Pushes item to the front
+        self.difs.insert(0, time - self.time_stamps[0])
         self.time_stamps.insert(0, time)
-
+            
 
         # Prevents the list from growing too long
         if len(self.time_stamps) > self.length:
@@ -69,7 +67,6 @@ class Clock:
         # If the goal was hit, perform a timestamp
         if hit_goal:
             self.stamp()
-            
 
         # Returns whether the goal was hit
         return hit_goal
@@ -113,7 +110,7 @@ class DynamicClock(Clock):
 
 # Handles time and steps
 class Time:
-    def __init__(self, rate):
+    def __init__(self, rate, goal):
         
         # Simulation steps taken
         self.steps = 0
@@ -122,7 +119,7 @@ class Time:
         self.sim_time = 0
 
         # Tracks actual uptime
-        self.real_time = Clock()
+        self.real_time = Clock(goal)
 
         # How many times faster than real time it should simulate
         self.rate = rate
