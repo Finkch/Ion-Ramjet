@@ -105,14 +105,14 @@ def in_bounds(position, bounds, offset = 0):
 
 
 # Draws a circle
-def circle(screen, position, radius, col = 'white'):
+def circle(screen, position, radius, colour = 'white'):
     if onscreen(position, radius):
-        pygame.draw.circle(screen, col, position, radius)
+        pygame.draw.circle(screen, colour, position, radius)
 
 # Draws a line
-def line(screen, start, stop, col = 'white', width = 1):
+def line(screen, start, stop, colour = 'white', width = 1):
     if onscreen(start) or onscreen(stop):
-        pygame.draw.line(screen, col, start, stop, width = width)
+        pygame.draw.line(screen, colour, start, stop, width = width)
 
 # Renders a single bit of text
 def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
