@@ -56,6 +56,13 @@ class Clock:
     # Checks if the argument's amount of time has passed
     def elasped(self, amount):
         return amount < self.dif()
+    
+    # Returns the averages of arrays
+    def get_average_stamps(self):
+        return sum(self.time_stamps) / len(self.time_stamps)
+
+    def get_average_difs(self):
+        return sum(self.difs) / len(self.difs)
 
     
     # Returns true if the time hit was the goal
@@ -105,12 +112,7 @@ class DynamicClock(Clock):
         self.stamp()
 
         # Mean time per simulation step in seconds
-        self.average_fps = sum(self.difs) / len(self.difs) / 1000
-
-        if self.average_fps == 0:
-            return 0
-
-        return self.goal * self.average_fps
+        return self.goal * self.get_average_difs() / 1000
     
 
 
