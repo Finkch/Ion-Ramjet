@@ -169,3 +169,27 @@ class Spacetime:
         out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
 
         return out
+
+
+# Spacetime but includes angles
+class AngularSpacetime(Spacetime):
+    def __init__(self):
+        super().__init__()
+
+        self.angular_position = Orientation()
+        self.angular_velocity = Orientation()
+        self.angular_acceleration = Orientation()
+        self.angular_acceleration_preview = Orientation()
+    
+    def __call__(self, time_step = DEFAULT_TIME):
+        super()(time_step)
+
+        # Updates position in space
+        self.angular_velocity += self.acceleration * time_step
+        self.angular_position += self.velocity * time_step
+
+        # Captures a preview of the acceleration
+        self.angular_acceleration_preview = self.acceleration
+
+        # Resets acceleration
+        self.angular_acceleration = Vector()
