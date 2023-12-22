@@ -115,7 +115,7 @@ def line(screen, start, stop, colour = 'white', width = 1):
         pygame.draw.line(screen, colour, start, stop, width = width)
 
 # Renders a single bit of text
-def render_text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
+def text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
     
 
     # Don't draw if the text is offscreen
@@ -151,7 +151,7 @@ def render_text(screen, string, position, pad = True, size = 'medium', colour = 
         
 
 # Renders a column of text in rows as specified by strings
-def render_text_column(screen, strings, position, pad = True, down = True, left = True):
+def text_column(screen, strings, position, pad = True, down = True, left = True):
     
     # Gets the correct amount of padding
     padding = PIXEL_PADDING
@@ -170,7 +170,7 @@ def render_text_column(screen, strings, position, pad = True, down = True, left 
             draw_at[1] = position[1] - padding - (len(strings) - i) * STRING_PADDING
 
         # Renders the text row
-        render_text(screen, strings[i], draw_at, pad = False, left = left)
+        text(screen, strings[i], draw_at, pad = False, left = left)
 
 
 
@@ -207,7 +207,7 @@ def draw_scale(screen, zoom, scale):
     line(screen, (WIDTH - PIXEL_PADDING, HEIGHT / 2 + 16), (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 16), GREY2)
     line(screen, (WIDTH / 2 + 16, PIXEL_PADDING), (WIDTH / 2 - 16, PIXEL_PADDING), GREY2)
 
-    render_text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
+    text(screen, f'{zoom.zoom():.2e}', (WIDTH - PIXEL_PADDING, HEIGHT / 2 - 32), False, size = 'small', left = False)
 
 
 
@@ -251,7 +251,7 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the major ticks
     if i == 10:
         height *= 3
-        render_text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
+        text(screen, f'{distance:.0e}', (x_pos - 16, HEIGHT / 2 + height + 4), False, size = "smaller", colour = text_col)
 
     # Draws the minor ticks
     line(screen, (x_pos, HEIGHT / 2 + height), (x_pos, HEIGHT / 2 - height), col)
@@ -306,7 +306,7 @@ def draw_labels(screen, actor, pixel_position, radius):
     distance = 6
 
     # Renders the name of the actor
-    render_text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
+    text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
 
     # Draws a line from the text to the actor
     line(screen, (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
@@ -318,7 +318,7 @@ def draw_labels(screen, actor, pixel_position, radius):
 def draw_time(screen, timer):
 
     # Renders timer readout
-    render_text_column(screen, timer.get_printout(), [0, 0])
+    text_column(screen, timer.get_printout(), [0, 0])
     
 
 # Adds some of craft information readout
@@ -326,7 +326,7 @@ def draw_craft_readout(screen, crafts):
     craft = crafts[0]
 
     # Renders the text into a column
-    render_text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
+    text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
 
 
 # Adds some performance metrics
@@ -338,4 +338,4 @@ def draw_performance(screen, timer):
         f'{timer.timer.goal * timer.timer.get_average_difs():.02e} stp'
     ]
 
-    render_text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
+    text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
