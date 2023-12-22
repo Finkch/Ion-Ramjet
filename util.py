@@ -96,7 +96,7 @@ class Orders:
         self.scale -= self.step_size * multiplier
 
         # Handles boundry change
-        if self.scale <= 0:
+        if self.scale < 1:
             self.scale = 10 - self.step_size
             self.order -= 1
 
