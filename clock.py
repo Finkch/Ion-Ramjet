@@ -1,6 +1,7 @@
 # Handles time for framerate
 import time as t
 import numpy as np
+from util import *
 
 class Clock:
     def __init__(self, goal = -1, length = 10):
@@ -133,10 +134,13 @@ class Time:
         # Handles real-time to sim-time conversion
         self.timer = DynamicClock(rate)
 
-        # Allows for easier transitions between rates scales
+        # Allows for easier transitions between rates scales.
         # Sets the initial values based on the rate argument
         self.scale = int(str(rate)[:1])
         self.order = int(np.log10(rate))
+
+        # If the simulation is paused
+        self.paused = False
 
     # Calling this class steps forward once
     def __call__(self):
@@ -146,9 +150,14 @@ class Time:
 
         return time
     
+    # Returns the current rate
+    def rate(self):
+        return self.scale * 10 ** self.order
+
     # Updates the rate and sets the goal
     def update_rate(self):
-        self.timer.change_goal(self.scale * 10 ** self.order)
+        self.timer.change_goal(self.rate())
+        self.paused = False
     
     # Increases the simulatoin rate
     def faster(self):
@@ -163,7 +172,11 @@ class Time:
 
         # Updates the rate
         self.update_rate()
-
+    
+    # Significantly increases the goal
+    def fasterer(self):
+        self.order += 1
+        self.update_rate()
 
     # Descreases the simulation rate
     def slower(self):
@@ -179,3 +192,25 @@ class Time:
         # Updates the rate
         self.update_rate()
 
+    # Significantly decreases the goal
+    def slowerer(self):
+        self.order -= 1
+        self.update_rate()
+
+    # Toggles pause
+    def pause(self):
+        self.paused = not self.paused
+        
+        # Updates the goal so sim-time doesn't increase when paused
+        if self.paused:
+            self.timer.goal = 0
+        else:
+            self.update_rate()
+
+    # Gets a string prinout
+    def get_printout(self):
+        return [
+            readable_time(self.sim_time),
+            f'{self.rate():.0e}x',
+            'Paused' if self.paused else ''
+        ]
