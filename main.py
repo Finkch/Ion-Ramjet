@@ -92,11 +92,13 @@ def exist(timer, crafts, screen, kb):
         time_step = timer()
         sim_time = timer.sim_time
 
-        # Performs one stpe
-        step(time_step, crafts, [sun])
 
-        # Performs a debug printout
-        debug(sim_time, crafts, [sun])
+        # Performs one stpe
+        if not timer.paused:
+            step(time_step, crafts, [sun])
+
+            # Debug printout
+            debug(sim_time, crafts, [sun])
 
         # Handles an input/draw frame
         if timer.real_time.time():
