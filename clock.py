@@ -132,8 +132,9 @@ class Time:
         self.timer = DynamicClock(rate)
 
         # Allows for easier transitions between rates scales
-        self.scale = 0
-        self.order = 0
+        # Sets the initial values based on the rate argument
+        self.scale = int(str(rate)[:1])
+        self.order = int(np.log10(rate))
 
     # Calling this class steps forward once
     def __call__(self):
