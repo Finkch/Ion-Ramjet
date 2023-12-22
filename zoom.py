@@ -1,6 +1,5 @@
 # Handles zoom
 
-import vector as v
 from util import *
 
 class Zoom (Orders):

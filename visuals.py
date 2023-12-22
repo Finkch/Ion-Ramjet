@@ -1,5 +1,4 @@
 import pygame
-import constants as c
 from util import *
 import numpy as np
 import spacecraft as sc

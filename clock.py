@@ -1,6 +1,5 @@
 # Handles time for framerate
 import time as t
-import numpy as np
 from util import *
 
 class Clock:

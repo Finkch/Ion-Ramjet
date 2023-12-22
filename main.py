@@ -8,7 +8,6 @@ import constants as c
 import util
 import visuals as vis
 import clock
-import numpy as np
 import keyboard
 import zoom as z
 
