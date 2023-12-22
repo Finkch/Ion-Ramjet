@@ -80,53 +80,7 @@ def draw(screen, focus, actors, timer):
     pygame.display.flip()
     
 
-# Draws the actors
-def draw_actors(screen, focus, actors, scale):
-    # Draws each actor
-    for actor in actors:
 
-        # Gets the actor's radius
-        radius = actor.shape.radius * scale
-
-        # If the radius is too small to see, scale it to the minimum size
-        if radius < MIN_RADIUS:
-            radius = MIN_RADIUS
-
-
-        # Draws the shape
-        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
-        pygame.draw.circle(screen, "white", pixel_position, radius)
-
-        # Draws labels on each actor
-        draw_labels(screen, actor, pixel_position, radius)
-
-        # Draws craft's orientation
-        if isinstance(actor, sc.Spacecraft):
-
-            # Gets the position of the orientation indicator
-            distance = 2
-            indicator = (
-                    pixel_position[0] + (radius * 3 / 2 + distance) * np.cos(actor.orientation.phi), 
-                    pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
-                )
-
-            pygame.draw.circle(screen, "white", indicator, radius / 2)
-
-
-# Labels an actor
-def draw_labels(screen, actor, pixel_position, radius):
-
-    # Special angle in a triangle for π/4 radians
-    radius_scaled = radius * np.sqrt(1/2) + 2
-    
-    # The length of the line
-    distance = 6
-
-    # Renders the name of the actor
-    render_text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
-
-    # Draws a line from the text to the actor
-    pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
 
 # Renders a single bit of text
@@ -186,23 +140,6 @@ def render_text_column(screen, strings, position, down = True):
 
 
 
-
-# Adds a time readout
-def draw_time(screen, timer):
-
-    # Renders the time
-    render_text(screen, readable_time(timer.sim_time), [0, 0])
-
-    # Renders the current sim rate
-    render_text(screen, f'{timer.timer.goal:.0e}x', [0, STRING_PADDING * 3 / 2])
-    
-
-# Adds some of craft information readout
-def draw_craft_readout(screen, crafts):
-    craft = crafts[0]
-
-    # Renders the text into a column
-    render_text_column(screen, craft.get_printout(), [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
 
 
 # Draws two orthogonal lines for the axis
@@ -287,3 +224,74 @@ def draw_tick(screen, i, x_pos, distance):
     # Draws the ticks on the y-axis
     #   NOTE! Only works if the screen is a square
     pygame.draw.line(screen, col, (HEIGHT / 2 + height, HEIGHT - x_pos), (HEIGHT / 2 - height, HEIGHT - x_pos))
+
+
+
+
+# Draws the actors
+def draw_actors(screen, focus, actors, scale):
+    # Draws each actor
+    for actor in actors:
+
+        # Gets the actor's radius
+        radius = actor.shape.radius * scale
+
+        # If the radius is too small to see, scale it to the minimum size
+        if radius < MIN_RADIUS:
+            radius = MIN_RADIUS
+
+
+        # Draws the shape
+        pixel_position = (((actor.pos() - focus.pos()) * scale) + v.Vector(WIDTH / 2, HEIGHT / 2, 0)).plane()
+        pygame.draw.circle(screen, "white", pixel_position, radius)
+
+        # Draws labels on each actor
+        draw_labels(screen, actor, pixel_position, radius)
+
+        # Draws craft's orientation
+        if isinstance(actor, sc.Spacecraft):
+
+            # Gets the position of the orientation indicator
+            distance = 2
+            indicator = (
+                    pixel_position[0] + (radius * 3 / 2 + distance) * np.cos(actor.orientation.phi), 
+                    pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
+                )
+
+            pygame.draw.circle(screen, "white", indicator, radius / 2)
+
+
+# Labels an actor
+def draw_labels(screen, actor, pixel_position, radius):
+
+    # Special angle in a triangle for π/4 radians
+    radius_scaled = radius * np.sqrt(1/2) + 2
+    
+    # The length of the line
+    distance = 6
+
+    # Renders the name of the actor
+    render_text(screen, actor.name, (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance), False, size = "small")
+
+    # Draws a line from the text to the actor
+    pygame.draw.line(screen, "white", (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
+
+
+
+
+# Adds a time readout
+def draw_time(screen, timer):
+
+    # Renders the time
+    render_text(screen, readable_time(timer.sim_time), [0, 0])
+
+    # Renders the current sim rate
+    render_text(screen, f'{timer.timer.goal:.0e}x', [0, STRING_PADDING * 3 / 2])
+    
+
+# Adds some of craft information readout
+def draw_craft_readout(screen, crafts):
+    craft = crafts[0]
+
+    # Renders the text into a column
+    render_text_column(screen, craft.get_printout(), [PIXEL_PADDING, HEIGHT - 2 * PIXEL_PADDING], False)
