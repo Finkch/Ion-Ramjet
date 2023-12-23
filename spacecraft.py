@@ -79,6 +79,9 @@ class Spacecraft(Actor):
         self.tank = tank
         self.reactor = reactor
 
+        # Throttle ranges from 0 to 1
+        self.throttle = Range(0, 0.01, 0, 1)
+
         self.force_preview = v.Vector()
 
         # Gets the mass of the craft
@@ -142,8 +145,8 @@ class thruster:
         self.max_F = max_F      # Max mass flow
         self.max_P = max_P
 
-    def __call__(self, ionizer, reactor):
-        return self.max_F
+    def __call__(self, ionizer, reactor, throttle):
+        return self.max_F * throttle.get()
     
     def get_mass(self):
         return self.mass
