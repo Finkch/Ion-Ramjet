@@ -117,13 +117,14 @@ class Vector:
         
 
 
+
 # Describes the orientation in space
 class Orientation:
-    def __init__(self):
+    def __init__(self, theta = 0, phi = 0):
 
         # Default orientation is based on the starting position
-        self.theta = 0
-        self.phi = 0
+        self.theta = theta
+        self.phi = phi
     
     # Orients in the direction of the specified vector
     def goto(self, vec):
