@@ -4,22 +4,15 @@
 # Todo:
 #   Change secs required for sim to sims per sec
 #   Create tests
-#   Remove util, placing contents elsewhere
-#       Place Order and Time into zoom.py
-#           In so doing, change name of zoom.py
-#   import keyboard as kb
-#       Updated references accordingly 
 
 
 import vector as v
 import spacecraft as sc
 import gravity as g
 import constants as c
-import util
 import visuals as vis
-import clock
-import keyboard
-import zoom as z
+import keyboard as kb
+import orders as o
 
 # Should debug printout
 DEBUG = False
@@ -31,7 +24,7 @@ def setup():
     # Hanldes real-time and sim-time
     #   Initial simulation rate
     #   Framerate
-    timer = clock.Time(1e5, 1000 / 60)
+    timer = o.Time(1e5, 1000 / 60)
 
 
     # Sets up the visuals
@@ -66,16 +59,16 @@ def setup():
 
     crafts = [test_craft]
 
-    zoom = z.Zoom(1.5e11, timer, crafts)
-    kb = keyboard.Keyboard(timer, zoom, crafts)
+    zoom = o.Zoom(1.5e11, timer, crafts)
+    keybboard = kb.Keyboard(timer, zoom, crafts)
 
     # Simulates
-    exist(timer, crafts, screen, kb, zoom)
+    exist(timer, crafts, screen, keybboard, zoom)
 
 
 
 # Simulates
-def exist(timer, crafts, screen, kb, zoom):
+def exist(timer, crafts, screen, keybboard, zoom):
 
     # Keeps track of simulation duration
     simulate = True
@@ -108,7 +101,7 @@ def exist(timer, crafts, screen, kb, zoom):
             step(time_step, crafts, [sun])
 
             # Debug printout
-            debug(sim_time, crafts, [sun])
+            debug(timer, crafts, [sun])
 
         # Handles an input/draw frame
         if timer.real_time.time():
@@ -117,7 +110,7 @@ def exist(timer, crafts, screen, kb, zoom):
             vis.draw(screen, [sun, crafts[0]], timer, zoom)
 
             # Handles keyboard inputs
-            simulate = kb()
+            simulate = keybboard()
 
 
 
@@ -139,12 +132,12 @@ def step(time_step, crafts, other_actors):
 
 
 # Performs a debug readout
-def debug(time, crafts, other_actors):
+def debug(timer, crafts, other_actors):
 
     if not DEBUG:
         return
 
-    print("\n\n" + util.readable_time(time))
+    print("\n\n" + str(timer))
     for craft in crafts:
         print(craft)
 

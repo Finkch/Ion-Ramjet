@@ -10,7 +10,7 @@
 
 import vector as v
 import visuals as vis
-from util import *
+import orders as o
 
 
 class Actor(object):
@@ -80,7 +80,7 @@ class Spacecraft(Actor):
         self.reactor = reactor
 
         # Throttle ranges from 0 to 1
-        self.throttle = Range(0, 0.01, 0, 1)
+        self.throttle = o.Range(0, 0.01, 0, 1)
 
         self.force_preview = v.Vector()
 
@@ -92,7 +92,7 @@ class Spacecraft(Actor):
 
         if fire:
             thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
-            force = radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
+            force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
             self.force(force)
             self.force_preview = force
 
@@ -138,9 +138,9 @@ class Spacecraft(Actor):
             self.name,
             f'phi {self.apos().phi:.2f}',
             f'mas {self.mass:.2e} kg',
-            f'pos {hypo(self.pos()):.2e} m',
-            f'vel {hypo(self.vel()):.2e} m/s',
-            f'thr {hypo(self.force_preview):.2e} N'
+            f'pos {self.pos().hypo():.2e} m',
+            f'vel {self.vel().hypo():.2e} m/s',
+            f'thr {self.force_preview.hypo():.2e} N'
         ]
 
 

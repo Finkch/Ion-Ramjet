@@ -1,5 +1,6 @@
 # Defines basic vectors and their operations
-from util import *
+
+import numpy as np
 
 # Default step in time, in seconds
 DEFAULT_TIME = 10
@@ -79,16 +80,25 @@ class Vector:
         return "\n\tx:\t{x:.2e}\n\ty:\t{y:.2e}\n\tz:\t{z:.2e}".format(x = self.x, y = self.y, z = self.z)
     
     
-    def invert(self):
-        return Vector(
-            self.x * -1,
-            self.y * -1,
-            self.z * -1
-        )
+    # Returns the hypotenuse of the vector
+    def hypo(self):
+        return np.sqrt(sum([component ** 2 for component in self()]))
+    
+    # Returns the theta component of the radial vector
+    def theta(self):
 
-    # Returns the magnitude of the position
-    def mag(self):
-        return hypo(self())
+        # theta = arccos(z / r)
+        return np.arccos(self.z / self.hypo())
+
+    # Returns the phi component of the radial vector
+    def phi(self):
+
+        # phi = sgn(y) * arccos(x / rho)
+        return np.sign(self.y) * np.arccos(self.x / Vector(self.x, self.y, 0).hypo())
+    
+    # Gets the orientation of this vector
+    def orientation(self):
+        return Orientation(self.theta(), self.phi())
     
     # Calculates the dot-product between two vectors
     def dot(self, other):
@@ -188,8 +198,8 @@ class Orientation:
     
     # Orients in the direction of the specified vector
     def goto(self, vec):
-        self.theta = theta(vec)
-        self.phi = phi(vec)
+        self.theta = vec.theta()
+        self.phi = vec.phi()
 
     # Ensures the angle remains bounded
     def bound(self):
@@ -230,9 +240,9 @@ class Spacetime:
 
     def __str__(self):
         out = ""
-        out += "Position:\t{mag:.2e}".format(mag = hypo(self.position)) + str(self.position)
-        out += "\nVelocity:\t{mag:.2e}".format(mag = hypo(self.velocity)) + str(self.velocity)
-        out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
+        out += "Position:\t{mag:.2e}".format(mag = self.position.hypo()) + str(self.position)
+        out += "\nVelocity:\t{mag:.2e}".format(mag = self.velocity.hypo()) + str(self.velocity)
+        out += "\nAcceleration:\t{mag:.2e}".format(mag = self.acceleration_preview.hypo()) + str(self.acceleration_preview)
 
         return out
 
@@ -264,3 +274,16 @@ class AngularSpacetime(Spacetime):
 
         # Resets acceleration
         self.angular_acceleration = Orientation()
+
+
+
+
+# Splits a radial vector into its cartesian components.
+# It is assumed that vec is a vector with the same orientation
+# but a different magnitude
+def radial_to_cartesian(radial, theta, phi):
+    return Vector(
+        radial * np.sin(theta) * np.cos(phi),
+        radial * np.sin(theta) * np.sin(phi),
+        radial * np.cos(theta)
+    )
