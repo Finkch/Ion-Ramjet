@@ -1,6 +1,18 @@
 
 # A little simulation to play with ion ramjets
 
+# Todo:
+#   Change secs required for sim to sims per sec
+#   Creates functions to control a rocket (throttle_up(), rotate_ccw())
+#       Map functions to keyboard
+#   Create tests
+#   Remove util, placing contents elsewhere
+#       Place Order and Time into zoom.py
+#           In so doing, change name of zoom.py
+#   import keyboard as kb
+#       Updated references accordingly 
+
+
 import vector as v
 import spacecraft as sc
 import gravity as g
