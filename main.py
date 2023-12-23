@@ -19,7 +19,7 @@ import util
 import visuals as vis
 import clock
 import keyboard
-import zoom as z
+import orders as z
 
 # Should debug printout
 DEBUG = False

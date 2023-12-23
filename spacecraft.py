@@ -11,6 +11,7 @@
 import vector as v
 import visuals as vis
 from util import *
+import orders as o
 
 
 class Actor(object):
@@ -80,7 +81,7 @@ class Spacecraft(Actor):
         self.reactor = reactor
 
         # Throttle ranges from 0 to 1
-        self.throttle = Range(0, 0.01, 0, 1)
+        self.throttle = o.Range(0, 0.01, 0, 1)
 
         self.force_preview = v.Vector()
 

@@ -1,6 +1,7 @@
 # Handles time for framerate
 import time as t
 from util import *
+import orders as o
 
 class Clock:
     def __init__(self, goal = -1, length = 10):
@@ -117,7 +118,7 @@ class DynamicClock(Clock):
 
 
 # Handles time and steps
-class Time(Orders):
+class Time(o.Orders):
     def __init__(self, rate, goal):
         
         # Simulation steps taken
