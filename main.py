@@ -104,6 +104,9 @@ def exist(timer, crafts, screen, keybboard, zoom):
 
         # Handles an input/draw frame
         if timer.real_time.time():
+
+            # Updates zoom, if necessary
+            zoom()
             
             # Draws the screen
             vis.draw(screen, [sun, crafts[0]], timer, zoom)
