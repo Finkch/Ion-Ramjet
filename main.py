@@ -4,8 +4,6 @@
 # Todo:
 #   Change secs required for sim to sims per sec
 #   Create tests
-#   import keyboard as kb
-#       Updated references accordingly 
 
 
 import vector as v
@@ -13,7 +11,7 @@ import spacecraft as sc
 import gravity as g
 import constants as c
 import visuals as vis
-import keyboard
+import keyboard as kb
 import orders as o
 
 # Should debug printout
@@ -62,15 +60,15 @@ def setup():
     crafts = [test_craft]
 
     zoom = o.Zoom(1.5e11, timer, crafts)
-    kb = keyboard.Keyboard(timer, zoom, crafts)
+    keybboard = kb.Keyboard(timer, zoom, crafts)
 
     # Simulates
-    exist(timer, crafts, screen, kb, zoom)
+    exist(timer, crafts, screen, keybboard, zoom)
 
 
 
 # Simulates
-def exist(timer, crafts, screen, kb, zoom):
+def exist(timer, crafts, screen, keybboard, zoom):
 
     # Keeps track of simulation duration
     simulate = True
@@ -112,7 +110,7 @@ def exist(timer, crafts, screen, kb, zoom):
             vis.draw(screen, [sun, crafts[0]], timer, zoom)
 
             # Handles keyboard inputs
-            simulate = kb()
+            simulate = keybboard()
 
 
 
