@@ -92,7 +92,7 @@ class Spacecraft(Actor):
 
         if fire:
             thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
-            force = radial_to_cartesian(thrust, self.apos().theta, self.apos().phi)
+            force = radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
             self.force(force)
             self.force_preview = force
 
