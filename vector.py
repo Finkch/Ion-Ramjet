@@ -1,5 +1,4 @@
 # Defines basic vectors and their operations
-from util import *
 
 # Default step in time, in seconds
 DEFAULT_TIME = 10

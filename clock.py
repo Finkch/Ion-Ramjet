@@ -1,6 +1,5 @@
 # Handles time for framerate
 import time as t
-from util import *
 import orders as o
 
 class Clock:

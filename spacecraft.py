@@ -10,7 +10,6 @@
 
 import vector as v
 import visuals as vis
-from util import *
 import orders as o
 
 

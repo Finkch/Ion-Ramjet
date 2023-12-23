@@ -1,7 +1,6 @@
 # Simulates gravity
 
 import constants as c
-from util import *
 
 # Calculates gravitational attraction between all releveant bodies
 #   "easy" gravity since we only care about a small set of gravity producers

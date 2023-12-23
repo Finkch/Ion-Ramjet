@@ -1,6 +1,5 @@
 # Handles zoom
 
-from util import *
 import clock as cl
 import constants as c
 

@@ -15,9 +15,7 @@ import vector as v
 import spacecraft as sc
 import gravity as g
 import constants as c
-import util
 import visuals as vis
-import clock
 import keyboard
 import orders as o
 
