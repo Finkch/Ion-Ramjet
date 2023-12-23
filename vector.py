@@ -197,8 +197,8 @@ class Orientation:
     
     # Orients in the direction of the specified vector
     def goto(self, vec):
-        self.theta = theta(vec)
-        self.phi = phi(vec)
+        self.theta = vec.theta()
+        self.phi = vec.phi()
 
     # Ensures the angle remains bounded
     def bound(self):
