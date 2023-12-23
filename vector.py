@@ -181,6 +181,11 @@ class Orientation:
             self.phi ** other
         )
     
+
+    # String representation of Orientation
+    def __str__(self):
+        return f'\n\ttheta:\t{self.theta}\n\tphi:\t{self.phi}'
+    
     # Orients in the direction of the specified vector
     def goto(self, vec):
         self.theta = theta(vec)
