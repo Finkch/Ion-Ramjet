@@ -2,6 +2,7 @@
 
 import clock as cl
 import constants as c
+import numpy as np
 
 
 # Tracks orders of magnitude and changing between them

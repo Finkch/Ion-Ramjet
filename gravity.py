@@ -1,6 +1,7 @@
 # Simulates gravity
 
 import constants as c
+import vector as v
 
 # Calculates gravitational attraction between all releveant bodies
 #   "easy" gravity since we only care about a small set of gravity producers

@@ -106,7 +106,7 @@ def exist(timer, crafts, screen, kb, zoom):
             step(time_step, crafts, [sun])
 
             # Debug printout
-            debug(sim_time, crafts, [sun])
+            debug(timer, crafts, [sun])
 
         # Handles an input/draw frame
         if timer.real_time.time():
@@ -137,12 +137,12 @@ def step(time_step, crafts, other_actors):
 
 
 # Performs a debug readout
-def debug(time, crafts, other_actors):
+def debug(timer, crafts, other_actors):
 
     if not DEBUG:
         return
 
-    print("\n\n" + util.readable_time(time))
+    print("\n\n" + str(timer))
     for craft in crafts:
         print(craft)
 

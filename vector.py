@@ -1,5 +1,7 @@
 # Defines basic vectors and their operations
 
+import numpy as np
+
 # Default step in time, in seconds
 DEFAULT_TIME = 10
 
@@ -92,7 +94,7 @@ class Vector:
     def phi(self):
 
         # phi = sgn(y) * arccos(x / rho)
-        return np.sign(self.y) * np.arccos(self.x / v.Vector(self.x, self.y, 0).hypo())
+        return np.sign(self.y) * np.arccos(self.x / Vector(self.x, self.y, 0).hypo())
     
     # Gets the orientation of this vector
     def orientation(self):
@@ -280,7 +282,7 @@ class AngularSpacetime(Spacetime):
 # It is assumed that vec is a vector with the same orientation
 # but a different magnitude
 def radial_to_cartesian(radial, theta, phi):
-    return v.Vector(
+    return Vector(
         radial * np.sin(theta) * np.cos(phi),
         radial * np.sin(theta) * np.sin(phi),
         radial * np.cos(theta)

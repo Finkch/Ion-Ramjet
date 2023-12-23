@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import spacecraft as sc
+import vector as v
 
 MIN_SIZE = 0
 MIN_RADIUS = 2
