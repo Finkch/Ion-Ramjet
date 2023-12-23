@@ -9,16 +9,23 @@ class Keyboard:
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
-            'up':           {'count': 0, 'key': pygame.K_UP,           'type': self.pressed,    'function': self.timer.fasterer}, 
-            'down':         {'count': 0, 'key': pygame.K_DOWN,         'type': self.pressed,    'function': self.timer.slowerer}, 
-            'right':        {'count': 0, 'key': pygame.K_RIGHT,        'type': self.pressed,    'function': self.timer.faster}, 
-            'left':         {'count': 0, 'key': pygame.K_LEFT,         'type': self.pressed,    'function': self.timer.slower}, 
-            'return':       {'count': 0, 'key': pygame.K_RETURN,       'type': self.held,       'function': self.zoom.decrease}, 
-            'rshift':       {'count': 0, 'key': pygame.K_RSHIFT,       'type': self.held,       'function': self.zoom.increase}, 
-            'quote':        {'count': 0, 'key': pygame.K_QUOTE,        'type': self.pressed,    'function': self.zoom.decrease_order}, 
-            'slash':        {'count': 0, 'key': pygame.K_SLASH,        'type': self.pressed,    'function': self.zoom.increase_order}, 
-            'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,    'type': self.pressed,    'function': self.zoom.next}, 
-            'period':       {'count': 0, 'key': pygame.K_PERIOD,       'type': self.pressed,    'function': self.zoom.previous}, 
+            'up':           {'count': 0, 'key': pygame.K_UP,            'type': self.pressed,       'function': self.timer.fasterer}, 
+            'down':         {'count': 0, 'key': pygame.K_DOWN,          'type': self.pressed,       'function': self.timer.slowerer}, 
+            'right':        {'count': 0, 'key': pygame.K_RIGHT,         'type': self.pressed,       'function': self.timer.faster}, 
+            'left':         {'count': 0, 'key': pygame.K_LEFT,          'type': self.pressed,       'function': self.timer.slower}, 
+            'return':       {'count': 0, 'key': pygame.K_RETURN,        'type': self.held,          'function': self.zoom.decrease}, 
+            'rshift':       {'count': 0, 'key': pygame.K_RSHIFT,        'type': self.held,          'function': self.zoom.increase}, 
+            'quote':        {'count': 0, 'key': pygame.K_QUOTE,         'type': self.pressed,       'function': self.zoom.decrease_order}, 
+            'slash':        {'count': 0, 'key': pygame.K_SLASH,         'type': self.pressed,       'function': self.zoom.increase_order}, 
+            'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,     'type': self.pressed,       'function': self.zoom.next}, 
+            'period':       {'count': 0, 'key': pygame.K_PERIOD,        'type': self.pressed,       'function': self.zoom.previous}, 
+            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': self.crafts[0].throttle.increase}, 
+            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': self.crafts[0].throttle.decrease}, 
+            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.crafts[0].rotate_ccw}, 
+            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.crafts[0].rotate_cw}, 
+            'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.crafts[0].throttle.max}, 
+            'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.crafts[0].throttle.min}, 
+            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.crafts[0].goto_velocity}, 
         }
 
         # Parameters for repeated inputs on button being held down
