@@ -147,6 +147,18 @@ class Time(Orders):
 
         return time
     
+    # Converts time to a human-readable format
+    def __str__(self):
+        time = int(self.sim_time)
+
+        return "{years:.2e} y, {days:03} d, {hours:02} h, {minutes:02} m, {seconds:02} s".format(
+            years = time // c.year,
+            days = (time // c.day) % 365,
+            hours = (time // c.hour) % 24,
+            minutes = (time // c.minute) % 60,
+            seconds = time % 60
+        )
+    
     # Returns the current rate
     def rate(self):
         return self.get_order()
@@ -197,7 +209,7 @@ class Time(Orders):
     # Gets a string prinout
     def get_printout(self):
         return [
-            readable_time(self.sim_time),
+            str(self),
             f'{self.rate():.0e}x',
             'Paused' if self.paused else ''
         ]

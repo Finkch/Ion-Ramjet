@@ -36,18 +36,6 @@ def radial_to_cartesian(radial, theta, phi):
         radial * np.cos(theta)
     )
 
-# Converts time to a human-readable format
-def readable_time(time):
-    time = int(time)
-
-    return "{years:.2e} y, {days:03} d, {hours:02} h, {minutes:02} m, {seconds:02} s".format(
-        years = time // c.year,
-        days = (time // c.day) % 365,
-        hours = (time // c.hour) % 24,
-        minutes = (time // c.minute) % 60,
-        seconds = time % 60
-    )
-
 
 # Calculates the diference between vectors
 def dif(a, b):
