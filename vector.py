@@ -132,6 +132,57 @@ class Orientation:
         self.phi = phi(vec)
 
 
+        # Vector operations
+    def __add__(self, other):
+
+        if type(other) == "list":
+            return Orientation(
+                self.theta  + other[0],
+                self.phi + other[1] 
+            )
+        else:
+            return Orientation(
+                self.theta + other.theta, 
+                self.phi + other.phi
+            )
+    
+    def __sub__(self, other):
+        return Orientation(
+            self.theta - other.theta,
+            self.phi - other.phi
+        )
+    
+    def __mul__(self, other):  # Multiplication by a constant
+        return Orientation(
+            self.theta * other,
+            self.phi * other
+        )
+
+    def __rmul__(self, other):
+        return Orientation(
+            other * self.theta,
+            other * self.phi
+        )
+    
+    def __truediv__(self, other):   # Division by a constant
+        return Orientation(
+            self.theta / other,
+            self.phi / other
+        )
+    
+    def __rtruediv__(self, other):   # Division by a constant
+        return Orientation(
+            other / self.theta,
+            other / self.phi
+        )
+    
+    def __pow__(self, other):
+        return Orientation(
+            self.theta ** other,
+            self.phi ** other
+        )
+
+
 
     
 # Holds position, velocity, and acceleration
