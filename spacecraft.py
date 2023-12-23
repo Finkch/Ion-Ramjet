@@ -91,8 +91,8 @@ class Spacecraft(Actor):
     def __call__(self, time_step, fire):
 
         if fire:
-            thrust = self.thruster(self.ionizer, self.reactor)
-            force = radial_to_cartesian(thrust, self.orientation.theta, self.orientation.phi)
+            thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
+            force = radial_to_cartesian(thrust, self.apos().theta, self.apos().phi)
             self.force(force)
             self.force_preview = force
 
