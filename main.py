@@ -64,7 +64,6 @@ def setup():
     # Some initial movement
     test_craft.spacetime.position = v.Vector(c.au, 0, 0)
     test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
-    test_craft.spacetime.angular_velocity = v.Orientation(0, 1 / c.day / 30)
 
 
     crafts = [test_craft]
@@ -97,7 +96,6 @@ def exist(timer, crafts, screen, kb, zoom):
         sun.spacetime.acceleration = v.Vector()
         for craft in crafts:
             craft.spacetime.acceleration = v.Vector()
-
 
     # Simulates
     while simulate:
