@@ -239,9 +239,9 @@ class Spacetime:
 
     def __str__(self):
         out = ""
-        out += "Position:\t{mag:.2e}".format(mag = hypo(self.position)) + str(self.position)
-        out += "\nVelocity:\t{mag:.2e}".format(mag = hypo(self.velocity)) + str(self.velocity)
-        out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
+        out += "Position:\t{mag:.2e}".format(mag = self.position.hypo()) + str(self.position)
+        out += "\nVelocity:\t{mag:.2e}".format(mag = self.velocity.hypo()) + str(self.velocity)
+        out += "\nAcceleration:\t{mag:.2e}".format(mag = self.acceleration_preview.hypo()) + str(self.acceleration_preview)
 
         return out
 
