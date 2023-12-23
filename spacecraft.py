@@ -106,6 +106,9 @@ class Spacecraft(Actor):
     def rotate_ccw(self):
         self.spacetime.angular_position.phi -= 0.05
     
+    def goto_velocity(self):
+        self.spacetime.angular_position.goto(self.vel())
+    
 
     # Returns the current mass of the craft
     def get_mass(self):

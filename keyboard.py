@@ -25,6 +25,7 @@ class Keyboard:
             'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.crafts[0].rotate_cw}, 
             'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.crafts[0].throttle.max}, 
             'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.crafts[0].throttle.min}, 
+            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.crafts[0].goto_velocity}, 
         }
 
         # Parameters for repeated inputs on button being held down
