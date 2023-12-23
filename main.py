@@ -93,7 +93,6 @@ def exist(timer, crafts, screen, keybboard, zoom):
 
         # Gets the sim time for this step
         time_step = timer()
-        sim_time = timer.sim_time
 
 
         # Performs one stpe
