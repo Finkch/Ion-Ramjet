@@ -1,6 +1,16 @@
 
 # A little simulation to play with ion ramjets
 
+# Todo:
+#   Change secs required for sim to sims per sec
+#   Create tests
+#   Remove util, placing contents elsewhere
+#       Place Order and Time into zoom.py
+#           In so doing, change name of zoom.py
+#   import keyboard as kb
+#       Updated references accordingly 
+
+
 import vector as v
 import spacecraft as sc
 import gravity as g
@@ -52,8 +62,6 @@ def setup():
     # Some initial movement
     test_craft.spacetime.position = v.Vector(c.au, 0, 0)
     test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
-    
-    test_craft.orientation.goto(test_craft.pos())
 
 
     crafts = [test_craft]
@@ -86,7 +94,6 @@ def exist(timer, crafts, screen, kb, zoom):
         sun.spacetime.acceleration = v.Vector()
         for craft in crafts:
             craft.spacetime.acceleration = v.Vector()
-
 
     # Simulates
     while simulate:
@@ -124,8 +131,7 @@ def step(time_step, crafts, other_actors):
 
     # Simulates each craft
     for craft in crafts:
-        craft(time_step, False)
-        craft.orientation.goto(craft.vel())
+        craft(time_step, True)
 
     # Performs a step of simulation for "linear" actors
     for actor in other_actors:

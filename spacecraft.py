@@ -16,11 +16,11 @@ from util import *
 class Actor(object):
     def __init__(self, name, mass, radius):
 
-        self.spacetime = v.spacetime()
+        self.spacetime = v.Spacetime()
 
         self.mass = mass
 
-        self.shape = vis.shape(radius)
+        self.shape = vis.Shape(radius)
 
         # The most crucial part: the name
         self.name = name
@@ -71,8 +71,6 @@ class Actor(object):
 class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        self.orientation = orientation()
-
         # Creates the craft from the components
         self.core_mass = core_mass
         self.thruster = thruster
@@ -81,22 +79,37 @@ class Spacecraft(Actor):
         self.tank = tank
         self.reactor = reactor
 
+        # Throttle ranges from 0 to 1
+        self.throttle = Range(0, 0.01, 0, 1)
+
         self.force_preview = v.Vector()
 
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
+        self.spacetime = v.AngularSpacetime()
 
     def __call__(self, time_step, fire):
 
         if fire:
-            thrust = self.thruster(self.ionizer, self.reactor)
-            force = radial_to_cartesian(thrust, self.orientation.theta, self.orientation.phi)
+            thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
+            force = radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
             self.force(force)
             self.force_preview = force
 
         super().__call__(time_step)
 
+
+    # Rotates the craft
+    def rotate_cw(self):
+        self.spacetime.angular_position.phi += 0.05
+
+    def rotate_ccw(self):
+        self.spacetime.angular_position.phi -= 0.05
     
+    def goto_velocity(self):
+        self.spacetime.angular_position.goto(self.vel())
+    
+
     # Returns the current mass of the craft
     def get_mass(self):
         mass = 0
@@ -109,29 +122,26 @@ class Spacecraft(Actor):
 
         return mass
     
+    # Some getters
+    def apos(self):
+        return self.spacetime.angular_position
+    
+    def avel(self):
+        return self.spacetime.angular_velocity
+    
+    def aacc(self):
+        return self.spacetime.angular_acceleration
+    
+    # Returns a string for a printout
     def get_printout(self):
         return [
             self.name,
-            f'phi {self.orientation.phi:.2f}',
+            f'phi {self.apos().phi:.2f}',
             f'mas {self.mass:.2e} kg',
             f'pos {hypo(self.pos()):.2e} m',
             f'vel {hypo(self.vel()):.2e} m/s',
             f'thr {hypo(self.force_preview):.2e} N'
         ]
-
-
-# Describes the orientation in space
-class orientation:
-    def __init__(self):
-
-        # Default orientation is based on the starting position
-        self.theta = 0
-        self.phi = 0
-    
-    # Orients in the direction of the specified vector
-    def goto(self, vec):
-        self.theta = theta(vec)
-        self.phi = phi(vec)
 
 
 # What produces the thrust
@@ -146,8 +156,8 @@ class thruster:
         self.max_F = max_F      # Max mass flow
         self.max_P = max_P
 
-    def __call__(self, ionizer, reactor):
-        return self.max_F
+    def __call__(self, ionizer, reactor, throttle):
+        return self.max_F * throttle.get()
     
     def get_mass(self):
         return self.mass

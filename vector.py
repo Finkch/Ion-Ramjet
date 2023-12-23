@@ -114,12 +114,93 @@ class Vector:
             return (self.x, self.y)
         else:
             return (self.y, self.z)
+        
+
+
+
+# Describes the orientation in space
+class Orientation:
+    def __init__(self, theta = 0, phi = 0):
+
+        # Default orientation is based on the starting position
+        self.theta = theta
+        self.phi = phi
+
+    # Calling orientation returns an array
+    def __call__(self):
+        return [self.theta, self.phi]
+
+
+    # Orientation operations
+    def __add__(self, other):
+
+        if type(other) == "list":
+            return Orientation(
+                self.theta  + other[0],
+                self.phi + other[1] 
+            )
+        else:
+            return Orientation(
+                self.theta + other.theta, 
+                self.phi + other.phi
+            )
+    
+    def __sub__(self, other):
+        return Orientation(
+            self.theta - other.theta,
+            self.phi - other.phi
+        )
+    
+    def __mul__(self, other):  # Multiplication by a constant
+        return Orientation(
+            self.theta * other,
+            self.phi * other
+        )
+
+    def __rmul__(self, other):
+        return Orientation(
+            other * self.theta,
+            other * self.phi
+        )
+    
+    def __truediv__(self, other):   # Division by a constant
+        return Orientation(
+            self.theta / other,
+            self.phi / other
+        )
+    
+    def __rtruediv__(self, other):   # Division by a constant
+        return Orientation(
+            other / self.theta,
+            other / self.phi
+        )
+    
+    def __pow__(self, other):
+        return Orientation(
+            self.theta ** other,
+            self.phi ** other
+        )
+    
+
+    # String representation of Orientation
+    def __str__(self):
+        return f'\n\ttheta:\t{self.theta}\n\tphi:\t{self.phi}'
+    
+    # Orients in the direction of the specified vector
+    def goto(self, vec):
+        self.theta = theta(vec)
+        self.phi = phi(vec)
+
+    # Ensures the angle remains bounded
+    def bound(self):
+        self.theta = (self.theta + np.pi / 2) % np.pi - np.pi / 2
+        self.phi = (self.phi + np.pi) % (2 * np.pi) - np.pi
 
 
 
     
 # Holds position, velocity, and acceleration
-class spacetime:
+class Spacetime:
     def __init__(self):
 
         self.time = 0
@@ -154,4 +235,32 @@ class spacetime:
         out += "\nAcceleration:\t{mag:.2e}".format(mag = hypo(self.acceleration_preview)) + str(self.acceleration_preview)
 
         return out
+
+
+# Spacetime but includes angles
+class AngularSpacetime(Spacetime):
+    def __init__(self):
+        super().__init__()
+
+        self.angular_position = Orientation(np.pi / 2, 0)
+        self.angular_velocity = Orientation()
+        self.angular_acceleration = Orientation()
+        self.angular_acceleration_preview = Orientation()
     
+    # Updates angular spacetime
+    def __call__(self, time_step = DEFAULT_TIME):
+        super().__call__(time_step)
+
+        # Updates position in space
+        self.angular_velocity += self.angular_acceleration * time_step
+        self.angular_position += self.angular_velocity * time_step
+
+        # Captures a preview of the acceleration
+        self.angular_acceleration_preview = self.acceleration
+
+        # Bounds angular position.
+        # The other dimensions should NOT be bounded
+        self.angular_position.bound()
+
+        # Resets acceleration
+        self.angular_acceleration = Orientation()
