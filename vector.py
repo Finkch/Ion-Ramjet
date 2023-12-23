@@ -125,11 +125,10 @@ class Orientation:
         # Default orientation is based on the starting position
         self.theta = theta
         self.phi = phi
-    
-    # Orients in the direction of the specified vector
-    def goto(self, vec):
-        self.theta = theta(vec)
-        self.phi = phi(vec)
+
+    # Calling orientation returns an array
+    def __call__(self):
+        return [self.theta, self.phi]
 
 
     # Orientation operations
@@ -181,6 +180,11 @@ class Orientation:
             self.theta ** other,
             self.phi ** other
         )
+    
+    # Orients in the direction of the specified vector
+    def goto(self, vec):
+        self.theta = theta(vec)
+        self.phi = phi(vec)
 
 
 
