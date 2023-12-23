@@ -71,8 +71,6 @@ class Actor(object):
 class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
 
-        self.orientation = v.Orientation()
-
         # Creates the craft from the components
         self.core_mass = core_mass
         self.thruster = thruster
@@ -85,6 +83,7 @@ class Spacecraft(Actor):
 
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
+        self.spacetime = v.AngularSpacetime()
 
     def __call__(self, time_step, fire):
 
@@ -109,6 +108,17 @@ class Spacecraft(Actor):
 
         return mass
     
+    # Some getters
+    def apos(self):
+        return self.spacetime.angular_position
+    
+    def avel(self):
+        return self.spacetime.angular_velocity
+    
+    def aacc(self):
+        return self.spacetime.angular_acceleration
+    
+    # Returns a string for a printout
     def get_printout(self):
         return [
             self.name,
