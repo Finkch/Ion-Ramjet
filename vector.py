@@ -82,10 +82,22 @@ class Vector:
     # Returns the hypotenuse of the vector
     def hypo(self):
         return np.sqrt(sum([component ** 2 for component in self()]))
+    
+    # Returns the theta component of the radial vector
+    def theta(self):
 
-    # Returns the magnitude of the position
-    def mag(self):
-        return self.hypo(self())
+        # theta = arccos(z / r)
+        return np.arccos(self.z / self.hypo())
+
+    # Returns the phi component of the radial vector
+    def phi(self):
+
+        # phi = sgn(y) * arccos(x / rho)
+        return np.sign(self.y) * np.arccos(self.x / v.Vector(self.x, self.y, 0).hypo())
+    
+    # Gets the orientation of this vector
+    def orientation(self):
+        return Orientation(self.theta(), self.phi())
     
     # Calculates the dot-product between two vectors
     def dot(self, other):

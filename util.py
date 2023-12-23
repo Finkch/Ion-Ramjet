@@ -4,19 +4,6 @@ import vector as v
 import constants as c
 
 
-# Returns the theta component of the radial vector
-def theta(vec):
-
-    # theta = arccos(z / r)
-    return np.arccos(vec.z / vec.hypo())
-
-# Returns the phi component of the radial vector
-def phi(vec):
-
-    # phi = sgn(y) * arccos(x / rho)
-    return np.sign(vec.y) * np.arccos(vec.x / v.Vector(vec.x, vec.y, 0).hypo())
-
-
 # Splits a radial vector into its cartesian components.
 # It is assumed that vec is a vector with the same orientation
 # but a different magnitude
