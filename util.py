@@ -4,12 +4,6 @@ import vector as v
 import constants as c
 
 
-# Calculates the diference between vectors
-def dif(a, b):
-    return hypo(a - b)
-
-
-
 
 # Tracks orders of magnitude and changing between them
 class Orders:
