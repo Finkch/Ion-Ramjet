@@ -74,6 +74,13 @@ class Vector:
             self.y ** other,
             self.z ** other
         )
+    
+    def __neg__(self):
+        return Vector(
+            -self.x,
+            -self.y,
+            -self.z
+        )
 
     # Other class functions
     def __str__(self):
@@ -189,6 +196,12 @@ class Orientation:
         return Orientation(
             self.theta ** other,
             self.phi ** other
+        )
+    
+    def __neg__(self):
+        return Orientation(
+            -self.theta,
+            -self.phi
         )
     
 
