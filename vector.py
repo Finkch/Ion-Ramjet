@@ -191,6 +191,11 @@ class Orientation:
         self.theta = theta(vec)
         self.phi = phi(vec)
 
+    # Ensures the angle remains bounded
+    def bound(self):
+        self.theta = (self.theta + np.pi / 2) % np.pi - np.pi / 2
+        self.phi = (self.phi + np.pi) % (2 * np.pi) - np.pi
+
 
 
     
@@ -252,6 +257,10 @@ class AngularSpacetime(Spacetime):
 
         # Captures a preview of the acceleration
         self.angular_acceleration_preview = self.acceleration
+
+        # Bounds angular position.
+        # The other dimensions should NOT be bounded
+        self.angular_position.bound()
 
         # Resets acceleration
         self.angular_acceleration = Orientation()
