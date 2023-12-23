@@ -273,3 +273,16 @@ class AngularSpacetime(Spacetime):
 
         # Resets acceleration
         self.angular_acceleration = Orientation()
+
+
+
+
+# Splits a radial vector into its cartesian components.
+# It is assumed that vec is a vector with the same orientation
+# but a different magnitude
+def radial_to_cartesian(radial, theta, phi):
+    return v.Vector(
+        radial * np.sin(theta) * np.cos(phi),
+        radial * np.sin(theta) * np.sin(phi),
+        radial * np.cos(theta)
+    )
