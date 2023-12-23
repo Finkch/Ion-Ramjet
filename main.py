@@ -54,12 +54,12 @@ def setup():
 
     # Some initial movement
     test_craft.spacetime.position = v.Vector(c.au, 0, 0)
-    test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
+    #test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
 
 
     crafts = [test_craft]
 
-    zoom = o.Zoom(1.5e11, timer, crafts)
+    zoom = o.Zoom(0, timer, crafts)
     keybboard = kb.Keyboard(timer, zoom, crafts)
 
     # Simulates
