@@ -128,3 +128,38 @@ class Orders:
         self.order -= 1
         return True
 
+
+# A linear version of Orders
+class Range:
+    def __init__(self, initial, step_size = 1, minimum = 0, maximum = 100):
+        
+        # Sets initial values
+        self.scale = initial
+        self.step_size = step_size
+        self.minimum = minimum
+        self.maximum = maximum
+
+    def get(self):
+        return self.scale
+    
+    # Increases the scale
+    def increase(self, multiplier = 1):
+        self.scale += self.step_size * multiplier
+
+        if self.scale > self.maximum:
+            self.scale = self.maximum
+
+    # Decreases the scale
+    def decrease(self, multiplier = 1):
+        self.scale -= self.step_size * multiplier
+
+        if self.scale < self.minimum:
+            self.scale = self.minimum
+
+    # Maximises the scale    
+    def max(self):
+        self.scale = self.maximum
+    
+    # Minimises the scale
+    def min(self):
+        self.scale = self.minimum
