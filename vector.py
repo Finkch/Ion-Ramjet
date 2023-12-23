@@ -79,16 +79,13 @@ class Vector:
         return "\n\tx:\t{x:.2e}\n\ty:\t{y:.2e}\n\tz:\t{z:.2e}".format(x = self.x, y = self.y, z = self.z)
     
     
-    def invert(self):
-        return Vector(
-            self.x * -1,
-            self.y * -1,
-            self.z * -1
-        )
+    # Returns the hypotenuse of the vector
+    def hypo(self):
+        return np.sqrt(sum([component ** 2 for component in self()]))
 
     # Returns the magnitude of the position
     def mag(self):
-        return hypo(self())
+        return self.hypo(self())
     
     # Calculates the dot-product between two vectors
     def dot(self, other):

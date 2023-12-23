@@ -3,27 +3,18 @@ import numpy as np
 import vector as v
 import constants as c
 
-# Returns the hypotenuse of a vector
-def hypo(vec):
-
-    # Sums the squares of each component and returns their square root
-    hypo = 0
-    for component in vec():
-        hypo += component ** 2
-    return np.sqrt(hypo)
-
 
 # Returns the theta component of the radial vector
 def theta(vec):
 
     # theta = arccos(z / r)
-    return np.arccos(vec.z / hypo(vec))
+    return np.arccos(vec.z / vec.hypo())
 
 # Returns the phi component of the radial vector
 def phi(vec):
 
     # phi = sgn(y) * arccos(x / rho)
-    return np.sign(vec.y) * np.arccos(vec.x / hypo(v.Vector(vec.x, vec.y)))
+    return np.sign(vec.y) * np.arccos(vec.x / v.Vector(vec.x, vec.y, 0).hypo())
 
 
 # Splits a radial vector into its cartesian components.

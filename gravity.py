@@ -35,7 +35,7 @@ def gravity(a, b):
     position_vector = b.pos() - a.pos()
 
     # F = G M m / r^2
-    force = c.G * a.mass * b.mass / hypo(position_vector) ** 2
+    force = c.G * a.mass * b.mass / position_vector.hypo() ** 2
 
     # Split the radial vector into the components
     force = radial_to_cartesian(force, theta(position_vector), phi(position_vector))
