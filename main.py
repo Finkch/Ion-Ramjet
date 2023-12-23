@@ -4,9 +4,6 @@
 # Todo:
 #   Change secs required for sim to sims per sec
 #   Create tests
-#   Remove util, placing contents elsewhere
-#       Place Order and Time into zoom.py
-#           In so doing, change name of zoom.py
 #   import keyboard as kb
 #       Updated references accordingly 
 
