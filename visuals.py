@@ -288,8 +288,8 @@ def draw_actors(screen, zoom, actors, scale):
             # Gets the position of the orientation indicator
             distance = 2
             indicator = (
-                    pixel_position[0] + (radius * 3 / 2 + distance) * np.cos(actor.orientation.phi), 
-                    pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.orientation.phi)
+                    pixel_position[0] + (radius * 3 / 2 + distance) * np.cos(actor.apos().theta), 
+                    pixel_position[1] + (radius * 3 / 2 + distance) * np.sin(actor.apos().phi)
                 )
 
             circle(screen, indicator, radius / 2)

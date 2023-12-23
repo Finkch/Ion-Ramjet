@@ -132,7 +132,7 @@ class Orientation:
         self.phi = phi(vec)
 
 
-        # Vector operations
+    # Orientation operations
     def __add__(self, other):
 
         if type(other) == "list":
@@ -245,4 +245,4 @@ class AngularSpacetime(Spacetime):
         self.angular_acceleration_preview = self.acceleration
 
         # Resets acceleration
-        self.angular_acceleration = Vector()
+        self.angular_acceleration = Orientation()

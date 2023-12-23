@@ -122,7 +122,7 @@ class Spacecraft(Actor):
     def get_printout(self):
         return [
             self.name,
-            f'phi {self.orientation.phi:.2f}',
+            f'phi {self.apos().phi:.2f}',
             f'mas {self.mass:.2e} kg',
             f'pos {hypo(self.pos()):.2e} m',
             f'vel {hypo(self.vel()):.2e} m/s',
