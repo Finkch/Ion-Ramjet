@@ -233,12 +233,13 @@ class AngularSpacetime(Spacetime):
         self.angular_acceleration = Orientation()
         self.angular_acceleration_preview = Orientation()
     
+    # Updates angular spacetime
     def __call__(self, time_step = DEFAULT_TIME):
-        super()(time_step)
+        super().__call__(time_step)
 
         # Updates position in space
-        self.angular_velocity += self.acceleration * time_step
-        self.angular_position += self.velocity * time_step
+        self.angular_velocity += self.angular_acceleration * time_step
+        self.angular_position += self.angular_velocity * time_step
 
         # Captures a preview of the acceleration
         self.angular_acceleration_preview = self.acceleration
