@@ -242,7 +242,7 @@ class AngularSpacetime(Spacetime):
     def __init__(self):
         super().__init__()
 
-        self.angular_position = Orientation()
+        self.angular_position = Orientation(np.pi / 2, 0)
         self.angular_velocity = Orientation()
         self.angular_acceleration = Orientation()
         self.angular_acceleration_preview = Orientation()
