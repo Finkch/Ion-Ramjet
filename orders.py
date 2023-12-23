@@ -17,6 +17,10 @@ class Orders:
     # Given a number, extract the scale and the order
     def set_order(self, num):
 
+        # Prevents a few issues
+        if num == 0:
+            num = 1
+
         # Extracts the leading digits
         self.scale = float(f'{num:.8e}'[:1 if self.digits == 1 else self.digits + 1]) # Accounts for the peroid
         
