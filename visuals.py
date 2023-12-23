@@ -333,8 +333,7 @@ def draw_performance(screen, timer):
 
     strings = [
         f'{1000 / timer.real_time.get_average_difs():.3f} fps',
-        f'{timer.timer.get_average_difs():.02e} per',
-        f'{timer.timer.goal * timer.timer.get_average_difs():.02e} stp'
+        f'{1000 / timer.timer.get_average_difs():.0f} sps'
     ]
 
     text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
