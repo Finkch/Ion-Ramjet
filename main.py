@@ -2,7 +2,6 @@
 # A little simulation to play with ion ramjets
 
 # Todo:
-#   Change secs required for sim to sims per sec
 #   Create tests
 
 
