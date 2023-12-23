@@ -19,7 +19,7 @@ import util
 import visuals as vis
 import clock
 import keyboard
-import orders as z
+import orders as o
 
 # Should debug printout
 DEBUG = False
@@ -31,7 +31,7 @@ def setup():
     # Hanldes real-time and sim-time
     #   Initial simulation rate
     #   Framerate
-    timer = clock.Time(1e5, 1000 / 60)
+    timer = o.Time(1e5, 1000 / 60)
 
 
     # Sets up the visuals
@@ -66,7 +66,7 @@ def setup():
 
     crafts = [test_craft]
 
-    zoom = z.Zoom(1.5e11, timer, crafts)
+    zoom = o.Zoom(1.5e11, timer, crafts)
     kb = keyboard.Keyboard(timer, zoom, crafts)
 
     # Simulates
