@@ -21,8 +21,8 @@ class Keyboard:
             'period':       {'count': 0, 'key': pygame.K_PERIOD,        'type': self.pressed,       'function': self.zoom.previous}, 
             'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': self.crafts[0].throttle.increase}, 
             's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': self.crafts[0].throttle.decrease}, 
-            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': None}, 
-            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': None}, 
+            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.crafts[0].rotate_ccw}, 
+            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.crafts[0].rotate_cw}, 
             'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.crafts[0].throttle.max}, 
             'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.crafts[0].throttle.min}, 
         }

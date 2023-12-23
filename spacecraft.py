@@ -98,7 +98,15 @@ class Spacecraft(Actor):
 
         super().__call__(time_step)
 
+
+    # Rotates the craft
+    def rotate_cw(self):
+        self.spacetime.angular_position.phi += 0.05
+
+    def rotate_ccw(self):
+        self.spacetime.angular_position.phi -= 0.05
     
+
     # Returns the current mass of the craft
     def get_mass(self):
         mass = 0
