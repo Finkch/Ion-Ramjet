@@ -61,17 +61,33 @@ def batteries(name):
 def spacecrafts(name):
     match name:
         case 'ioRam-0':
+
+            hTank = tanks('hTank-MPDT')
+            pTank = tanks('pTank-MPDT')
+            battery = batteries('eTank-MPDT')
+
             thruster = thrusters('MPDT-thruster')
-            ioniezr = ionizers('MPDT-ionizer')
+            thruster.link_input(pTank, 'p')
+            thruster.link_input(battery, 'e')
+
+            ionizer = ionizers('MPDT-ionizer')
+            ionizer.link_input(hTank, 'H')
+            ionizer.link_input(battery, 'e')
+            ionizer.link_output(pTank)
+
+
             scoop = scoops('MPDT-scoop')
+            scoop.link_input(battery, 'e')
+            scoop.link_output(hTank)
+
             reactor = reactors('MPDT-reactor')
+            reactor.link_output(battery)
 
-            hTank = tanks('MPDT-hTank')
-            pTank = tanks('MPDT-pTank')
-            battery = batteries('MPDT-battery')
-
-            craft = Spacecraft()
-            return None
+            craft = Spacecraft('ioRam-0', 3, 5, 
+                               {'ionizer': ionizer, 'scoop': scoop, 'reactor': reactor}, 
+                               {'hTank': hTank, 'pTank': pTank, 'eTank': battery}, 
+                               thruster)
+            return craft
         
         case 'S-IVB':
 
