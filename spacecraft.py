@@ -339,14 +339,21 @@ class Tank(Regulator):
         self.flow = self.capacity
 
         # A reference to the time step
-        self.time_step = 0
+        self.time_step = 1
     
     def reset(self, time_step):
         super().reset()
         self.time_step = time_step
 
+    def add_request(self, source, amount):
+        return super().add_request(source, amount * self.time_step)
+
     def input(self, fuel, source = None, throttle = 1):
         super().input(fuel, source, self.time_step * throttle)
 
     def process(self):
-        return super().process(self.time_step)
+        return super().process()
+
+    def output(self, source):
+        output = super().output(source)
+        return {'percent': output['percent'], 'fuel': output['fuel'] / self.time_step}
