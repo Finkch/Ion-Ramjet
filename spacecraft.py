@@ -96,7 +96,7 @@ class Spacecraft(Actor):
 
     def __call__(self, time_step):
 
-        self.thruster.request()
+        self.thruster.request(self.throttle.get())
         for part in self.generators.values():
             part.request()
 
@@ -346,10 +346,10 @@ class Generator(Part):
         self.spacecraft = None
 
     # Requests the items to be consumed
-    def request(self):
+    def request(self, throttle):
         # Asks each part for fuel
         for key in self.consumptions.keys():
-            self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'])
+            self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
     # Produces
     def produce(self):
@@ -435,8 +435,11 @@ class Regulator(Part):
             else:
                 supplied = request['fuel']
                 self.capacity -= request['fuel']
-
-            self.outputs[request['source'].name] = supplied / request['fuel']
+            
+            if request['fuel'] == 0:
+                self.outputs[request['source'].name] = 0
+            else:
+                self.outputs[request['source'].name] = supplied / request['fuel']
     
     # Pipes out
     #   The output is as a fraction out of 1 of the request
