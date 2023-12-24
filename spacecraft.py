@@ -406,8 +406,8 @@ class Regulator(Part):
             overflow = self.capacity - self.max_capacity # Overflow is currently ditched overboard
             self.capacity = self.max_capacity
         
-    # Pipes fuel out of the tank
-    def output(self):
+    # Processes the requests
+    def process(self):
         for request in self.requests:
 
             # Updates capacity and determines how much is supplied
@@ -424,7 +424,6 @@ class Regulator(Part):
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
         self.requests.sort(key = lambda x: x['fuel'])
-
 
     # Overload get mass to return the mass of this part plus its fuel
     def get_mass(self):
