@@ -7,21 +7,25 @@ from constants import *
 def thrusters(name):
     match name:
         case 'MPDT-thruster':
-            return None
+            return Generator(name, 10, 26.3)
         
 def ionizers(name):
     match name:
         case 'MPDT-ionizer':
-            return None
-
-def reactors(name):
-    match name:
-        case 'MMRTG': # Used on Perseverence and Curiosity!
-            return None
+            return Generator(name, 5, 5.411e-4)
 
 def scoops(name):
     match name:
+        case 'MPDT-scoop':
+            return Generator(name, 5, 5.411e-4)
         case 'Bussard\'s Scoop':
+            return None
+        
+def reactors(name):
+    match name:
+        case 'MPDT-reactor':
+            return Generator(name, 10, 1.5e6)
+        case 'MMRTG': # Used on Perseverence and Curiosity!
             return None
         
 
@@ -29,13 +33,15 @@ def scoops(name):
 # REGULATORS
 def tanks(name):
     match name:
-        case 'MPDT Hydrogen Tank':
-            return None
-        case 'MPDT Proton Tank':
-            return None
+        case 'MPDT-hTank':
+            return Regulator(name, 5, 10, 1)
+        case 'MPDT-pTank':
+            return Regulator(name, 5, 10, 1)
 
 def batteries(name):
     match name:
+        case 'MPDT-battery':
+            return Regulator(name, 5, 3e6, 0)
         case 'Z100':
             return None
         
@@ -47,6 +53,8 @@ def spacecrafts(name):
     match name:
         case 'ioRam-0':
             return None
+        
+
         case 'test_craft': # An outdated model
 
 
