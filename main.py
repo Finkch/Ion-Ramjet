@@ -28,35 +28,7 @@ def setup():
 
     # Sets up the visuals
     screen = vis.init_visuals(768, 768)
-
-
-    # Mass, v_e, F_per, P_per
-    test_thruster = sc.thruster(10, 4.81e4, 26.3, 1e-23)
-
-
-    # Mass, P_per, md_in, md_out
-    test_ionizer = sc.ionizer(5, 1e-22, 1e20, 1e20)
-
-    # Mass, power, radius
-    test_scoop = sc.scoop(10, 1e4, 1e3)
-
-    # Mass, max fuel mass, fuel mass
-    test_tank = sc.tank(5, 15, 15)
-
-    # Mass, power
-    test_reactor = sc.reactor(10, 1e6)
-
-
-    # core mass, thruster, ionizer, scoop, tank, reactor
-    test_craft = sc.Spacecraft("ioRam-0", 5, 5, test_thruster, test_ionizer, test_scoop, test_tank, test_reactor)
-
-
-    # Some initial movement
-    test_craft.spacetime.position = v.Vector(c.au, 0, 0)
-    #test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
-
-
-    crafts = [test_craft]
+    
 
     zoom = o.Zoom(0, timer, crafts)
     keybboard = kb.Keyboard(timer, zoom, crafts)
