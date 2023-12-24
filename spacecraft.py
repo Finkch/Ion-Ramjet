@@ -365,12 +365,15 @@ class Generator(Part):
 
 # Holds stuff and checks the rate
 class Regulator(Part):
-    def __init__(self, mass, capacity):
+    def __init__(self, mass, capacity, fuel_mass = 0):
         super().__init__(mass)
 
         # The size of the tank
         self.max_capacity = capacity
         self.capacity = 0
+
+        # Mass of the fuel per unit of capacity
+        self.density = fuel_mass
 
         # The requested flow rates
         self.requested_output = 0
@@ -382,3 +385,7 @@ class Regulator(Part):
     # Handles one step of simulation
     def __call__(self, time_step):
         pass
+
+    # Overload get mass to return the mass of this part plus its fuel
+    def get_mass(self):
+        return super().get_mass() + self.capacity * self.density
