@@ -324,8 +324,7 @@ def draw_time(screen, timer):
     
 
 # Adds some of craft information readout
-def draw_craft_readout(screen, crafts):
-    craft = crafts[0]
+def draw_craft_readout(screen, craft):
 
     # Renders the text into a column
     text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
