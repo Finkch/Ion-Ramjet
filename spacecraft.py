@@ -244,7 +244,7 @@ class Generator(Part):
 
     # Produces
     #   The multiplier does not affect inputs, only amount outputted
-    def produce(self, multiplier):
+    def produce(self, multiplier = 1):
 
         # Gets what percent this generator may produce
         throttle = 1
