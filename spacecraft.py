@@ -225,6 +225,12 @@ class Generator(Part):
         # Where to output to
         self.tank = tank
 
+    def link_output(self, tank):
+        self.tank = tank
+    
+    def link_input(self, regulator, fuel, flow):
+        self.consumptions[fuel] = {'fuel': flow, 'tank': regulator}
+
     # Requests the items to be consumed
     def request(self, throttle = 1):
         self.rate = self.production * throttle
