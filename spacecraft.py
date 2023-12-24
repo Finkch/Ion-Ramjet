@@ -422,8 +422,9 @@ class Regulator(Part):
             self.outputs[request['source'].name] = supplied
     
     # Pipes out
+    #   The output is as a fraction out of 1 of the request
     def output(self, source):
-        return self.outputs[source.name]
+        return self.outputs[source.name] / self.requests[source.name]['fuel']
 
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
