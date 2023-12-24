@@ -52,8 +52,17 @@ def batteries(name):
 def spacecrafts(name):
     match name:
         case 'ioRam-0':
+            thruster = thrusters('MPDT-thruster')
+            ioniezr = ionizers('MPDT-ionizer')
+            scoop = scoops('MPDT-scoop')
+            reactor = reactors('MPDT-reactor')
+
+            hTank = tanks('MPDT-hTank')
+            pTank = tanks('MPDT-pTank')
+            battery = batteries('MPDT-battery')
+
+            craft = Spacecraft()
             return None
-        
 
         case 'test_craft': # An outdated model
 
