@@ -80,6 +80,13 @@ class Spacecraft(Actor):
         self.tank = tank
         self.reactor = reactor
 
+        self.thruster.spacecraft = self
+        self.ionizer.spacecraft = self
+        self.scoop.spacecraft = self
+        self.tank.spacecraft = self
+        self.reactor.spacecraft = self
+
+
         # Throttle ranges from 0 to 1
         self.throttle = o.Range(0, 0.01, 0, 1)
 
@@ -153,6 +160,8 @@ class Spacecraft(Actor):
 class thruster:
     def __init__(self, mass, v_e, max_F, max_P):
 
+        self.spacecraft = None
+
         self.mass = mass
         
         self.v_e = v_e          # Exhaust velocity
@@ -178,6 +187,8 @@ class thruster:
 class ionizer:
     def __init__(self, mass, power_per, in_flow, out_flow):
         
+        self.spacecraft = None
+
         self.mass = mass
         self.power_per = power_per
         self.in_flow = in_flow
@@ -202,6 +213,8 @@ class ionizer:
 class scoop:
     def __init__(self, mass, power, radius):
         
+        self.spacecraft = None
+
         self.mass = mass
 
         self.power = power
@@ -238,6 +251,8 @@ class scoop:
 class tank:
     def __init__(self, mass, max_fuel_mass, fuel):
         
+        self.spacecraft = None
+
         self.mass = mass
 
         self.max_fuel = max_fuel_mass
@@ -252,6 +267,8 @@ class tank:
 class reactor:
     def __init__(self, mass, generation):
         
+        self.spacecraft = None
+
         self.mass = mass
 
         self.generation = generation
