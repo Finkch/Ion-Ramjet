@@ -106,7 +106,7 @@ class Spacecraft(Actor):
         for part in self.generators.values():
             part.produce()
         
-        thrust = self.thruster.produce(self.throttle.get())
+        thrust = self.thruster.produce()
 
         for part in self.regulators.values():
             if isinstance(part, Tank):
@@ -216,16 +216,22 @@ class Generator(Part):
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
     # Produces
-    def produce(self, throttle = 1):
+    def produce(self):
 
         # Gets what percent this generator may produce
+        throttle = 1
         for key in self.consumptions.keys():
-            throttle = min(throttle, self.consumptions[key]['tank'].output(self))
+            throttle = min(throttle, self.consumptions[key]['tank'].output(self)['percent'])
 
         # Refunds regulators for fuel this was unable to use
-        if throttle < 1:
-            for key in self.consumptions.keys():
-                self.consumptions[key]['tank'].input(self.consumptions[key]['fuel'] * (self.consumptions[key]['tank'].output(self) - throttle), self)
+        #if throttle < 1:
+        for key in self.consumptions.keys():
+            output = self.consumptions[key]['tank'].output(self)
+
+            percent = 1 - throttle / output['percent'] if output['percent'] != 0 else 0
+            refunded = output['fuel'] * percent
+
+            self.consumptions[key]['tank'].input(refunded, self)
 
         # Calculates how much this generator produces        
         produced = self.production * throttle
@@ -301,9 +307,9 @@ class Regulator(Part):
                 self.flow -= request['fuel']
             
             if request['fuel'] == 0:
-                self.outputs[request['source'].name] = 0
+                self.outputs[request['source'].name] = {'percent': 1, 'fuel': 0}
             else:
-                self.outputs[request['source'].name] = supplied / request['fuel']
+                self.outputs[request['source'].name] = {'percent': supplied / request['fuel'], 'fuel': supplied}
     
     # Pipes out
     #   The output is as a fraction out of 1 of the request
