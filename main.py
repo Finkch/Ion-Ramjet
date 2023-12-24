@@ -85,7 +85,7 @@ def exist(timer, screen, keybboard, zoom, actors, craft):
             step(time_step, actors)
 
             # Debug printout
-            debug(timer, actors)
+            debug(timer, craft)
 
         # Handles an input/draw frame
         if timer.real_time.time():
@@ -115,14 +115,13 @@ def step(time_step, actors):
 
 
 # Performs a debug readout
-def debug(timer, crafts):
+def debug(timer, craft):
 
     if not DEBUG:
         return
 
     print("\n\n" + str(timer))
-    for craft in crafts:
-        print(craft)
+    print(craft)
 
 
 # Gets everything going
