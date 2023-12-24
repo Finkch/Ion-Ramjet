@@ -229,6 +229,9 @@ class reactor:
 
         # Resets requested power
         self.requested_power = 0
+    
+    def request(self, amount):
+        self.requested_power += amount
 
     
     def get_mass(self):
