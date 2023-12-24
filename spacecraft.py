@@ -390,7 +390,7 @@ class Regulator(Part):
         self.requested = 0
 
     # Adds a request
-    def request(self, source, amount, priority):
+    def add_request(self, source, amount, priority):
         self.request.append({'fuel': amount, 'source': source})
         self.requested += amount
 
