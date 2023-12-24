@@ -1,6 +1,7 @@
 # This is a place to store data, such as spacecrafts or planets
 
 from spacecraft import *
+from constants import *
 
 # GENERATORS
 def thrusters(name):
@@ -71,11 +72,11 @@ def spacecrafts(name):
 
 
             # Some initial movement
-            test_craft.spacetime.position = v.Vector(c.au, 0, 0)
+            test_craft.spacetime.position = v.Vector(au, 0, 0)
             #test_craft.spacetime.velocity = v.Vector(0, c.au_speed, 0)
 
 
-            crafts = [test_craft]
+            return test_craft
 
 
 
