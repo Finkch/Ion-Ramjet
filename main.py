@@ -38,7 +38,7 @@ def setup():
     # Hanldes real-time and sim-time
     #   Initial simulation rate
     #   Framerate
-    timer = o.Time(1e5, 1000 / 60)
+    timer = o.Time(1, 1000 / 60)
 
 
     # Sets up the visuals
@@ -47,8 +47,10 @@ def setup():
 
     # Grabs the actors
     craft = st.spacecrafts('S-IVB')
-    actors = [st.stars('Sol'), craft]
+    #actors = [st.stars('Sol'), craft]
+    actors = [craft]
     
+    craft.spacetime.velocity = v.Vector()
 
     zoom = o.Zoom(0, timer, actors)
     keybboard = kb.Keyboard(timer, zoom, actors, craft)
