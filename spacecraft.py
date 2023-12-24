@@ -307,12 +307,35 @@ class Part:
     def get_mass(self):
         return self.mass
 
-# Produces something for free
+# Produces something
 class Generator(Part):
-    def __init__(self, mass, production_rate, consumption_rates):
+    def __init__(self, mass, production_rate, power_required = 0, battery = None, fuel_required = 0, tank = None):
         super().__init__(mass)
+
+        # How quickly it can produce
+        self.production = production_rate
+        
+        # Electric requirements
+        self.power = power_required
+        self.battery = battery
+        
+        # Fuel requirements
+        self.fuel = fuel_required
+        self.tank = tank
+
+        # The owner of this part
+        self.spacecraft = None
 
 # Holds stuff and checks the rate
 class Regulator(Part):
     def __init__(self, mass, capacity):
         super().__init__(mass)
+
+        # The size of the tank
+        self.max_capacity = capacity
+        self.capacity = 0
+
+        # The requested flow rates
+        self.requested_output = 0
+        self.requested_input = 0
+
