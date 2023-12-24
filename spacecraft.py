@@ -191,6 +191,9 @@ class Generator(Part):
 
         # How quickly it can produce
         self.production = production_rate
+
+        # How quickly it is currently producing
+        self.rate = 0
         
         # Consumption rates and inputs stored in a dictionary:
         #   conumsptions = {
@@ -211,6 +214,8 @@ class Generator(Part):
 
     # Requests the items to be consumed
     def request(self, throttle = 1):
+        self.rate = self.production * throttle
+
         # Asks each part for fuel
         for key in self.consumptions.keys():
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
@@ -234,7 +239,7 @@ class Generator(Part):
             self.consumptions[key]['tank'].input(refunded, self)
 
         # Calculates how much this generator produces        
-        produced = self.production * throttle
+        produced = self.rate * throttle
 
 
         # Places the output in the correct spot
