@@ -322,7 +322,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, name, mass, production_rate, tank = None, consumptions = None):
+    def __init__(self, name, mass, production_rate, tank = None, consumptions = {}):
         super().__init__(name, mass)
 
         # How quickly it can produce
@@ -346,7 +346,7 @@ class Generator(Part):
         self.spacecraft = None
 
     # Requests the items to be consumed
-    def request(self, throttle):
+    def request(self, throttle = 1):
         # Asks each part for fuel
         for key in self.consumptions.keys():
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
@@ -373,7 +373,7 @@ class Generator(Part):
         if not self.tank:
             return produced
 
-        self.tank().input(produced)
+        self.tank.input(produced)
 
         
 
