@@ -91,6 +91,8 @@ class Spacecraft(Actor):
         super().__init__(name, self.get_mass(), radius)
         self.spacetime = v.AngularSpacetime()
 
+        self.mass = self.get_mass()
+
     def __call__(self, time_step):
 
         self.reactor()
@@ -117,13 +119,13 @@ class Spacecraft(Actor):
 
     # Returns the current mass of the craft
     def get_mass(self):
-        mass = 0
-        mass += self.core_mass
-        mass += self.thruster.get_mass()
-        mass += self.ionizer.get_mass()
-        mass += self.scoop.get_mass()
-        #mass += self.tank.get_mass()
-        mass += self.reactor.get_mass()
+        mass = self.core_mass
+        
+        for part in self.generators.values():
+            mass += part.get_mass()
+        
+        for part in self.regulators.values():
+            mass += part.get_mass()
 
         return mass
     
@@ -147,6 +149,7 @@ class Spacecraft(Actor):
             f'vel {self.vel().hypo():.2e} m/s',
             f'thr {self.force_preview.hypo():.2e} N'
         ]
+
 
 
 # What produces the thrust
