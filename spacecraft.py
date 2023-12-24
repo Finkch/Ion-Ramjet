@@ -378,8 +378,13 @@ class Tank(Regulator):
 
 # A scoop is a generator whose performance depends on the craft's orientation
 class Scoop(Generator):
-    def __init__(self, name, mass, production_rate, tank = None, consumptions = {}):
-        super().__init__(name, mass, production_rate, tank, consumptions)
+    def __init__(self, name, mass, production_rate, power):
+        super().__init__(name, mass, production_rate, None, {})
+
+        self.flows = {'e': power}
+
+    def link_input(self, regulator):
+        return super().link_input(regulator, 'e', self.flows['e'])
     
     def produce(self):
 
