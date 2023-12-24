@@ -125,7 +125,7 @@ def step(time_step, crafts, other_actors):
 
     # Simulates each craft
     for craft in crafts:
-        craft(time_step, True)
+        craft(time_step)
 
     # Performs a step of simulation for "linear" actors
     for actor in other_actors:

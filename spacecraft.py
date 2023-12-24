@@ -96,7 +96,7 @@ class Spacecraft(Actor):
         super().__init__(name, self.get_mass(), radius)
         self.spacetime = v.AngularSpacetime()
 
-    def __call__(self, time_step, fire):
+    def __call__(self, time_step):
 
         self.reactor()
 
