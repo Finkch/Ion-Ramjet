@@ -30,34 +30,28 @@ def setup():
     screen = vis.init_visuals(768, 768)
     
 
-    zoom = o.Zoom(0, timer, crafts)
-    keybboard = kb.Keyboard(timer, zoom, crafts)
+    zoom = o.Zoom(0, timer, actors)
+    keybboard = kb.Keyboard(timer, zoom, actors, craft)
 
     # Simulates
-    exist(timer, crafts, screen, keybboard, zoom)
+    exist(timer, screen, keybboard, zoom, actors, craft)
 
 
 
 # Simulates
-def exist(timer, crafts, screen, keybboard, zoom):
+def exist(timer, screen, keybboard, zoom, actors, craft):
 
     # Keeps track of simulation duration
     simulate = True
-
-    # Sun mass
-    sun = sc.Actor("sun", c.sun_mass, c.sun_radius)
-    zoom.actors = [sun, crafts[0]]
-    zoom.update_focus()
 
 
     # Simulates a workload for a moment to normalise the timer
     timer.real_time.stamp()
     while timer.real_time.dif() < 100:
         timer.timer.time()
-        g.easy_gravity([sun], crafts)
-        sun.spacetime.acceleration = v.Vector()
-        for craft in crafts:
-            craft.spacetime.acceleration = v.Vector()
+        g.easy_gravity(actors)
+        for actor in actors:
+            actor.spacetime.acceleration = v.Vector()
 
     # Simulates
     while simulate:
@@ -68,10 +62,10 @@ def exist(timer, crafts, screen, keybboard, zoom):
 
         # Performs one stpe
         if not timer.paused:
-            step(time_step, crafts, [sun])
+            step(time_step, actors)
 
             # Debug printout
-            debug(timer, crafts, [sun])
+            debug(timer, actors)
 
         # Handles an input/draw frame
         if timer.real_time.time():
@@ -80,7 +74,7 @@ def exist(timer, crafts, screen, keybboard, zoom):
             zoom()
             
             # Draws the screen
-            vis.draw(screen, [sun, crafts[0]], timer, zoom)
+            vis.draw(screen, actors, timer, zoom)
 
             # Handles keyboard inputs
             simulate = keybboard()
@@ -90,22 +84,18 @@ def exist(timer, crafts, screen, keybboard, zoom):
 
 
 # One step of simulation
-def step(time_step, crafts, other_actors):
+def step(time_step, actors):
 
     # Applies gravity
-    g.easy_gravity(other_actors, crafts)
+    g.easy_gravity(actors)
 
-    # Simulates each craft
-    for craft in crafts:
-        craft(time_step)
-
-    # Performs a step of simulation for "linear" actors
-    for actor in other_actors:
+    # Simulates each actor
+    for actor in actors:
         actor(time_step)
 
 
 # Performs a debug readout
-def debug(timer, crafts, other_actors):
+def debug(timer, crafts):
 
     if not DEBUG:
         return
