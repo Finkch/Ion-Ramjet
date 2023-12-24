@@ -320,7 +320,6 @@ class Generator(Part):
         #       '$fuel_name': {
         #           'fuel': $rate_consumed
         #           'tank': $regulator
-        #           'priority': $priority
         #       }
         #   }
         self.consumptions = consumptions
@@ -335,7 +334,7 @@ class Generator(Part):
     def request(self):
         # Asks each part for fuel
         for key in self.consumptions.keys():
-            self.consumptions[key]['tank'].request(self.consumptions[key]['fuel'], self.consumptions[key]['priority'])
+            self.consumptions[key]['tank'].request(self, self.consumptions[key]['fuel'])
 
     # Produces
     def produce(self):
@@ -392,7 +391,7 @@ class Regulator(Part):
 
     # Adds a request
     def request(self, source, amount, priority):
-        self.request.append({'fuel': amount, 'priority': priority, 'source': source})
+        self.request.append({'fuel': amount, 'source': source})
         self.requested += amount
 
     # Pipes fuel into the tank
@@ -408,7 +407,7 @@ class Regulator(Part):
         
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
-        self.requests.sort(key = lambda x: x['priotity'], reverse = True)
+        self.requests.sort(key = lambda x: (x['fuel']))
 
 
     # Overload get mass to return the mass of this part plus its fuel
