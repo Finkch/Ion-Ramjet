@@ -74,6 +74,7 @@ class Spacecraft(Actor):
     def __init__(self, name, radius, core_mass, generators, regulators, thruster):
 
         # Creates the craft from the components
+        self.core_mass = core_mass
 
         self.generators = generators
         self.regulators = regulators
@@ -95,7 +96,7 @@ class Spacecraft(Actor):
 
     def __call__(self, time_step):
 
-        thruster.request()
+        self.thruster.request()
         for part in self.generators.values():
             part.request()
 
@@ -313,6 +314,7 @@ class reactor:
 # All ship parts have some mass
 class Part:
     def __init__(self, name, mass):
+        self.name = name
         self.mass = mass
     
     def get_mass(self):
@@ -338,6 +340,8 @@ class Generator(Part):
         # Where to output to
         self.tank = tank
 
+
+
         # The owner of this part
         self.spacecraft = None
 
@@ -358,18 +362,18 @@ class Generator(Part):
         # Refunds regulators for fuel this was unable to use
         if throttle < 1:
             for key in self.consumptions.keys():
-                self.consumptions[key]['tank'].input(self, self.consumptions[key]['fuel'] * (self.consumptions[key]['tank'].output(self) - throttle))
+                self.consumptions[key]['tank'].input(self.consumptions[key]['fuel'] * (self.consumptions[key]['tank'].output(self) - throttle), self)
 
         # Calculates how much this generator produces        
-        output = self.production * throttle
+        produced = self.production * throttle
 
 
         # Places the output in the correct spot
 
-        if not self.output:
-            return output
+        if not self.tank:
+            return produced
 
-        self.tank().input(output)
+        self.tank().input(produced)
 
         
 
@@ -395,21 +399,21 @@ class Regulator(Part):
         self.spacecraft = None
 
     # Handles one step of simulation
-    def reset(self, time_step):
+    def reset(self):
         self.outputs = {}
         self.requests = []
         self.requested = 0
 
     # Adds a request
-    def add_request(self, source, amount, priority):
-        self.request.append({'fuel': amount, 'source': source})
+    def add_request(self, source, amount):
+        self.requests.append({'fuel': amount, 'source': source})
         self.requested += amount
 
     # Pipes fuel into the tank
     def input(self, fuel, source = None):
         
         # Adds fuel to the tank
-        self.capacity + fuel
+        self.capacity += fuel
 
         # Caps the amount of fuel
         if self.capacity > self.max_capacity:
@@ -432,12 +436,12 @@ class Regulator(Part):
                 supplied = request['fuel']
                 self.capacity -= request['fuel']
 
-            self.outputs[request['source'].name] = supplied
+            self.outputs[request['source'].name] = supplied / request['fuel']
     
     # Pipes out
     #   The output is as a fraction out of 1 of the request
     def output(self, source):
-        return self.outputs[source.name] / self.requests[source.name]['fuel']
+        return self.outputs[source.name]
 
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
