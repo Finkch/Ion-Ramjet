@@ -315,7 +315,13 @@ class Generator(Part):
         # How quickly it can produce
         self.production = production_rate
         
-        # Electric requirements
+        # Consumption rates and inputs stored in a dictionary:
+        #   conumsptions = {
+        #       '$fuel_name': {
+        #           'fuel': $rate_consumed
+        #           'tank': $regulator
+        #       }
+        #   }
         self.consumptions = consumptions
 
         # The owner of this part
