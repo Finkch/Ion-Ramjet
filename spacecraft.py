@@ -204,7 +204,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, name, mass, production_rate, tank = None, consumptions = {}):
+    def __init__(self, name, mass, production_rate, fuels):
         super().__init__(name, mass)
 
         # How quickly it can produce
@@ -220,10 +220,13 @@ class Generator(Part):
         #           'tank': $regulator
         #       }
         #   }
-        self.consumptions = consumptions
+        self.consumptions = {}
 
         # Where to output to
-        self.tank = tank
+        self.tank = None
+
+        # The types of fuel this Generator requires
+        self.fuels = fuels
 
     def link_output(self, tank):
         self.tank = tank
@@ -381,10 +384,10 @@ class Scoop(Generator):
     def __init__(self, name, mass, production_rate, power):
         super().__init__(name, mass, production_rate, None, {})
 
-        self.flows = {'e': power}
+        self.fuels = {'e': power}
 
     def link_input(self, regulator):
-        return super().link_input(regulator, 'e', self.flows['e'])
+        return super().link_input(regulator, 'e', self.fuels['e'])
     
     def produce(self):
 
