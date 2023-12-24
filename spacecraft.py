@@ -301,7 +301,7 @@ class reactor:
 
 # All ship parts have some mass
 class Part:
-    def __init__(self, mass):
+    def __init__(self, name, mass):
         self.mass = mass
     
     def get_mass(self):
@@ -309,8 +309,8 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, mass, production_rate, tank = None, consumptions = None):
-        super().__init__(mass)
+    def __init__(self, name, mass, production_rate, tank = None, consumptions = None):
+        super().__init__(name, mass)
 
         # How quickly it can produce
         self.production = production_rate
@@ -365,8 +365,8 @@ class Generator(Part):
 
 # Holds stuff and checks the rate
 class Regulator(Part):
-    def __init__(self, mass, capacity, fuel_mass = 0):
-        super().__init__(mass)
+    def __init__(self, name, mass, capacity, fuel_mass = 0):
+        super().__init__(name, mass)
 
         # The size of the tank
         self.max_capacity = capacity
