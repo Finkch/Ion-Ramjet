@@ -455,3 +455,25 @@ class Regulator(Part):
     # Overload get mass to return the mass of this part plus its fuel
     def get_mass(self):
         return super().get_mass() + self.flow * self.density
+    
+
+# A tank is a Regulator that has time dependent production
+class Tank(Regulator):
+    def __init__(self, name, mass, capacity, fuel_density = 1, unit  = 'kg'):
+        super().__init__(name, mass, capacity, fuel_density, unit)
+
+        # Tanks start full
+        self.flow = self.capacity
+
+        # A reference to the time step
+        self.time_step = 0
+    
+    def reset(self, time_step):
+        super().reset()
+        self.time_step = time_step
+
+    def input(self, fuel, source = None, throttle = 1):
+        super().input(fuel, source, self.time_step * throttle)
+
+    def process(self):
+        return super().process(self.time_step)
