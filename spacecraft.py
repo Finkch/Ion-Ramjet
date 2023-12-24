@@ -91,8 +91,10 @@ class Spacecraft(Actor):
 
     def __call__(self, time_step, fire):
 
+        self.reactor()
+
         if fire:
-            thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
+            thrust = self.thruster(self.reactor, self.throttle, 100)
             force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
             self.force(force)
             self.force_preview = force
@@ -153,7 +155,7 @@ class thruster:
 
         self.mass = mass
         
-        self.v_e = v_e              # Exhaust velocity
+        self.v_e = v_e          # Exhaust velocity
         self.max_F = max_F      # Max mass flow
         self.max_P = max_P
 
