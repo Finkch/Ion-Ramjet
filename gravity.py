@@ -7,7 +7,7 @@ import vector as v
 def easy_gravity(actors):
     for i in range(len(actors)):
         for j in range(i + 1, len(actors)):
-            gravity[actors[i], actors[j]]
+            gravity(actors[i], actors[j])
 
 
 
