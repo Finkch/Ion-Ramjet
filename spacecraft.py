@@ -376,8 +376,10 @@ class Regulator(Part):
         self.density = fuel_mass
 
         # The requested flow rates
-        self.requested_output = 0
-        self.requested_input = 0
+        self.outputs = {}
+        self.requests = {}
+        self.requested = 0
+
 
         # The owner of this part
         self.spacecraft = None
@@ -385,6 +387,12 @@ class Regulator(Part):
     # Handles one step of simulation
     def __call__(self, time_step):
         pass
+
+    # Adds a request
+    def request(self, source, amount, priority):
+        self.request[source.name] = {'fuel': amount, 'priority': priority, 'source': source}
+        self.requested += amount
+
 
     # Overload get mass to return the mass of this part plus its fuel
     def get_mass(self):
