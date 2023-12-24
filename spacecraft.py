@@ -109,7 +109,10 @@ class Spacecraft(Actor):
         thrust = self.thruster.produce()
 
         for part in self.regulators.values():
-            part.reset()
+            if isinstance(part, Tank):
+                part.reset(time_step)
+            else:
+                part.reset()
 
         
         # Converts the generated thrust into a vector
