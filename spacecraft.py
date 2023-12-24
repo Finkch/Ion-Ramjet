@@ -403,6 +403,9 @@ class Regulator(Part):
         
     # Processes the requests
     def process(self):
+
+        self.sort_requests()
+
         for request in self.requests:
 
             # Updates capacity and determines how much is supplied
