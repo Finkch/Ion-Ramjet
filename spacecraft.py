@@ -348,7 +348,7 @@ class Generator(Part):
         # Refunds regulators for fuel this was unable to use
         if throttle < 1:
             for key in self.consumptions.keys():
-                self.consumptions[key]['tank'].refund(self)
+                self.consumptions[key]['tank'].input(self, self.consumptions[key]['fuel'] * (self.consumptions[key]['tank'].output(self) - throttle))
 
         # Calculates how much this generator produces        
         output = self.production * throttle
