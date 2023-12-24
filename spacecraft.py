@@ -380,9 +380,9 @@ class Regulator(Part):
         self.spacecraft = None
 
     # Handles one step of simulation
-    def __call__(self, time_step):
-        self.requests = {}
+    def reset(self, time_step):
         self.outputs = {}
+        self.requests = []
         self.requested = 0
 
     # Adds a request
