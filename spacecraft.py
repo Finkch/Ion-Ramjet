@@ -395,6 +395,17 @@ class Regulator(Part):
         self.request.append({'fuel': amount, 'priority': priority, 'source': source})
         self.requested += amount
 
+    # Pipes fuel into the tank
+    def input(self, fuel, source = None):
+        
+        # Adds fuel to the tank
+        self.capacity + fuel
+
+        # Caps the amount of fuel
+        if self.capacity > self.max_capacity:
+            overflow = self.capacity - self.max_capacity # Overflow is currently ditched overboard
+            self.capacity = self.max_capacity
+        
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
         self.requests.sort(key = lambda x: x['priotity'], reverse = True)
