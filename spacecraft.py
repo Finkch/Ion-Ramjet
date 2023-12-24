@@ -157,8 +157,15 @@ class thruster:
         self.max_F = max_F      # Max mass flow
         self.max_P = max_P
 
-    def __call__(self, ionizer, reactor, throttle):
-        return self.max_F * throttle.get()
+        self.m_dot = self.max_F / self.v_e
+
+    def __call__(self, reactor, throttle, fuel):
+
+        throughput = min(fuel / self.m_dot, throttle.get(), reactor.percent)
+
+        reactor.request(self.max_P * throughput)
+
+        return self.max_F * throughput
     
     def get_mass(self):
         return self.mass
