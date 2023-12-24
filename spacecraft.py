@@ -386,7 +386,9 @@ class Regulator(Part):
 
     # Handles one step of simulation
     def __call__(self, time_step):
-        pass
+        self.requests = {}
+        self.outputs = {}
+        self.requested = 0
 
     # Adds a request
     def request(self, source, amount, priority):
