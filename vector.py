@@ -120,6 +120,10 @@ class Vector:
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x
         )
+
+    # Returns a vector normal to this one
+    def normal(self):
+        return self / self.hypo()
         
     
 
