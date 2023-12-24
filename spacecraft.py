@@ -379,7 +379,7 @@ class Generator(Part):
 
 # Holds stuff and checks the rate
 class Regulator(Part):
-    def __init__(self, name, mass, fuel_density = 1):
+    def __init__(self, name, mass, fuel_density = 1, unit = 'kg/s'):
         super().__init__(name, mass)
 
         # How much fuel is flowing into the tank
@@ -393,6 +393,12 @@ class Regulator(Part):
 
         # The owner of this part
         self.spacecraft = None
+
+        # Units of the thing being regulated
+        self.unit = unit
+
+    def __str__(self):
+        return f'{self.name[:3].lower()} {self.flow:.2e} {self.unit}'
 
     # Handles one step of simulation
     def reset(self):
