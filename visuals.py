@@ -150,7 +150,10 @@ def text(screen, string, position, pad = True, size = 'medium', colour = 'white'
 
 # Renders a column of text in rows as specified by strings
 def text_column(screen, strings, position, pad = True, down = True, left = True):
-    
+
+    if not strings:
+        return
+
     # Gets the correct amount of padding
     padding = PIXEL_PADDING
     if not pad:
