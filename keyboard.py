@@ -20,14 +20,17 @@ class Keyboard:
             'slash':        {'count': 0, 'key': pygame.K_SLASH,         'type': self.pressed,       'function': self.zoom.increase_order}, 
             'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,     'type': self.pressed,       'function': self.zoom.next}, 
             'period':       {'count': 0, 'key': pygame.K_PERIOD,        'type': self.pressed,       'function': self.zoom.previous}, 
-            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': self.craft.throttle.increase}, 
-            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': self.craft.throttle.decrease}, 
+            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': None}, 
+            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': None}, 
             'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.craft.rotate_ccw}, 
             'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.craft.rotate_cw}, 
             'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.craft.throttle.max}, 
             'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.craft.throttle.min}, 
             'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.craft.goto_velocity}, 
-            'v':            {'count': 0, 'key': pygame.K_v,             'type': self.pressed,       'function': self.zoom.toggle_autoscale}, 
+            'v':            {'count': 0, 'key': pygame.K_v,             'type': self.pressed,       'function': self.zoom.toggle_autoscale},
+            'lshift':       {'count': 0, 'key': pygame.K_LSHIFT,        'type': self.held,          'function': self.craft.throttle.increase}, 
+            'lcontrol':     {'count': 0, 'key': pygame.K_LCTRL,         'type': self.held,          'function': self.craft.throttle.decrease},
+            
         }
 
         # Parameters for repeated inputs on button being held down
@@ -68,12 +71,8 @@ class Keyboard:
                     self.timer.pause()
             
 
-            
-
-
         # Returns simulation status
-        return True
-    
+        return True    
 
 
     # Handles inputs
