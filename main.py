@@ -46,7 +46,7 @@ def setup():
 
 
     # Grabs the actors
-    craft = st.spacecrafts('test_craft')
+    craft = st.spacecrafts('S-IVB')
     actors = [st.stars('Sol'), craft]
     
 

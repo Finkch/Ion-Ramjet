@@ -8,6 +8,8 @@ def thrusters(name):
     match name:
         case 'MPDT-thruster':
             return Generator(name, 10, 26.3)
+        case 'J-2': # Used on the S-IVB, the upper stage of the Saturn V
+            return Generator(name, 1800, 1033e3)
         
 def ionizers(name):
     match name:
@@ -37,6 +39,8 @@ def tanks(name):
             return Regulator(name, 5, 10, 1)
         case 'MPDT-pTank':
             return Regulator(name, 5, 10, 1)
+        case 'S-IVB Tank':
+            return Regulator(name, 11.7e3, 109e3, 1)
 
 def batteries(name):
     match name:
@@ -63,6 +67,20 @@ def spacecrafts(name):
 
             craft = Spacecraft()
             return None
+        
+        case 'S-IVB':
+
+            thruster = thrusters('J-2')
+            tank = tanks('S-IVB Tank')
+
+            thruster.consumptions = {
+                'LOX-LH2': {
+                    'fuel': 250.4,
+                    'tank': tank
+                }
+            }
+
+            return Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank'}, thruster)
 
         case 'test_craft': # An outdated model
 
