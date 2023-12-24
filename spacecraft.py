@@ -204,7 +204,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, name, mass, production_rate, fuels):
+    def __init__(self, name, mass, production_rate, fuels = {}):
         super().__init__(name, mass)
 
         # How quickly it can produce
