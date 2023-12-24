@@ -6,12 +6,11 @@
 
 
 import vector as v
-import spacecraft as sc
 import gravity as g
-import constants as c
 import visuals as vis
 import keyboard as kb
 import orders as o
+import storage as st
 
 # Should debug printout
 DEBUG = False
@@ -28,6 +27,11 @@ def setup():
 
     # Sets up the visuals
     screen = vis.init_visuals(768, 768)
+
+
+    # Grabs the actors
+    craft = st.spacecrafts('test_craft')
+    actors = [st.stars('Sol'), craft]
     
 
     zoom = o.Zoom(0, timer, actors)
