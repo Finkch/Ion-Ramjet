@@ -106,7 +106,7 @@ class Spacecraft(Actor):
         for part in self.generators.values():
             part.produce()
         
-        thrust = self.thruster.produce()
+        thrust = self.thruster.produce(self.throttle.get())
 
         for part in self.regulators.values():
             if isinstance(part, Tank):
@@ -216,10 +216,9 @@ class Generator(Part):
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
     # Produces
-    def produce(self):
+    def produce(self, throttle = 1):
 
         # Gets what percent this generator may produce
-        throttle = 1
         for key in self.consumptions.keys():
             throttle = min(throttle, self.consumptions[key]['tank'].output(self))
 
