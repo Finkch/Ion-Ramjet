@@ -95,13 +95,28 @@ class Spacecraft(Actor):
 
     def __call__(self, time_step):
 
-        self.reactor()
+        thruster.request()
+        for part in self.generators.values():
+            part.request()
 
-        if self.throttle.get() != 0:
-            thrust = self.thruster(self.reactor, self.throttle, 100)
-            force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
-            self.force(force)
-            self.force_preview = force
+        for part in self.regulators.values():
+            part.process()
+
+        for part in self.generators.values():
+            part.produce()
+        
+        thrust = self.thruster.produce()
+
+        for part in self.regulators.values():
+            part.reset()
+
+        
+        # Converts the generated thrust into a vector
+        #thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
+        force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
+        self.force(force)
+        self.force_preview = force
+
 
         super().__call__(time_step)
 
