@@ -382,10 +382,11 @@ class Generator(Part):
 
 # Holds stuff and checks the rate
 class Regulator(Part):
-    def __init__(self, name, mass, fuel_density = 1, unit = 'kg/s'):
+    def __init__(self, name, mass, capacity, fuel_density = 1, unit = 'kg/s'):
         super().__init__(name, mass)
 
         # How much fuel is flowing into the tank
+        self.capacity = capacity
         self.flow = 0
         self.density = fuel_density
 
@@ -408,7 +409,6 @@ class Regulator(Part):
         self.outputs = {}
         self.requests = []
         self.requested = 0
-        self.flow = 0
 
     # Adds a request
     def add_request(self, source, amount):
@@ -418,6 +418,9 @@ class Regulator(Part):
     # Pipes fuel into the tank
     def input(self, fuel, source = None):
         self.flow += fuel
+        if self.flow > self.capacity:
+            overflow = self.flow - self.capacity
+            self.flow = self.capacity # Ditches excess generation overboard
         
     # Processes the requests
     def process(self):
