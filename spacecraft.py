@@ -309,7 +309,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, mass, production_rate, consumptions = None):
+    def __init__(self, mass, production_rate, consumptions = None, priority = 0):
         super().__init__(mass)
 
         # How quickly it can produce
@@ -323,6 +323,9 @@ class Generator(Part):
         #       }
         #   }
         self.consumptions = consumptions
+
+        # What priority the a regulator should place on allocating resource to this part
+        self.priority = priority
 
         # The owner of this part
         self.spacecraft = None
