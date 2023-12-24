@@ -416,18 +416,20 @@ class Regulator(Part):
         self.requested += amount
 
     # Pipes fuel into the tank
-    def input(self, fuel, source = None):
-        self.flow += fuel
+    def input(self, fuel, source = None, throttle = 1):
+        self.flow += fuel * throttle
         if self.flow > self.capacity:
             overflow = self.flow - self.capacity
             self.flow = self.capacity # Ditches excess generation overboard
         
     # Processes the requests
-    def process(self):
+    def process(self, throttle = 1):
 
         self.sort_requests()
 
         for request in self.requests:
+
+            request['fuel'] *= throttle
 
             # Updates capacity and determines how much is supplied
             supplied = 0
