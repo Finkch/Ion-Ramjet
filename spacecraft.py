@@ -395,6 +395,10 @@ class Regulator(Part):
         self.request.append({'fuel': amount, 'priority': priority, 'source': source})
         self.requested += amount
 
+    # Sorts requests by priority; highest priority first
+    def sort_requests(self):
+        self.requests.sort(key = lambda x: x['priotity'], reverse = True)
+
 
     # Overload get mass to return the mass of this part plus its fuel
     def get_mass(self):
