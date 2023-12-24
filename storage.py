@@ -23,7 +23,7 @@ def scoops(name):
             return None
         
 
-        
+
 # REGULATORS
 def tanks(name):
     match name:
@@ -35,5 +35,30 @@ def tanks(name):
 def batteries(name):
     match name:
         case 'Z100':
+            return None
+        
+
+
+
+# SPACECRAFT
+def spacecrafts(name):
+    match name:
+        case 'ioRame-0':
+            return None
+
+
+
+
+# STARS
+def stars(name):
+    match name:
+        case 'Sol':
+            return None
+        
+
+# PLANETS
+def planets(name):
+    match name:
+        case 'Sol':
             return None
         
