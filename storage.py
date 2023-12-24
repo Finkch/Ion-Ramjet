@@ -44,7 +44,7 @@ def tanks(name):
         case 'MPDT-pTank':
             return Regulator(name, 5, 500)
         case 'S-IVB Tank':
-            return Tank(name, 11.7e3, 500)
+            return Tank(name, 11.7e3, 109e3)
 
 def batteries(name):
     match name:
@@ -89,7 +89,6 @@ def spacecrafts(name):
             craft.spacetime.velocity = v.Vector(0, au_speed, 0)
 
             return craft
-
 
 
 
