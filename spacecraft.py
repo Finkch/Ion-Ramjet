@@ -214,6 +214,22 @@ class reactor:
         self.mass = mass
 
         self.generation = generation
+
+        # Requested power allows the reactor to allocate thrust next sim
+        self.requested_power = 0
+
+        # What percent of requested power this can supply
+        self.percent = 0
+    
+    def __call__(self):
+        
+        # Calculates the percent of requested power this can generate
+        #   Upper limit of 1
+        self.percent = max(1, self.generation / self.requested_power)
+
+        # Resets requested power
+        self.requested_power = 0
+
     
     def get_mass(self):
         return self.mass
