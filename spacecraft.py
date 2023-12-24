@@ -326,6 +326,10 @@ class Generator(Part):
         # The owner of this part
         self.spacecraft = None
 
+    # Handles one step of simulation
+    def __call__(self, time_step):
+        pass
+
 # Holds stuff and checks the rate
 class Regulator(Part):
     def __init__(self, mass, capacity):
@@ -339,3 +343,6 @@ class Regulator(Part):
         self.requested_output = 0
         self.requested_input = 0
 
+    # Handles one step of simulation
+    def __call__(self, time_step):
+        pass
