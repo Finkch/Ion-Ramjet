@@ -166,6 +166,9 @@ class Spacecraft(Actor):
             f'thr {self.force_preview.hypo():.2e} N'
         ]
 
+    def get_printout_regulators(self):
+        return [str(part) for part in self.regulators.values()]
+
 
 
 # What produces the thrust

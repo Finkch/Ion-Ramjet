@@ -327,6 +327,9 @@ def draw_craft_readout(screen, crafts):
     # Renders the text into a column
     text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
 
+    # Renders the regulator data
+    text_column(screen, craft.get_printout_regulators(), [WIDTH - STRING_PADDING, HEIGHT], down = False, left = False)
+
 
 # Adds some performance metrics
 def draw_performance(screen, timer):
