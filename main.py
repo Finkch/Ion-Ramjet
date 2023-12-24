@@ -3,16 +3,8 @@
 
 # Todo:
 #   Create tests
-#   Refactor Spacecraft for new parts
 #   Build out parts in storage
 #   Allow Generator.produce() to have variable efficiency
-#   Allows refund overflow to carry up the chain
-#   Refactor request-produce?
-#       Only call generate on the lowest component
-#       Requests carry upward
-#       Regulators request until they are full
-#       Make Generators a superclass of Regulator?
-#           This would mean no Regulators, only Generators talking
 
 # Current branch structure:
 #   main
