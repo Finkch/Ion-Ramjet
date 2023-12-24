@@ -3,29 +3,11 @@
 import constants as c
 import vector as v
 
-# Calculates gravitational attraction between all releveant bodies
-#   "easy" gravity since we only care about a small set of gravity producers
-def easy_gravity(affecters, effectees):
-    
-    # Returns if the list of affectors is empty
-    if len(affecters) == 0:
-        return
-
-
-    # If supplied 1 array, then compute gravity between
-    # all items in that array
-    if len(effectees) == 0:
-        for i in range(len(affecters)):
-            for j in range(len(affecter) - i):
-                gravity(affecters[i], affecters[j])
-        return
-
-    # If supplied with 2 arrays, then compute gravity
-    # between each pair between the arrays, but not
-    # within each array
-    for affecter in affecters:
-        for effectee in effectees:
-            gravity(affecter, effectee)
+# Applies gravity between all pairs of actors
+def easy_gravity(actors):
+    for i in range(len(actors)):
+        for j in range(i + 1, len(actors)):
+            gravity[actors[i], actors[j]]
 
 
 
