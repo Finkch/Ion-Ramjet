@@ -78,12 +78,7 @@ def spacecrafts(name):
             thruster = thrusters('J-2')
             tank = tanks('S-IVB Tank')
 
-            thruster.consumptions = {
-                'LOX-LH2': {
-                    'fuel': 250.4,
-                    'tank': tank
-                }
-            }
+            thruster.link_input(tank, 'LOX-LH2')
 
             craft = Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank': tank}, thruster)
             craft.spacetime.position = v.Vector(au, 0, 0)
