@@ -44,7 +44,7 @@ def tanks(name):
         case 'MPDT-pTank':
             return Regulator(name, 5, 500)
         case 'S-IVB Tank':
-            return Regulator(name, 11.7e3, 500)
+            return Tank(name, 11.7e3, 500)
 
 def batteries(name):
     match name:
@@ -76,9 +76,6 @@ def spacecrafts(name):
 
             thruster = thrusters('J-2')
             tank = tanks('S-IVB Tank')
-            scoop = scoops('Magic Scoop')
-
-            scoop.tank = tank
 
             thruster.consumptions = {
                 'LOX-LH2': {
@@ -87,7 +84,7 @@ def spacecrafts(name):
                 }
             }
 
-            craft = Spacecraft('S-IVB', 18, 0, {'Magic Scoop': scoop}, {'S-IVB Tank': tank}, thruster)
+            craft = Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank': tank}, thruster)
             craft.spacetime.position = v.Vector(au, 0, 0)
             craft.spacetime.velocity = v.Vector(0, au_speed, 0)
 
