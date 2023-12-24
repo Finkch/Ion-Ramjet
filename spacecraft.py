@@ -191,6 +191,9 @@ class scoop:
 
     def __call__(self, reactor, spacetime, density, time_step):
 
+        # Requests power
+        reactor.request(self.power)
+
         # How well alligned the craft is to the ISM
         #   Alternatively, we could compare the angles returned by pos and vel
         sweep = spacetime.position.normal() ^ spacetime.velocity.normal()
@@ -198,7 +201,7 @@ class scoop:
         # If the sweep is negative, then it means the craft is facing backwards
         sweep = max(0, sweep)
 
-        current_radius = np.pi * (self.radius * reactor.rate) ** 2
+        current_radius = np.pi * (self.radius * reactor.percent) ** 2
 
         effective_area = sweep * current_radius
 
