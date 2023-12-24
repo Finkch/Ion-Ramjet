@@ -44,7 +44,7 @@ def init_visuals(width, height):
 
 # Draws everything
 #   focus is the actor at the centre of the display
-def draw(screen, actors, timer, zoom):
+def draw(screen, timer, zoom, actors, craft):
     
 
     # Clears screen to black
@@ -67,7 +67,7 @@ def draw(screen, actors, timer, zoom):
     draw_time(screen, timer)
 
     # Draws some craft informatiom
-    draw_craft_readout(screen, [actors[1]])
+    draw_craft_readout(screen, craft)
 
     # Renders the performance onto the screen
     draw_performance(screen, timer)

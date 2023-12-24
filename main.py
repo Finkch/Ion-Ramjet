@@ -88,7 +88,7 @@ def exist(timer, screen, keybboard, zoom, actors, craft):
             zoom()
             
             # Draws the screen
-            vis.draw(screen, actors, timer, zoom)
+            vis.draw(screen, timer, zoom, actors, craft)
 
             # Handles keyboard inputs
             simulate = keybboard()
