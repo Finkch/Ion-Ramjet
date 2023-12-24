@@ -140,8 +140,11 @@ class Zoom (Orders):
     def __call__(self):
         if self.auto_scale:
 
+            max_distance = self.actors[0].shape.radius * 20
+
             # Calculates the max distance between the focus and all actors
-            max_distance = max([(self.focus.pos() - actor.pos()).hypo() for actor in self.actors])
+            if len(self.actors) > 1:
+                max_distance = max([(self.focus.pos() - actor.pos()).hypo() for actor in self.actors])
 
             # The max distance is used to set the zoom
             self.set_order(max_distance * 1.2)
