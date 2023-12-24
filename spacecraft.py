@@ -369,3 +369,22 @@ class Tank(Regulator):
     def output(self, source):
         output = super().output(source)
         return {'percent': output['percent'], 'fuel': output['fuel'] / self.time_step}
+    
+
+# A scoop is a generator whose performance depends on the craft's orientation
+class Scoop(Generator):
+    def __init__(self, name, mass, production_rate, tank = None, consumptions = {}):
+        super().__init__(name, mass, production_rate, tank, consumptions)
+    
+    def produce(self):
+
+        # The effectiveness of a scoop depends on the direction the craft is
+        # facing relative to the interstellar medius (which is assumed here to
+        # be stationary)
+        multiplier = self.spacecraft.pos().normal() ^ self.spacecraft.vel().normal()
+
+        # This multiplier cannot be negative
+        multiplier = max(0, multiplier)
+
+        # Runs the scoop
+        return super().produce(multiplier)
