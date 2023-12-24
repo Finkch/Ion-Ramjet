@@ -174,7 +174,16 @@ class ionizer:
         self.in_flow = in_flow
         self.out_flow = out_flow
 
-    
+    def __call__(self, reactor, flow_in):
+        
+        to_ionize = flow_in * self.power_per
+        reactor.request(to_ionize)
+
+        return to_ionize * reactor.percent
+
+        # Requests power
+        #reactor.requested_power(self.power)
+
     def get_mass(self):
         return self.mass
 
