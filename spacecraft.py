@@ -297,3 +297,27 @@ class reactor:
     
     def get_mass(self):
         return self.mass
+
+
+# All ship parts have some mass
+class Part:
+    def __init__(self, mass):
+        self.mass = mass
+    
+    def get_mass(self):
+        return self.mass
+
+# Produces something for free
+class Generator(Part):
+    def __init__(self, mass, rate):
+        super().__init__(mass)
+
+# Produces something using electricity and (optionally) some fuel
+class Producer(Generator):
+    def __init__(self, mass, production_rate, electric_in, fuel_in):
+        super().__init__(mass, production_rate)
+
+# Holds stuff and checks the rate
+class Regulator(Part):
+    def __init__(self, mass, capacity):
+        super().__init__(mass)
