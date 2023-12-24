@@ -70,7 +70,8 @@ class Actor(object):
 
 # This is the core, the glue that holds everything together
 class Spacecraft(Actor):
-    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, hydrogen_tank, ionized_tank, electric_tank, reactor):
+    #def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, hydrogen_tank, ionized_tank, electric_tank, reactor):
+    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, hydrogen_tank, reactor):
 
         # Creates the craft from the components
         self.core_mass = core_mass
@@ -78,14 +79,14 @@ class Spacecraft(Actor):
         self.ionizer = ionizer
         self.scoop = scoop
         self.hydrogen_tank = hydrogen_tank
-        self.ionized_tank = ionized_tank
-        self.battery = electric_tank
+        #self.ionized_tank = ionized_tank
+        #self.battery = electric_tank
         self.reactor = reactor
 
         self.thruster.spacecraft = self
         self.ionizer.spacecraft = self
         self.scoop.spacecraft = self
-        self.tank.spacecraft = self
+        #self.tank.spacecraft = self
         self.reactor.spacecraft = self
 
 
@@ -129,7 +130,7 @@ class Spacecraft(Actor):
         mass += self.thruster.get_mass()
         mass += self.ionizer.get_mass()
         mass += self.scoop.get_mass()
-        mass += self.tank.get_mass()
+        #mass += self.tank.get_mass()
         mass += self.reactor.get_mass()
 
         return mass
@@ -334,7 +335,7 @@ class Generator(Part):
     def request(self):
         # Asks each part for fuel
         for key in self.consumptions.keys():
-            self.consumptions[key]['tank'].request(self, self.consumptions[key]['fuel'])
+            self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'])
 
     # Produces
     def produce(self):
@@ -375,7 +376,7 @@ class Regulator(Part):
         self.density = fuel_mass
 
         # The requested flow rates
-        self.outputs = []
+        self.outputs = {}
         self.requests = []
         self.requested = 0
 
@@ -405,9 +406,24 @@ class Regulator(Part):
             overflow = self.capacity - self.max_capacity # Overflow is currently ditched overboard
             self.capacity = self.max_capacity
         
+    # Pipes fuel out of the tank
+    def output(self):
+        for request in self.requests:
+
+            # Updates capacity and determines how much is supplied
+            supplied = 0
+            if self.capacity < request['fuel']:
+                supplied = self.capacity
+                self.capacity = 0
+            else:
+                supplied = request['fuel']
+                self.capacity -= request['fuel']
+
+            self.outputs[request['source'].name] = supplied
+
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
-        self.requests.sort(key = lambda x: (x['fuel']))
+        self.requests.sort(key = lambda x: x['fuel'])
 
 
     # Overload get mass to return the mass of this part plus its fuel
