@@ -11,7 +11,6 @@
 import vector as v
 import visuals as vis
 import orders as o
-import numpy as np
 
 
 class Actor(object):
