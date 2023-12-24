@@ -80,7 +80,10 @@ def spacecrafts(name):
                 }
             }
 
-            return Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank'}, thruster)
+            craft = Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank': tank}, thruster)
+            craft.spacetime.position = v.Vector(au, 0, 0)
+
+            return craft
 
         case 'test_craft': # An outdated model
 
