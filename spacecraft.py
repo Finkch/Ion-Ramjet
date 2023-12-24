@@ -384,7 +384,7 @@ class Regulator(Part):
 
         # The size of the tank
         self.max_capacity = capacity
-        self.capacity = 0
+        self.capacity = capacity
 
         # Mass of the fuel per unit of capacity
         self.density = fuel_mass
