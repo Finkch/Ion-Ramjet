@@ -231,8 +231,8 @@ class Generator(Part):
     def link_output(self, tank):
         self.tank = tank
     
-    def link_input(self, regulator, fuel, flow):
-        self.consumptions[fuel] = {'fuel': flow, 'tank': regulator}
+    def link_input(self, regulator, fuel):
+        self.consumptions[fuel] = {'fuel': self.fuels[fuel], 'tank': regulator}
 
     # Requests the items to be consumed
     def request(self, throttle = 1):
