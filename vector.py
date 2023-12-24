@@ -81,6 +81,21 @@ class Vector:
             -self.y,
             -self.z
         )
+    
+    # Overloads bitwise-and for cross product
+    #   (a2*b3-a3*b2, a3*b1-a1*b3, a1*b2-a2*b1); thanks stack overflow
+    #   Oh, of course, that's just the determinent - silly me    
+    def __and__(self, other):
+        return Vector(
+            self.y * other.z - self.z * other.y,
+            self.z * other.x - self.x * other.z,
+            self.x * other.y - self.y * other.x
+        )
+    
+    # Overloads bitwise-xor for dot product
+    def __xor__(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
 
     # Other class functions
     def __str__(self):
@@ -106,20 +121,10 @@ class Vector:
     # Gets the orientation of this vector
     def orientation(self):
         return Orientation(self.theta(), self.phi())
-    
-    # Calculates the dot-product between two vectors
-    def dot(self, other):
-        return self.x * other.x + self.y * other.y + self.z * other.z
 
-    # Caclulates the cross-product between two vectors
-    #   (a2*b3-a3*b2, a3*b1-a1*b3, a1*b2-a2*b1); thanks stack overflow
-    #   Oh, of course, that's just the determinent - silly me
-    def cross(self, other):
-        return Vector(
-            self.y * other.z - self.z * other.y,
-            self.z * other.x - self.x * other.z,
-            self.x * other.y - self.y * other.x
-        )
+    # Returns a vector normal to this one
+    def normal(self):
+        return self / self.hypo()
         
     
 

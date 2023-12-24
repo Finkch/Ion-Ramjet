@@ -150,7 +150,10 @@ def text(screen, string, position, pad = True, size = 'medium', colour = 'white'
 
 # Renders a column of text in rows as specified by strings
 def text_column(screen, strings, position, pad = True, down = True, left = True):
-    
+
+    if not strings:
+        return
+
     # Gets the correct amount of padding
     padding = PIXEL_PADDING
     if not pad:
@@ -326,6 +329,9 @@ def draw_craft_readout(screen, crafts):
 
     # Renders the text into a column
     text_column(screen, craft.get_printout(), [0, HEIGHT], down = False, pad = True)
+
+    # Renders the regulator data
+    text_column(screen, craft.get_printout_regulators(), [WIDTH - STRING_PADDING, HEIGHT], down = False, left = False)
 
 
 # Adds some performance metrics
