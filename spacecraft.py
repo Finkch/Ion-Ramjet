@@ -420,6 +420,10 @@ class Regulator(Part):
                 self.capacity -= request['fuel']
 
             self.outputs[request['source'].name] = supplied
+    
+    # Pipes out
+    def output(self, source):
+        return self.outputs[source.name]
 
     # Sorts requests by priority; highest priority first
     def sort_requests(self):
