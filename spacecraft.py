@@ -331,15 +331,35 @@ class Generator(Part):
         # The owner of this part
         self.spacecraft = None
 
-    # Handles one step of simulation
-    def __call__(self, time_step):
-        pass
-
     # Requests the items to be consumed
     def request(self):
         # Asks each part for fuel
         for key in self.consumptions.keys():
             self.consumptions[key]['tank'].request(self.consumptions[key]['fuel'], self.consumptions[key]['priority'])
+
+    # Produces
+    def produce(self):
+
+        # Gets what percent this generator may produce
+        throttle = 1
+        for key in self.consumptions.keys():
+            throttle = min(throttle, self.consumptions[key]['tank'].output(self))
+
+        # Refunds regulators for fuel this was unable to use
+        if throttle < 1:
+            for key in self.consumptions.keys():
+                self.consumptions[key]['tank'].refund(self)
+
+        # Calculates how much this generator produces        
+        output = self.production * throttle
+
+
+        # Places the output in the correct spot
+
+        if not self.output:
+            return output
+
+        self.tank().input(output)
 
         
 
