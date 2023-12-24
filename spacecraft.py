@@ -11,6 +11,7 @@
 import vector as v
 import visuals as vis
 import orders as o
+import numpy as np
 
 
 class Actor(object):
@@ -187,6 +188,25 @@ class scoop:
 
         self.power = power
         self.radius = radius
+
+    def __call__(self, reactor, spacetime, density, time_step):
+
+        # How well alligned the craft is to the ISM
+        #   Alternatively, we could compare the angles returned by pos and vel
+        sweep = spacetime.position.normal().dot(spacetime.velocity.normal())
+
+        # If the sweep is negative, then it means the craft is facing backwards
+        sweep = max(0, sweep)
+
+        current_radius = np.pi * (self.radius * reactor.rate) ** 2
+
+        effective_area = sweep * current_radius
+
+        # This is volume per second!
+        swept_volume = effective_area * spacetime.velocity.hypo()
+
+        # Returns the rate of collected Hydrogen
+        return swept_volume * density
     
     def get_mass(self):
         return self.mass
@@ -230,6 +250,7 @@ class reactor:
         # Resets requested power
         self.requested_power = 0
     
+    # Requests power for next step
     def request(self, amount):
         self.requested_power += amount
 
