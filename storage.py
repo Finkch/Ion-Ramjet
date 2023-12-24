@@ -85,7 +85,7 @@ def spacecrafts(name):
 def stars(name):
     match name:
         case 'Sol':
-            return None
+            return Actor("sun", sun_mass, sun_radius)
         
 
 # PLANETS
