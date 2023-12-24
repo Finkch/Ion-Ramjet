@@ -70,14 +70,16 @@ class Actor(object):
 
 # This is the core, the glue that holds everything together
 class Spacecraft(Actor):
-    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, tank, reactor):
+    def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, hydrogen_tank, ionized_tank, electric_tank, reactor):
 
         # Creates the craft from the components
         self.core_mass = core_mass
         self.thruster = thruster
         self.ionizer = ionizer
         self.scoop = scoop
-        self.tank = tank
+        self.hydrogen_tank = hydrogen_tank
+        self.ionized_tank = ionized_tank
+        self.battery = electric_tank
         self.reactor = reactor
 
         self.thruster.spacecraft = self
