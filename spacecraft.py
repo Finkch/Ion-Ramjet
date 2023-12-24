@@ -379,21 +379,17 @@ class Generator(Part):
 
 # Holds stuff and checks the rate
 class Regulator(Part):
-    def __init__(self, name, mass, capacity, fuel_mass = 0):
+    def __init__(self, name, mass, fuel_density = 1):
         super().__init__(name, mass)
 
-        # The size of the tank
-        self.max_capacity = capacity
-        self.capacity = capacity
-
-        # Mass of the fuel per unit of capacity
-        self.density = fuel_mass
+        # How much fuel is flowing into the tank
+        self.flow = 0
+        self.density = fuel_density
 
         # The requested flow rates
         self.outputs = {}
         self.requests = []
         self.requested = 0
-
 
         # The owner of this part
         self.spacecraft = None
@@ -403,6 +399,7 @@ class Regulator(Part):
         self.outputs = {}
         self.requests = []
         self.requested = 0
+        self.flow = 0
 
     # Adds a request
     def add_request(self, source, amount):
@@ -411,14 +408,7 @@ class Regulator(Part):
 
     # Pipes fuel into the tank
     def input(self, fuel, source = None):
-        
-        # Adds fuel to the tank
-        self.capacity += fuel
-
-        # Caps the amount of fuel
-        if self.capacity > self.max_capacity:
-            overflow = self.capacity - self.max_capacity # Overflow is currently ditched overboard
-            self.capacity = self.max_capacity
+        self.flow += fuel
         
     # Processes the requests
     def process(self):
@@ -429,12 +419,12 @@ class Regulator(Part):
 
             # Updates capacity and determines how much is supplied
             supplied = 0
-            if self.capacity < request['fuel']:
-                supplied = self.capacity
-                self.capacity = 0
+            if self.flow < request['fuel']:
+                supplied = self.flow
+                self.flow = 0
             else:
                 supplied = request['fuel']
-                self.capacity -= request['fuel']
+                self.flow -= request['fuel']
             
             if request['fuel'] == 0:
                 self.outputs[request['source'].name] = 0
@@ -452,4 +442,4 @@ class Regulator(Part):
 
     # Overload get mass to return the mass of this part plus its fuel
     def get_mass(self):
-        return super().get_mass() + self.capacity * self.density
+        return super().get_mass() + self.flow * self.density
