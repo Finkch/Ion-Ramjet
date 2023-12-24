@@ -193,7 +193,7 @@ class scoop:
 
         # How well alligned the craft is to the ISM
         #   Alternatively, we could compare the angles returned by pos and vel
-        sweep = spacetime.position.normal().dot(spacetime.velocity.normal())
+        sweep = spacetime.position.normal() ^ spacetime.velocity.normal()
 
         # If the sweep is negative, then it means the craft is facing backwards
         sweep = max(0, sweep)
