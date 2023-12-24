@@ -166,7 +166,7 @@ class Spacecraft(Actor):
             f'mas {self.mass:.2e} kg',
             f'pos {self.pos().hypo():.2e} m',
             f'vel {self.vel().hypo():.2e} m/s',
-            f'thr {self.force_preview.hypo():.2e} N'
+            f'thr {self.throttle.get() / self.throttle.maximum * 100:.0f} %'
         ]
 
     def get_printout_regulators(self):
