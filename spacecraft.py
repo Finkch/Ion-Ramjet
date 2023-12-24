@@ -225,7 +225,7 @@ class reactor:
         
         # Calculates the percent of requested power this can generate
         #   Upper limit of 1
-        self.percent = max(1, self.generation / self.requested_power)
+        self.percent = 1 if self.generation > self.requested_power else self.generation / self.requested_power
 
         # Resets requested power
         self.requested_power = 0
