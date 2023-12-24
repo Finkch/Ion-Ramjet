@@ -309,7 +309,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, mass, production_rate, consumptions = None):
+    def __init__(self, mass, production_rate, tank = None, consumptions = None):
         super().__init__(mass)
 
         # How quickly it can produce
@@ -325,6 +325,9 @@ class Generator(Part):
         #   }
         self.consumptions = consumptions
 
+        # Where to output to
+        self.tank = tank
+
         # The owner of this part
         self.spacecraft = None
 
@@ -332,7 +335,7 @@ class Generator(Part):
     def __call__(self, time_step):
         pass
 
-    # Requestions the items to be consumed
+    # Requests the items to be consumed
     def request(self):
         # Asks each part for fuel
         for key in self.consumptions.keys():
