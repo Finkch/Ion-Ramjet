@@ -7,19 +7,19 @@ from constants import *
 def thrusters(name):
     match name:
         case 'MPDT-thruster':
-            return Generator(name, 10, 26.3)
+            return Generator(name, 10, 26.3, {'p': 5.41073908927e-4, 'e': 750e3})
         case 'J-2': # Used on the S-IVB, the upper stage of the Saturn V
-            return Generator(name, 1800, 1033e3)
+            return Generator(name, 1800, 1033e3, {'LOX-LH2': 250.4})
         
 def ionizers(name):
     match name:
         case 'MPDT-ionizer':
-            return Generator(name, 5, 5.411e-4)
+            return Generator(name, 5, 5.411e-4, {'H': 5.41073908927e-4, 'e': 750e3})
 
 def scoops(name):
     match name:
         case 'MPDT-scoop':
-            return Generator(name, 5, 5.411e-4)
+            return Generator(name, 5, 5.411e-4, {'e': 750e3})
         case 'Magic Scoop':
             return Generator(name, 5, 1e10)
         case 'Lesser Magic Scoop':
@@ -30,7 +30,8 @@ def scoops(name):
 def reactors(name):
     match name:
         case 'MPDT-reactor':
-            return Generator(name, 10, 1.5e6)
+            #return Generator(name, 10, 1.5e6)
+            return Generator(name, 10, 1e10)
         case 'MMRTG': # Used on Perseverence and Curiosity!
             return None
         
