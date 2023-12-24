@@ -78,7 +78,7 @@ class Keyboard:
     # Handles inputs
     def perform_inputs(self):
         for key in self.keys.keys():
-            if self.keys[key]['type'](key):     # Checks if the key is held or pressed
+            if self.keys[key]['type'](key) and self.keys[key]['function']:     # Checks if the key is held or pressed and the function exists
                 self.keys[key]['function']()    # Performs the function associated with this key
 
     # Update keys held
