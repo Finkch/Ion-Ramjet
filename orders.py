@@ -184,6 +184,28 @@ class Zoom (Orders):
     def zoom(self):
         return self.get_order()
     
+    # Toggles autoscale
+    def toggle_autoscale(self):
+        self.auto_scale = not self.auto_scale
+
+
+    # Override order changes to set autoscale to false
+    def increase(self, multiplier = 1):
+        self.auto_scale = False
+        return super().increase(multiplier)
+
+    def increase_order(self):
+        self.auto_scale = False
+        return super().increase_order()
+    
+    def decrease(self, multiplier = 1):
+        self.auto_scale = False
+        return super().decrease(multiplier)
+    
+    def decrease_order(self):
+        self.auto_scale = False
+        return super().decrease_order()
+    
 
 
 
