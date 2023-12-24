@@ -40,17 +40,17 @@ def reactors(name):
 # REGULATORS
 def tanks(name):
     match name:
-        case 'MPDT-hTank':
+        case 'hTank-MPDT':
             return Regulator(name, 5, 500)
-        case 'MPDT-pTank':
+        case 'pTank-MPDT':
             return Regulator(name, 5, 500)
         case 'S-IVB Tank':
             return Tank(name, 11.7e3, 109e3)
 
 def batteries(name):
     match name:
-        case 'MPDT-battery':
-            return Regulator(name, 5, 100, 0)
+        case 'eTank-MPDT':
+            return Regulator(name, 5, 1e10, 0, ' J/s')
         case 'Z100':
             return None
         
