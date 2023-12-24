@@ -100,7 +100,7 @@ class Spacecraft(Actor):
 
         self.reactor()
 
-        if fire:
+        if self.throttle.get() != 0:
             thrust = self.thruster(self.reactor, self.throttle, 100)
             force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
             self.force(force)
