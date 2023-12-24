@@ -309,19 +309,14 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, mass, production_rate, power_required = 0, battery = None, fuel_required = 0, tank = None):
+    def __init__(self, mass, production_rate, consumptions = None):
         super().__init__(mass)
 
         # How quickly it can produce
         self.production = production_rate
         
         # Electric requirements
-        self.power = power_required
-        self.battery = battery
-        
-        # Fuel requirements
-        self.fuel = fuel_required
-        self.tank = tank
+        self.consumptions = consumptions
 
         # The owner of this part
         self.spacecraft = None
