@@ -22,6 +22,8 @@ def scoops(name):
             return Generator(name, 5, 5.411e-4)
         case 'Magic Scoop':
             return Generator(name, 5, 1e10)
+        case 'Lesser Magic Scoop':
+            return Generator(name, 5, 50)
         case 'Bussard\'s Scoop':
             return None
         
