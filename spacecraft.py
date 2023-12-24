@@ -376,8 +376,8 @@ class Regulator(Part):
         self.density = fuel_mass
 
         # The requested flow rates
-        self.outputs = {}
-        self.requests = {}
+        self.outputs = []
+        self.requests = []
         self.requested = 0
 
 
@@ -392,7 +392,7 @@ class Regulator(Part):
 
     # Adds a request
     def request(self, source, amount, priority):
-        self.request[source.name] = {'fuel': amount, 'priority': priority, 'source': source}
+        self.request.append({'fuel': amount, 'priority': priority, 'source': source})
         self.requested += amount
 
 
