@@ -83,6 +83,16 @@ class Spacecraft(Actor):
         self.thruster = thruster
 
 
+        # Links the components together
+        for part in self.generators.values():
+            part.assemble(self)
+
+        for part in self.regulators.values():
+            part.assemble(self)
+        
+        self.thruster.assemble(self)
+
+
         # Throttle ranges from 0 to 1
         self.throttle = o.Range(0, 0.01, 0, 1)
 
@@ -183,9 +193,15 @@ class Part:
     def __init__(self, name, mass):
         self.name = name
         self.mass = mass
+
+        self.spacecraft = None
     
     def get_mass(self):
         return self.mass
+    
+    # Assigns this piece to a spacecraft
+    def assemble(self, craft):
+        self.spacecraft = craft
 
 # Produces something
 class Generator(Part):
@@ -210,11 +226,6 @@ class Generator(Part):
         # Where to output to
         self.tank = tank
 
-
-
-        # The owner of this part
-        self.spacecraft = None
-
     # Requests the items to be consumed
     def request(self, throttle = 1):
         self.rate = self.production * throttle
@@ -224,7 +235,8 @@ class Generator(Part):
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
     # Produces
-    def produce(self):
+    #   The multiplier does not affect inputs, only amount outputted
+    def produce(self, multiplier):
 
         # Gets what percent this generator may produce
         throttle = 1
@@ -242,7 +254,7 @@ class Generator(Part):
             self.consumptions[key]['tank'].input(refunded, self)
 
         # Calculates how much this generator produces        
-        produced = self.rate * throttle
+        produced = self.rate * throttle * multiplier
 
 
         # Places the output in the correct spot
@@ -268,9 +280,6 @@ class Regulator(Part):
         self.outputs = {}
         self.requests = []
         self.requested = 0
-
-        # The owner of this part
-        self.spacecraft = None
 
         # Units of the thing being regulated
         self.unit = unit
