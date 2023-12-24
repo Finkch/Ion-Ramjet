@@ -2,10 +2,11 @@
 import pygame
 
 class Keyboard:
-    def __init__(self, timer, zoom, crafts):
+    def __init__(self, timer, zoom, actors, craft):
         self.timer = timer
         self.zoom = zoom
-        self.crafts = crafts
+        self.actors = actors
+        self.craft = craft
 
         # Allows key status to be better tracker; keys can be held for multiple inputs
         self.keys = {
@@ -19,13 +20,13 @@ class Keyboard:
             'slash':        {'count': 0, 'key': pygame.K_SLASH,         'type': self.pressed,       'function': self.zoom.increase_order}, 
             'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,     'type': self.pressed,       'function': self.zoom.next}, 
             'period':       {'count': 0, 'key': pygame.K_PERIOD,        'type': self.pressed,       'function': self.zoom.previous}, 
-            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': self.crafts[0].throttle.increase}, 
-            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': self.crafts[0].throttle.decrease}, 
-            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.crafts[0].rotate_ccw}, 
-            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.crafts[0].rotate_cw}, 
-            'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.crafts[0].throttle.max}, 
-            'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.crafts[0].throttle.min}, 
-            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.crafts[0].goto_velocity}, 
+            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': self.craft.throttle.increase}, 
+            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': self.craft.throttle.decrease}, 
+            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.craft.rotate_ccw}, 
+            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.craft.rotate_cw}, 
+            'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.craft.throttle.max}, 
+            'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.craft.throttle.min}, 
+            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.craft.goto_velocity}, 
         }
 
         # Parameters for repeated inputs on button being held down
