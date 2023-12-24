@@ -114,6 +114,9 @@ class Spacecraft(Actor):
             else:
                 part.reset()
 
+        # Updates mass
+        self.mass = self.get_mass()
+
         
         # Converts the generated thrust into a vector
         #thrust = self.thruster(self.ionizer, self.reactor, self.throttle)
