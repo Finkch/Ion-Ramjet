@@ -35,9 +35,10 @@ class Actor(object):
     
     def get_printout(self):
         return [
-            f'{self.name}',
-            f'{self.mass}',
-            f'{self.pos()}'
+            self.name,
+            f'mas {self.mass:.2e} kg',
+            f'pos {self.pos().hypo():.2e} m',
+            f'vel {self.vel().hypo():.2e} m/s',
         ]
                 
     
