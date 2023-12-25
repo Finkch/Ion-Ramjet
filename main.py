@@ -38,7 +38,7 @@ def setup():
 
 
     # Grabs the actors
-    actors, craft = st.universes('Alpha Centauri')
+    actors, craft = st.universes('To Alpha Centauri')
 
 
 

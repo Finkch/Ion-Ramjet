@@ -145,11 +145,19 @@ def universes(name):
             aca = stars('Alpha Centauri A')
             acb = stars('Alpha Centauri B')
 
+
+            craft.spacetime.position = v.Vector(10 * au, 0, 0)
+
             sol.spacetime.position = v.Vector() # Sol is at 0
             
-            aca.spacetime.position = v.Vector(ly * d_alpha_centauri, 0, 0)
 
-            acb.spacetime.position = v.Vector(ly * d_alpha_centauri, 23.5 * au)
+            aca.spacetime.position = v.Vector(ly * d_alpha_centauri, 0, 0)
+            acb.spacetime.position = v.Vector(ly * d_alpha_centauri, a_ac, 0)
+
+            acb.spacetime.velocity = v.Vector(-alpha_centauri_velocity * 8.75, 0, 0)
+
+            return [sol, craft, aca, acb], craft
+        
     match name:
         case "Alpha Centauri":
 
