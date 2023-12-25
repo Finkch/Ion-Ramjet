@@ -400,13 +400,17 @@ class Scoop(Generator):
         # Gets the current throttle
         throttle = self.refund_throttle()
 
-        # Calculates the volume swept by the scoop
-        swept = self.spacecraft.pos().normal() ^ self.spacecraft.vel()
+        # Gets the normal vector of the scoop.
+        #   I'm going to be honest, I don't know why I need a negative on this, 
+        #   but otherwise it ends be being backward
+        normal = v.radial_to_cartesian(-1, self.spacecraft.apos().theta, self.spacecraft.apos().phi)
+
+        # Calculates the swept area
+        swept = normal ^ self.spacecraft.vel()
         swept = max(0, swept) # Volume swept cannot be negative
 
         # The radius is proportional to the power supplied
         area = np.pi * (self.radius * throttle) ** 2
 
-        print(swept, area, self.production, multiplier)
-
-        return swept * area * self.production * multiplier
+        # Pipes out the collected hydrogen
+        self.pipe(swept * area * self.production * multiplier)
