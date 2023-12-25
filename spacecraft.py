@@ -83,10 +83,21 @@ class Spacecraft(Actor):
         self.thruster = thruster
 
 
+        # Links the components together
+        for part in self.generators.values():
+            part.assemble(self)
+
+        for part in self.regulators.values():
+            part.assemble(self)
+        
+        self.thruster.assemble(self)
+
+
         # Throttle ranges from 0 to 1
         self.throttle = o.Range(0, 0.01, 0, 1)
 
         self.force_preview = v.Vector()
+        self.throttle_preview = 0
 
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
@@ -106,7 +117,7 @@ class Spacecraft(Actor):
         for part in self.generators.values():
             part.produce()
         
-        thrust = self.thruster.produce()
+        thrust, throttle = self.thruster.produce()
 
         for part in self.regulators.values():
             if isinstance(part, Tank):
@@ -123,6 +134,7 @@ class Spacecraft(Actor):
         force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
         self.force(force)
         self.force_preview = force
+        self.throttle_preview = min(throttle, self.throttle.get())
 
 
         super().__call__(time_step)
@@ -169,7 +181,8 @@ class Spacecraft(Actor):
             f'mas {self.mass:.2e} kg',
             f'pos {self.pos().hypo():.2e} m',
             f'vel {self.vel().hypo():.2e} m/s',
-            f'thr {self.throttle.get() / self.throttle.maximum * 100:.0f} %'
+            f'thr {self.throttle.get() * 100:.0f} % ({self.throttle_preview * 100:.0f} %)' if self.throttle.get() != self.throttle_preview else f'thr {self.throttle.get() * 100:.0f} %',
+            f'    {self.force_preview.hypo():.2e} N',
         ]
 
     def get_printout_regulators(self):
@@ -183,13 +196,19 @@ class Part:
     def __init__(self, name, mass):
         self.name = name
         self.mass = mass
+
+        self.spacecraft = None
     
     def get_mass(self):
         return self.mass
+    
+    # Assigns this piece to a spacecraft
+    def assemble(self, craft):
+        self.spacecraft = craft
 
 # Produces something
 class Generator(Part):
-    def __init__(self, name, mass, production_rate, tank = None, consumptions = {}):
+    def __init__(self, name, mass, production_rate, fuels = {}):
         super().__init__(name, mass)
 
         # How quickly it can produce
@@ -205,15 +224,19 @@ class Generator(Part):
         #           'tank': $regulator
         #       }
         #   }
-        self.consumptions = consumptions
+        self.consumptions = {}
 
         # Where to output to
+        self.tank = None
+
+        # The types of fuel this Generator requires
+        self.fuels = fuels
+
+    def link_output(self, tank):
         self.tank = tank
-
-
-
-        # The owner of this part
-        self.spacecraft = None
+    
+    def link_input(self, regulator, fuel):
+        self.consumptions[fuel] = {'fuel': self.fuels[fuel], 'tank': regulator}
 
     # Requests the items to be consumed
     def request(self, throttle = 1):
@@ -223,10 +246,11 @@ class Generator(Part):
         for key in self.consumptions.keys():
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
-    # Produces
-    def produce(self):
 
-        # Gets what percent this generator may produce
+    # Returns the throttle, refunding unspent to regulators
+    def refund_throttle(self):
+
+         # Gets what percent this generator may produce
         throttle = 1
         for key in self.consumptions.keys():
             throttle = min(throttle, self.consumptions[key]['tank'].output(self)['percent'])
@@ -241,15 +265,23 @@ class Generator(Part):
 
             self.consumptions[key]['tank'].input(refunded, self)
 
+        return throttle
+
+    # Produces
+    #   The multiplier does not affect inputs, only amount outputted
+    def produce(self, multiplier = 1):
+
+        throttle = self.refund_throttle()
+
         # Calculates how much this generator produces        
-        produced = self.rate * throttle
+        produced = self.rate * throttle * multiplier
 
+        return self.pipe(produced), throttle
 
-        # Places the output in the correct spot
-
+    # Places the output in the correct spot
+    def pipe(self, produced):
         if not self.tank:
             return produced
-
         self.tank.input(produced)
 
         
@@ -268,9 +300,6 @@ class Regulator(Part):
         self.outputs = {}
         self.requests = []
         self.requested = 0
-
-        # The owner of this part
-        self.spacecraft = None
 
         # Units of the thing being regulated
         self.unit = unit
@@ -360,3 +389,31 @@ class Tank(Regulator):
     def output(self, source):
         output = super().output(source)
         return {'percent': output['percent'], 'fuel': output['fuel'] / self.time_step}
+    
+
+# A scoop is a generator whose performance depends on the craft's orientation
+class Scoop(Generator):
+    def __init__(self, name, mass, vacuum_density, max_radius, fuels = {}):
+        super().__init__(name, mass, vacuum_density, fuels)
+
+        self.radius = max_radius
+    
+    def produce(self, multiplier = 1):
+
+        # Gets the current throttle
+        throttle = self.refund_throttle()
+
+        # Gets the normal vector of the scoop.
+        #   I'm going to be honest, I don't know why I need a negative on this, 
+        #   but otherwise it ends be being backward
+        normal = v.radial_to_cartesian(-1, self.spacecraft.apos().theta, self.spacecraft.apos().phi)
+
+        # Calculates the swept area
+        swept = normal ^ self.spacecraft.vel()
+        swept = max(0, swept) # Volume swept cannot be negative
+
+        # The radius is proportional to the power supplied
+        area = np.pi * (self.radius * throttle) ** 2
+
+        # Pipes out the collected hydrogen
+        self.pipe(swept * area * self.production * multiplier)
