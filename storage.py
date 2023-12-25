@@ -50,7 +50,7 @@ def tanks(name):
 def batteries(name):
     match name:
         case 'eTank-MPDT':
-            return Regulator(name, 5, 1e10, 0, ' J/s')
+            return Regulator(name, 5, 1e10, 0, 'J/s')
         case 'Z100':
             return None
         
@@ -89,6 +89,22 @@ def spacecrafts(name):
                                thruster)
             return craft
         
+        case 'MPDT-sat':
+            pTank = tanks('pTank-MPDT')
+            eTank = batteries('eTank-MPDT')
+
+            reactor = reactors('MPDT-reactor')
+            reactor.link_output(eTank)
+
+
+            thruster = thrusters('MPDT-thruster')
+            thruster.link_input(pTank, 'p')
+            thruster.link_input(eTank, 'e')
+
+            craft = Spacecraft('MPDT-sat', 2, 10, {'reactor': reactor}, {'eTank': eTank, 'pTank': pTank}, thruster)
+
+            return craft
+        
         case 'S-IVB':
 
             thruster = thrusters('J-2')
@@ -124,7 +140,7 @@ def planets(name):
 
 
 
-def universes(name):
+def universes(name, kwargs):
     match name:
         case 'Basic':
 
@@ -177,4 +193,10 @@ def universes(name):
             acb.spacetime.position = v.Vector(a_ac, 0, 0)
 
             return [craft, aca, acb], craft
+        
+        case 'Vacuum':
+
+            craft = spacecrafts(kwargs['craft'])
+
+            return [craft], craft
         
