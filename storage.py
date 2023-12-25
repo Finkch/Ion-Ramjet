@@ -152,19 +152,21 @@ def universes(name):
             acb.spacetime.position = v.Vector(ly * d_alpha_centauri, 23.5 * au)
     match name:
         case "Alpha Centauri":
-            
-            # Figure out why the stars are shooting away fom each other
 
+            # Sets up the craft
             craft = spacecrafts('ioRam-0')
-            craft.spacetime.position = v.Vector(0, au, 0)
+            craft.spacetime.position = v.Vector(au, 0, 0)
+            craft.spacetime.velocity = v.Vector(0, au_speed, 0)
 
+            # Creats the stars
             aca = stars('Alpha Centauri A')
             acb = stars('Alpha Centauri B')
 
-            #aca.spacetime.velocity = v.Vector(0, alpha_centauri_velocity / 2, 0)
-            #acb.spacetime.velocity = v.Vector(0, -alpha_centauri_velocity / 2, 0)
+            # Places the stars
+            aca.spacetime.velocity = v.Vector(0, 0, 0)
+            acb.spacetime.velocity = v.Vector(0, -alpha_centauri_velocity * 8.75, 0)
 
-            acb.spacetime.position = v.Vector(d_alpha_centauri, 0, 0)
+            acb.spacetime.position = v.Vector(a_ac, 0, 0)
 
             return [craft, aca, acb], craft
         
