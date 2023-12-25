@@ -3,6 +3,8 @@ import numpy as np
 
 G =             6.67e-11
 
+ly =            9.461e15 # m
+
 year =          3.154e+7
 day =           86400
 hour =          3600
@@ -22,3 +24,9 @@ vacuum_H_density = 1000000
 
 # Mass of hydrogen per m^3
 vacuum_H_mass_density = H * vacuum_H_density
+
+# Distance to Alpha Centauri
+d_alpha_centauri = 4.344 # ly
+
+alpha_centauri_velocity = 1.386e3
+alpha_centauri_velocity_alt = 8.781e3
