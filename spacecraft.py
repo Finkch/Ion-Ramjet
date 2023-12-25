@@ -97,6 +97,7 @@ class Spacecraft(Actor):
         self.throttle = o.Range(0, 0.01, 0, 1)
 
         self.force_preview = v.Vector()
+        self.throttle_preview = 0
 
         # Gets the mass of the craft
         super().__init__(name, self.get_mass(), radius)
@@ -116,7 +117,7 @@ class Spacecraft(Actor):
         for part in self.generators.values():
             part.produce()
         
-        thrust = self.thruster.produce()
+        thrust, throttle = self.thruster.produce()
 
         for part in self.regulators.values():
             if isinstance(part, Tank):
@@ -133,6 +134,7 @@ class Spacecraft(Actor):
         force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
         self.force(force)
         self.force_preview = force
+        self.throttle_preview = min(throttle, self.throttle.get())
 
 
         super().__call__(time_step)
@@ -179,7 +181,8 @@ class Spacecraft(Actor):
             f'mas {self.mass:.2e} kg',
             f'pos {self.pos().hypo():.2e} m',
             f'vel {self.vel().hypo():.2e} m/s',
-            f'thr {self.throttle.get() / self.throttle.maximum * 100:.0f} %'
+            f'thr {self.throttle.get() * 100:.0f} % ({self.throttle_preview * 100:.0f} %)' if self.throttle.get() != self.throttle_preview else f'thr {self.throttle.get() * 100:.0f} %',
+            f'    {self.force_preview.hypo():.2e} N',
         ]
 
     def get_printout_regulators(self):
@@ -273,7 +276,7 @@ class Generator(Part):
         # Calculates how much this generator produces        
         produced = self.rate * throttle * multiplier
 
-        return self.pipe(produced)
+        return self.pipe(produced), throttle
 
     # Places the output in the correct spot
     def pipe(self, produced):
