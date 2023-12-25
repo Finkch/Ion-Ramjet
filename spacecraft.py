@@ -11,6 +11,7 @@
 import vector as v
 import visuals as vis
 import orders as o
+import numpy as np
 
 
 class Actor(object):
@@ -387,23 +388,23 @@ class Tank(Regulator):
 
 # A scoop is a generator whose performance depends on the craft's orientation
 class Scoop(Generator):
-    def __init__(self, name, mass, production_rate, power):
-        super().__init__(name, mass, production_rate, None, {})
+    def __init__(self, name, mass, vacuum_density, max_radius, fuels = {}):
+        super().__init__(name, mass, vacuum_density, fuels)
 
-        self.fuels = {'e': power}
-
-    def link_input(self, regulator):
-        return super().link_input(regulator, 'e', self.fuels['e'])
+        self.radius = max_radius
     
-    def produce(self):
+    def produce(self, multiplier = 1):
 
-        # The effectiveness of a scoop depends on the direction the craft is
-        # facing relative to the interstellar medius (which is assumed here to
-        # be stationary)
-        multiplier = self.spacecraft.pos().normal() ^ self.spacecraft.vel().normal()
+        # Gets the current throttle
+        throttle = self.refund_throttle()
 
-        # This multiplier cannot be negative
-        multiplier = max(0, multiplier)
+        # Calculates the volume swept by the scoop
+        swept = self.spacecraft.pos().normal() ^ self.spacecraft.vel()
+        swept = max(0, swept) # Volume swept cannot be negative
 
-        # Runs the scoop
-        return super().produce(multiplier)
+        # The radius is proportional to the power supplied
+        area = np.pi * (self.radius * throttle) ** 2
+
+        print(swept, area, self.production, multiplier)
+
+        return swept * area * self.production * multiplier

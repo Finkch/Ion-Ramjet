@@ -19,7 +19,7 @@ def ionizers(name):
 def scoops(name):
     match name:
         case 'MPDT-scoop':
-            return Generator(name, 5, 5.411e-4, {'e': 750e3})
+            return Scoop(name, 5, vacuum_H_mass_density, 100e3, {'e': 750e3})
         case 'Magic Scoop':
             return Generator(name, 5, 1e10)
         case 'Lesser Magic Scoop':
