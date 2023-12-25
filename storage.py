@@ -108,12 +108,63 @@ def spacecrafts(name):
 def stars(name):
     match name:
         case 'Sol':
-            return Actor("sun", sun_mass, sun_radius)
+            return Actor(name, sun_mass, sun_radius)
+        case 'Alpha Centauri A':
+            return Actor(name, 1.0788 * sun_mass, 1.2175 * sun_radius)
+        case 'Alpha Centauri B':
+            return Actor(name, 0.9092 * sun_mass, 0.8591 * sun_radius)
+    
         
 
 # PLANETS
 def planets(name):
     match name:
-        case 'Sol':
+        case 'Terra':
             return None
+
+
+
+def universes(name):
+    match name:
+        case 'Basic':
+
+            craft = spacecrafts('ioRam-0')
+
+            craft.spacetime.position = v.Vector(au, 0, 0)
+            craft.spacetime.velocity = v.Vector(0, au_speed, 0)
+
+            sol = stars('Sol')
+
+            return [sol, craft], craft
+
+        case 'To Alpha Centauri':
+            
+            craft = spacecrafts('ioRam-0')
+
+            sol = stars('Sol')
+            aca = stars('Alpha Centauri A')
+            acb = stars('Alpha Centauri B')
+
+            sol.spacetime.position = v.Vector() # Sol is at 0
+            
+            aca.spacetime.position = v.Vector(ly * d_alpha_centauri, 0, 0)
+
+            acb.spacetime.position = v.Vector(ly * d_alpha_centauri, 23.5 * au)
+    match name:
+        case "Alpha Centauri":
+            
+            # Figure out why the stars are shooting away fom each other
+
+            craft = spacecrafts('ioRam-0')
+            craft.spacetime.position = v.Vector(0, au, 0)
+
+            aca = stars('Alpha Centauri A')
+            acb = stars('Alpha Centauri B')
+
+            #aca.spacetime.velocity = v.Vector(0, alpha_centauri_velocity / 2, 0)
+            #acb.spacetime.velocity = v.Vector(0, -alpha_centauri_velocity / 2, 0)
+
+            acb.spacetime.position = v.Vector(d_alpha_centauri, 0, 0)
+
+            return [craft, aca, acb], craft
         
