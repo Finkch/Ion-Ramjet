@@ -28,5 +28,7 @@ vacuum_H_mass_density = H * vacuum_H_density
 # Distance to Alpha Centauri
 d_alpha_centauri = 4.344 # ly
 
+a_ac = 23.5 * au
+
 alpha_centauri_velocity = 1.386e3
 alpha_centauri_velocity_alt = 8.781e3
