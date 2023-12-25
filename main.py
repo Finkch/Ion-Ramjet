@@ -31,14 +31,14 @@ def setup():
     #   Initial simulation rate
     #   Framerate
     timer = o.Time(1, 1000 / 60)
-
+    timer.pause()
 
     # Sets up the visuals
     screen = vis.init_visuals(768, 768)
 
 
     # Grabs the actors
-    actors, craft = st.universes('Basic')
+    actors, craft = st.universes('Alpha Centauri')
 
 
 
