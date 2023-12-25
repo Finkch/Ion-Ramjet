@@ -41,9 +41,9 @@ def reactors(name):
 def tanks(name):
     match name:
         case 'hTank-MPDT':
-            return Regulator(name, 5, 500)
+            return Tank(name, 5, 5)
         case 'pTank-MPDT':
-            return Regulator(name, 5, 500)
+            return Tank(name, 5, 5)
         case 'S-IVB Tank':
             return Tank(name, 11.7e3, 109e3)
 
