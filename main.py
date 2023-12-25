@@ -38,12 +38,9 @@ def setup():
 
 
     # Grabs the actors
-    #craft = st.spacecrafts('S-IVB')
-    craft = st.spacecrafts('ioRam-0')
-    #actors = [st.stars('Sol'), craft]
-    actors = [craft]
-    
-    craft.spacetime.velocity = v.Vector()
+    actors, craft = st.universes('Basic')
+
+
 
     zoom = o.Zoom(0, timer, actors)
     keybboard = kb.Keyboard(timer, zoom, actors, craft)
