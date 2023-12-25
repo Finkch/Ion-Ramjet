@@ -273,8 +273,10 @@ class Generator(Part):
         # Calculates how much this generator produces        
         produced = self.rate * throttle * multiplier
 
+        return self.pipe(produced)
 
-        # Places the output in the correct spot
+    # Places the output in the correct spot
+    def pipe(self, produced):
         if not self.tank:
             return produced
         self.tank.input(produced)
