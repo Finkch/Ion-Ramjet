@@ -242,11 +242,11 @@ class Generator(Part):
         for key in self.consumptions.keys():
             self.consumptions[key]['tank'].add_request(self, self.consumptions[key]['fuel'] * throttle)
 
-    # Produces
-    #   The multiplier does not affect inputs, only amount outputted
-    def produce(self, multiplier = 1):
 
-        # Gets what percent this generator may produce
+    # Returns the throttle, refunding unspent to regulators
+    def refund_throttle(self):
+
+         # Gets what percent this generator may produce
         throttle = 1
         for key in self.consumptions.keys():
             throttle = min(throttle, self.consumptions[key]['tank'].output(self)['percent'])
@@ -261,15 +261,21 @@ class Generator(Part):
 
             self.consumptions[key]['tank'].input(refunded, self)
 
+        return throttle
+
+    # Produces
+    #   The multiplier does not affect inputs, only amount outputted
+    def produce(self, multiplier = 1):
+
+        throttle = self.refund_throttle()
+
         # Calculates how much this generator produces        
         produced = self.rate * throttle * multiplier
 
 
         # Places the output in the correct spot
-
         if not self.tank:
             return produced
-
         self.tank.input(produced)
 
         
