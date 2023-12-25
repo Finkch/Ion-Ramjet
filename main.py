@@ -3,15 +3,6 @@
 
 # Todo:
 #   Create tests
-#   Build out parts in storage
-#   Allow Generator.produce() to have variable efficiency
-
-# Current branch structure:
-#   main
-#       spacecraft-parts
-#           spacecraft-assembly
-#               (soon) refactor
-
 
 import vector as v
 import gravity as g
@@ -38,7 +29,8 @@ def setup():
 
 
     # Grabs the actors
-    actors, craft = st.universes('To Alpha Centauri')
+    kwargs = {'craft': 'MPDT-sat'}
+    actors, craft = st.universes('To Alpha Centauri', kwargs)
 
 
 
