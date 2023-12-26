@@ -135,24 +135,24 @@ class Zoom (Orders):
         # Sets initial zoom
         super().__init__(initial_zoom, 0.05, 3)
 
-        self.auto_scale = 2
+        self.auto_scale = Range(2, 1, 0, 2)
 
 
     # Calling zoom updates the scale of the screen
     def __call__(self):
-        
+
         # If autoscale isn't zero, then autoscale
-        if self.auto_scale > 0:
+        if self.auto_scale() > 0:
 
             # Gets the default size in case there is only one actor
             scale = self.actors[0].shape.radius * 20
 
             # Mode 1: the max distance to the focus
-            if self.auto_scale == 1:
+            if self.auto_scale() == 1:
                 scale = self.max_distance_scale(scale)
 
             # Mode 2: the min distance to the focus
-            if self.auto_scale == 2:
+            if self.auto_scale() == 2:
                 scale = self.nearest_focus_scale(scale)
         
             # Updates the zoom
@@ -212,28 +212,22 @@ class Zoom (Orders):
     # Gets current zoom level
     def zoom(self):
         return self.get_order()
-    
-    # Toggles autoscale
-    def toggle_autoscale(self):
-        self.auto_scale += 1
-        self.auto_scale %= 3
-
 
     # Override order changes to set autoscale to false
     def increase(self, multiplier = 1):
-        self.auto_scale = 0
+        self.auto_scale.min()
         return super().increase(multiplier)
 
     def increase_order(self):
-        self.auto_scale = 0
+        self.auto_scale.min()
         return super().increase_order()
     
     def decrease(self, multiplier = 1):
-        self.auto_scale = 0
+        self.auto_scale.min()
         return super().decrease(multiplier)
     
     def decrease_order(self):
-        self.auto_scale = 0
+        self.auto_scale.min()
         return super().decrease_order()
     
 
