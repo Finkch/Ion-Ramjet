@@ -29,8 +29,8 @@ def setup():
 
 
     # Grabs the actors
-    kwargs = {'craft': 'MPDT-sat'}
-    actors, craft = st.universes('To Alpha Centauri', kwargs)
+    kwargs = {'craft': 'Dawn'}
+    actors, craft = st.universes('Basic', kwargs)
 
 
 
