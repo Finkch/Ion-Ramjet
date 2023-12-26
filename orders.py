@@ -92,7 +92,7 @@ class Range:
         self.minimum = minimum
         self.maximum = maximum
 
-    def get(self):
+    def __call__(self):
         return self.scale
     
     # Increases the scale
@@ -100,14 +100,14 @@ class Range:
         self.scale += self.step_size * multiplier
 
         if self.scale > self.maximum:
-            self.scale = self.maximum
+            self.scale = self.minimum
 
     # Decreases the scale
     def decrease(self, multiplier = 1):
         self.scale -= self.step_size * multiplier
 
         if self.scale < self.minimum:
-            self.scale = self.minimum
+            self.scale = self.maximum
 
     # Maximises the scale    
     def max(self):
