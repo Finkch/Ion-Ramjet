@@ -45,6 +45,13 @@ def reactors(name, kwargs = {}):
         case _:
             return Tank(name, kwargs['mass'], kwargs['rate'], unit = 'W')
         
+def solar_panels(name, kwargs = {}):
+    match name:
+        case 'Dawn Solar Array':
+            return SolarPanel(name, 0, 0.592) # Assume mass is in the core
+        case _:
+            return SolarPanel(name, kwargs['mass'], kwargs['efficiency'])
+        
 
 
 # REGULATORS
@@ -135,10 +142,8 @@ def spacecrafts(name):
             tank = tanks('pTank Dawn', {'mass': 0, 'capacity': 470.6})
             battery = batteries('Battery Dawn', {'mass': 0, 'capacity': 4233600})
 
-            # Currently, power generation isn't a problem.
-            # In reality, it used solar panels
-            reactor = reactors('MPDT-reactor') # UPDATE TO SOLAR PANELS
-            reactor.link_output(battery)
+            solar = solar_panels('Dawn Solar Array')
+            solar.link_output(battery)
 
             thruster = thrusters('NSTAR')
             thruster.link_input(tank, 'p')
@@ -146,7 +151,7 @@ def spacecrafts(name):
 
             # Holy hell, this craft can burn for five years straight!
             # ...and that's for ∆v = 15 km/s
-            craft = Spacecraft('Dawn', 1.7, 747.1, {'reactor': reactor}, {'pTank': tank, 'eTank': battery}, thruster)
+            craft = Spacecraft('Dawn', 1.7, 747.1, {'solar array': solar}, {'pTank': tank, 'eTank': battery}, thruster)
 
             return craft
 
