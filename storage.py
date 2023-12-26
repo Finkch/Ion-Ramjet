@@ -192,7 +192,7 @@ def universes(name, kwargs):
 
             sol = stars('Sol')
 
-            actors, craft = [sol, craft], craft
+            actors, craft = [craft, sol], craft
 
         case 'To Alpha Centauri':
             
@@ -213,7 +213,7 @@ def universes(name, kwargs):
 
             acb.spacetime.velocity = v.Vector(-alpha_centauri_velocity * 8.75, 0, 0)
 
-            actors, craft = [sol, craft, aca, acb], craft
+            actors, craft = [craft, sol, aca, acb], craft
         
     match name:
         case "Alpha Centauri":
