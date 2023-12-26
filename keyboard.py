@@ -26,8 +26,8 @@ class Keyboard:
             'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.craft.rotate_cw}, 
             'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.craft.throttle.max}, 
             'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.craft.throttle.min}, 
-            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.craft.goto_velocity}, 
-            'v':            {'count': 0, 'key': pygame.K_v,             'type': self.pressed,       'function': self.zoom.toggle_autoscale},
+            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.craft.auto_orient.increase}, 
+            'v':            {'count': 0, 'key': pygame.K_v,             'type': self.pressed,       'function': self.zoom.auto_scale.increase},
             'lshift':       {'count': 0, 'key': pygame.K_LSHIFT,        'type': self.held,          'function': self.craft.throttle.increase}, 
             'lcontrol':     {'count': 0, 'key': pygame.K_LCTRL,         'type': self.held,          'function': self.craft.throttle.decrease},
             
