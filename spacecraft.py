@@ -200,7 +200,7 @@ class Spacecraft(Actor):
             f'mas {self.mass:.2e} kg',
             f'pos {self.pos().hypo():.2e} m',
             f'vel {self.vel().hypo():.2e} m/s',
-            f'thr {self.throttle.get() * 100:.0f} % ({self.throttle_preview * 100:.0f} %)' if self.throttle.get() != self.throttle_preview else f'thr {self.throttle.get() * 100:.0f} %',
+            f'thr {self.throttle() * 100:.0f} % ({self.throttle_preview * 100:.0f} %)' if self.throttle() != self.throttle_preview else f'thr {self.throttle() * 100:.0f} %',
             f'    {self.force_preview.hypo():.2e} N',
         ]
 
@@ -257,11 +257,11 @@ class Generator(Part):
         # The types of fuel this Generator requires
         self.fuels = fuels
 
-        self.cur_throttle = 0
+        self.produced = 0
         self.unit = unit
     
     def __str__(self):
-        return f'{super().__str__()} {self.rate * self.cur_throttle:.2e} {self.unit}'
+        return f'{super().__str__()} {self.produced:.2e} {self.unit}'
 
     def link_output(self, tank):
         self.tank = tank
@@ -296,8 +296,6 @@ class Generator(Part):
 
             self.consumptions[key]['tank'].input(refunded, self)
 
-        self.cur_throttle = throttle
-
         return throttle
 
     # Produces
@@ -313,6 +311,10 @@ class Generator(Part):
 
     # Places the output in the correct spot
     def pipe(self, produced):
+
+        # To preview production
+        self.produced = produced
+
         if not self.tank:
             return produced
         self.tank.input(produced)
