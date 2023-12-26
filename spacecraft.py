@@ -188,6 +188,9 @@ class Spacecraft(Actor):
 
     def get_printout_regulators(self):
         return [str(part) for part in self.regulators.values()]
+    
+    def get_printout_generators(self):
+        return [str(self.thruster)] + [str(part) for part in self.generators.values()]
 
 
 
@@ -199,6 +202,9 @@ class Part:
         self.mass = mass
 
         self.spacecraft = None
+
+    def __str__(self):
+        return self.name[:3].lower()
     
     def get_mass(self):
         return self.mass
@@ -209,7 +215,7 @@ class Part:
 
 # Produces something
 class Generator(Part):
-    def __init__(self, name, mass, production_rate, fuels = {}):
+    def __init__(self, name, mass, production_rate, fuels = {}, unit = 'kg/s'):
         super().__init__(name, mass)
 
         # How quickly it can produce
@@ -232,6 +238,12 @@ class Generator(Part):
 
         # The types of fuel this Generator requires
         self.fuels = fuels
+
+        self.cur_throttle = 0
+        self.unit = unit
+    
+    def __str__(self):
+        return f'{super().__str__()} {self.rate * self.cur_throttle:.2e} {self.unit}'
 
     def link_output(self, tank):
         self.tank = tank
@@ -265,6 +277,8 @@ class Generator(Part):
             refunded = output['fuel'] * percent
 
             self.consumptions[key]['tank'].input(refunded, self)
+
+        self.cur_throttle = throttle
 
         return throttle
 
@@ -306,7 +320,7 @@ class Regulator(Part):
         self.unit = unit
 
     def __str__(self):
-        return f'{self.name[:3].lower()} {self.flow:.2e} {self.unit}'
+        return f'{super().__str__()} {self.flow:.2e} {self.unit}'
 
     # Handles one step of simulation
     def reset(self):
