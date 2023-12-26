@@ -67,11 +67,20 @@ class Actor(object):
             return self.spacetime.acceleration
         else:
             return self.spacetime.acceleration()[dir]
+        
+
+# A star is an actor with a luminosity
+class Star(Actor):
+    def __init__(self, name, mass, radius, luminosity):
+        super().__init__(name, mass, radius)
+        self.luminosity = luminosity
+
+    def get_printout(self):
+        return super().get_printout() + [f'lum {self.luminosity:.2e} W']
 
 
 # This is the core, the glue that holds everything together
 class Spacecraft(Actor):
-    #def __init__(self, name, radius, core_mass, thruster, ionizer, scoop, hydrogen_tank, ionized_tank, electric_tank, reactor):
     def __init__(self, name, radius, core_mass, generators, regulators, thruster):
 
         # Creates the craft from the components
