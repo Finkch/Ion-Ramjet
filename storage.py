@@ -178,17 +178,21 @@ def planets(name):
 
 
 def universes(name, kwargs):
+    
+    actors = []
+    craft = None
+
     match name:
         case 'Basic':
 
-            craft = spacecrafts('ioRam-0')
+            craft = spacecrafts(kwargs['craft'])
 
             craft.spacetime.position = v.Vector(au, 0, 0)
             craft.spacetime.velocity = v.Vector(0, au_speed, 0)
 
             sol = stars('Sol')
 
-            return [sol, craft], craft
+            actors, craft = [sol, craft], craft
 
         case 'To Alpha Centauri':
             
@@ -209,7 +213,7 @@ def universes(name, kwargs):
 
             acb.spacetime.velocity = v.Vector(-alpha_centauri_velocity * 8.75, 0, 0)
 
-            return [sol, craft, aca, acb], craft
+            actors, craft = [sol, craft, aca, acb], craft
         
     match name:
         case "Alpha Centauri":
@@ -229,11 +233,22 @@ def universes(name, kwargs):
 
             acb.spacetime.position = v.Vector(a_ac, 0, 0)
 
-            return [craft, aca, acb], craft
+            actors, craft = [craft, aca, acb], craft
         
         case 'Vacuum':
 
             craft = spacecrafts(kwargs['craft'])
 
-            return [craft], craft
+            actors, craft = [craft], craft
+
+
+    # Links stars to solar panels
+    for actor in actors:
+        if isinstance(actor, Star):
+            for part in craft.generators.values():
+                if isinstance(part, SolarPanel):
+                    part.stars[actor.name] = actor
+
+    # Returns the craft and actors
+    return actors, craft
         
