@@ -114,10 +114,14 @@ class Spacecraft(Actor):
         self.spacetime = v.AngularSpacetime()
 
         self.mass = self.get_mass()
+        self.auto_orient = o.Range(0, 1, 0, 2)
 
     def __call__(self, time_step):
 
-        self.thruster.request(self.throttle.get())
+        # Orients the craft if orient is non-zero
+        self.orient()
+
+        self.thruster.request(self.throttle())
         for part in self.generators.values():
             part.request()
 
@@ -144,7 +148,7 @@ class Spacecraft(Actor):
         force = v.radial_to_cartesian(-thrust, self.apos().theta, self.apos().phi)
         self.force(force)
         self.force_preview = force
-        self.throttle_preview = min(throttle, self.throttle.get())
+        self.throttle_preview = min(throttle, self.throttle())
 
 
         super().__call__(time_step)
@@ -157,8 +161,13 @@ class Spacecraft(Actor):
     def rotate_ccw(self):
         self.spacetime.angular_position.phi -= 0.05
     
-    def goto_velocity(self):
-        self.spacetime.angular_position.goto(self.vel())
+    # Automatically orients the craft
+    def orient(self):
+        match self.auto_orient():
+            case 1:
+                self.spacetime.angular_position.goto(self.vel())
+            case 2:
+                self.spacetime.angular_position.goto(-self.vel())
     
 
     # Returns the current mass of the craft
