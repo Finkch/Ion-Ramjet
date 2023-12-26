@@ -1,6 +1,6 @@
 # Handles zoom
 
-import clock as cl
+import finkchlib.clock as cl
 import constants as c
 import numpy as np
 

@@ -1,7 +1,7 @@
 # Tests vector
 
 import unittest
-from vector import *
+from finkchlib.vector import *
 import numpy as np
 
 

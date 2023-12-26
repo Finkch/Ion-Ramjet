@@ -8,9 +8,9 @@
 # All these components have some mass
 # Everything is in terms of SI units
 
-import vector as v
+import finkchlib.vector as v
 import visuals as vis
-import orders as o
+import finkchlib.orders as o
 import numpy as np
 
 

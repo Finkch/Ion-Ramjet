@@ -1,6 +1,6 @@
 # Handles time for framerate
 import time as t
-import orders as o
+import finkchlib.orders as o
 
 class Clock:
     def __init__(self, goal = -1, length = 10):

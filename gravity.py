@@ -1,7 +1,7 @@
 # Simulates gravity
 
 import constants as c
-import vector as v
+import finkchlib.vector as v
 
 # Applies gravity between all pairs of actors
 def easy_gravity(actors):

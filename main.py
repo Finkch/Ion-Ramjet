@@ -4,11 +4,11 @@
 # Todo:
 #   Create tests
 
-import vector as v
+import finkchlib.vector as v
 import gravity as g
 import visuals as vis
 import keyboard as kb
-import orders as o
+import finkchlib.orders as o
 import storage as st
 import constants as c
 
