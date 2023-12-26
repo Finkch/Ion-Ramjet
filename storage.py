@@ -4,19 +4,23 @@ from spacecraft import *
 from constants import *
 
 # GENERATORS
-def thrusters(name):
+def thrusters(name, kwargs = {}):
     match name:
         case 'MPDT-thruster':
             return Generator(name, 10, 26.3, {'p': 5.41073908927e-4, 'e': 750e3})
         case 'J-2': # Used on the S-IVB, the upper stage of the Saturn V
             return Generator(name, 1800, 1033e3, {'LOX-LH2': 250.4})
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['rate'])
         
-def ionizers(name):
+def ionizers(name, kwargs = {}):
     match name:
         case 'MPDT-ionizer':
             return Generator(name, 5, 5.411e-4, {'H': 5.41073908927e-4, 'e': 750e3})
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['rate'])
 
-def scoops(name):
+def scoops(name, kwargs = {}):
     match name:
         case 'MPDT-scoop':
             return Scoop(name, 5, vacuum_H_mass_density, 100e3, {'e': 750e3})
@@ -24,21 +28,23 @@ def scoops(name):
             return Generator(name, 5, 1e10)
         case 'Lesser Magic Scoop':
             return Generator(name, 5, 50)
-        case 'Bussard\'s Scoop':
-            return None
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['rate'])
         
-def reactors(name):
+def reactors(name, kwargs = {}):
     match name:
         case 'MPDT-reactor':
             #return Generator(name, 10, 1.5e6)
             return Generator(name, 10, 1e10)
         case 'MMRTG': # Used on Perseverence and Curiosity!
             return None
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['rate'])
         
 
 
 # REGULATORS
-def tanks(name):
+def tanks(name, kwargs = {}):
     match name:
         case 'hTank-MPDT':
             return Tank(name, 5, 5)
@@ -46,13 +52,15 @@ def tanks(name):
             return Tank(name, 5, 5)
         case 'S-IVB Tank':
             return Tank(name, 11.7e3, 109e3)
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['capacity'])
 
-def batteries(name):
+def batteries(name, kwargs):
     match name:
         case 'eTank-MPDT':
             return Regulator(name, 5, 1e10, 0, 'J/s')
-        case 'Z100':
-            return None
+        case _:
+            return Tank(name, kwargs['mass'], kwargs['capacity'], 0, 'J')
         
 
 
