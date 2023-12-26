@@ -7,13 +7,13 @@ from constants import *
 def thrusters(name, kwargs = {}):
     match name:
         case 'MPDT-thruster':
-            return Generator(name, 10, 26.3, {'p': 5.41073908927e-4, 'e': 750e3})
+            return Generator(name, 10, 26.3, {'p': 5.41073908927e-4, 'e': 750e3}, 'N')
         case 'J-2': # Used on the S-IVB, the upper stage of the Saturn V
-            return Generator(name, 1800, 1033e3, {'LOX-LH2': 250.4})
+            return Generator(name, 1800, 1033e3, {'LOX-LH2': 250.4}, 'N')
         case 'NSTAR':
-            return Generator(name, 8.33, 0.092, {'p': 0.000002844774273, 'e': 2.3e3}) # v_e of 16 660 - 32 340, depending on power supplied
+            return Generator(name, 8.33, 0.092, {'p': 0.000002844774273, 'e': 2.3e3}, 'N') # v_e of 16 660 - 32 340, depending on power supplied
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'])
+            return Tank(name, kwargs['mass'], kwargs['rate'], kwargs['fuel'], unit = 'N')
         
 def ionizers(name, kwargs = {}):
     match name:
@@ -37,13 +37,13 @@ def reactors(name, kwargs = {}):
     match name:
         case 'MPDT-reactor':
             #return Generator(name, 10, 1.5e6)
-            return Generator(name, 10, 1e10)
+            return Generator(name, 10, 1e10, unit = 'W')
         case 'MMRTG': # Used on Perseverence and Curiosity!
-            return Generator(name, 45, 110)
+            return Generator(name, 45, 110, unit = 'W')
         case 'GPHS-RTG': # Used on many satelites; best W/kg of RTGs
-            return Generator(name, 57, 300)
+            return Generator(name, 57, 300, unit = 'W')
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'])
+            return Tank(name, kwargs['mass'], kwargs['rate'], unit = 'W')
         
 
 
