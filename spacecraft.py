@@ -441,3 +441,30 @@ class Scoop(Generator):
 
         # Pipes out the collected hydrogen
         self.pipe(swept * area * self.production * multiplier)
+
+# A Solar Panel is a generator whose efficiency depends on the distance to the nearest star
+class SolarPanel(Generator):
+    def __init__(self, name, mass, efficiency, stars = {}):
+        super().__init__(name, mass, efficiency, {}, 'W')
+        # Efficiency is the effective area multiplied by the conversion factor
+
+        # Uses this to calculate power generated via distance and luminosity
+        self.stars = stars
+
+    def produce(self, multiplier = 1):
+        
+        # Throttle shouldn't matter, but I'll include it anyways
+        throttle = self.refund_throttle()
+
+        # Produces no power if there are no stars
+        if len(self.stars) == 0:
+            return 0
+        
+        # This simple model sums all fluxes together.
+        # This implies the solar array is normal to all stars simulteneously.
+        flux = sum([star.luminosity / (self.spacecraft.pos() - star.pos()).hypo() ** 2 for star in self.stars.values()])
+
+        # Outputs the power
+        self.pipe(flux * self.production * throttle * multiplier)
+
+
