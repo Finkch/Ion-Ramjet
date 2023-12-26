@@ -16,6 +16,7 @@ au_speed =      earth_speed * np.sqrt(2) # Earth speed but it words
 
 sun_mass =      3.995e30
 sun_radius =    696340e3
+L =             3.846e26
 
 H =             1.6735575e-27
 
