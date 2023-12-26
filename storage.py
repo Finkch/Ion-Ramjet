@@ -187,8 +187,13 @@ def universes(name, kwargs):
 
             craft = spacecrafts(kwargs['craft'])
 
-            craft.spacetime.position = v.Vector(au, 0, 0)
-            craft.spacetime.velocity = v.Vector(0, au_speed, 0)
+            try:
+                craft.spacetime.position = v.Vector(kwargs['craft_distance'], 0, 0)
+                craft.spacetime.velocity = v.Vector(0, kwargs['craft_speed'], 0)
+            except:
+                craft.spacetime.position = v.Vector(au, 0, 0)
+                craft.spacetime.velocity = v.Vector(0, au_speed, 0)
+
 
             sol = stars('Sol')
 
@@ -196,7 +201,7 @@ def universes(name, kwargs):
 
         case 'To Alpha Centauri':
             
-            craft = spacecrafts('ioRam-0')
+            craft = spacecrafts(kwargs['craft'])
 
             sol = stars('Sol')
             aca = stars('Alpha Centauri A')
