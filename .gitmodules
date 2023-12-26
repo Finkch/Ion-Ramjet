@@ -1,0 +1,3 @@
+[submodule "finkchlib"]
+	path = finkchlib
+	url = https://github.com/Finkch/finkchlib
