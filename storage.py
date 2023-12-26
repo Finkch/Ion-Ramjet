@@ -10,6 +10,8 @@ def thrusters(name, kwargs = {}):
             return Generator(name, 10, 26.3, {'p': 5.41073908927e-4, 'e': 750e3})
         case 'J-2': # Used on the S-IVB, the upper stage of the Saturn V
             return Generator(name, 1800, 1033e3, {'LOX-LH2': 250.4})
+        case 'NSTAR':
+            return Generator(name, 8.33, 0.092, {'p': 0.000002844774273, 'e': 2.3e3}) # v_e of 16 660 - 32 340, depending on power supplied
         case _:
             return Tank(name, kwargs['mass'], kwargs['rate'])
         
@@ -37,7 +39,9 @@ def reactors(name, kwargs = {}):
             #return Generator(name, 10, 1.5e6)
             return Generator(name, 10, 1e10)
         case 'MMRTG': # Used on Perseverence and Curiosity!
-            return None
+            return Generator(name, 45, 110)
+        case 'GPHS-RTG': # Used on many satelites; best W/kg of RTGs
+            return Generator(name, 57, 300)
         case _:
             return Tank(name, kwargs['mass'], kwargs['rate'])
         
@@ -123,6 +127,26 @@ def spacecrafts(name):
             craft = Spacecraft('S-IVB', 18, 0, {}, {'S-IVB Tank': tank}, thruster)
             craft.spacetime.position = v.Vector(au, 0, 0)
             craft.spacetime.velocity = v.Vector(0, au_speed, 0)
+
+            return craft
+        
+        case 'Dawn':
+
+            tank = tanks('pTank Dawn', {'mass': 0, 'capacity': 470.6})
+            battery = batteries('Battery Dawn', {'mass': 0, 'capacity': 4233600})
+
+            # Currently, power generation isn't a problem.
+            # In reality, it used solar panels
+            reactor = reactors('MPDT-reactor') # UPDATE TO SOLAR PANELS
+            reactor.link_output(battery)
+
+            thruster = thrusters('NSTAR')
+            thruster.link_input(tank, 'p')
+            thruster.link_input(battery, 'e')
+
+            # Holy hell, this craft can burn for five years straight!
+            # ...and that's for ∆v = 15 km/s
+            craft = Spacecraft('Dawn', 1.7, 747.1, {'reactor': reactor}, {'pTank': tank, 'eTank': battery}, thruster)
 
             return craft
 
