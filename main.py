@@ -10,6 +10,7 @@ import visuals as vis
 import keyboard as kb
 import orders as o
 import storage as st
+import constants as c
 
 # Should debug printout
 DEBUG = False
@@ -29,8 +30,8 @@ def setup():
 
 
     # Grabs the actors
-    kwargs = {'craft': 'Dawn'}
-    actors, craft = st.universes('Basic', kwargs)
+    kwargs = {'craft': 'Dawn', 'craft_distance': 13 * c.au, 'craft_speed': 0}
+    actors, craft = st.universes('To Alpha Centauri', kwargs)
 
 
 
