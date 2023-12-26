@@ -161,11 +161,11 @@ def spacecrafts(name):
 def stars(name):
     match name:
         case 'Sol':
-            return Actor(name, sun_mass, sun_radius)
+            return Star(name, sun_mass, sun_radius, L)
         case 'Alpha Centauri A':
-            return Actor(name, 1.0788 * sun_mass, 1.2175 * sun_radius)
+            return Star(name, 1.0788 * sun_mass, 1.2175 * sun_radius, 1.5059 * L)
         case 'Alpha Centauri B':
-            return Actor(name, 0.9092 * sun_mass, 0.8591 * sun_radius)
+            return Star(name, 0.9092 * sun_mass, 0.8591 * sun_radius, 0.4981 * L)
     
         
 
