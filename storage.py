@@ -13,14 +13,14 @@ def thrusters(name, kwargs = {}):
         case 'NSTAR':
             return Generator(name, 8.33, 0.092, {'p': 0.000002844774273, 'e': 2.3e3}, 'N') # v_e of 16 660 - 32 340, depending on power supplied
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'], kwargs['fuel'], unit = 'N')
+            return Generator(name, kwargs['mass'], kwargs['rate'], kwargs['fuel'], unit = 'N')
         
 def ionizers(name, kwargs = {}):
     match name:
         case 'MPDT-ionizer':
             return Generator(name, 5, 5.411e-4, {'H': 5.41073908927e-4, 'e': 750e3})
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'])
+            return Generator(name, kwargs['mass'], kwargs['rate'])
 
 def scoops(name, kwargs = {}):
     match name:
@@ -31,7 +31,7 @@ def scoops(name, kwargs = {}):
         case 'Lesser Magic Scoop':
             return Generator(name, 5, 50)
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'])
+            return Generator(name, kwargs['mass'], kwargs['rate'])
         
 def reactors(name, kwargs = {}):
     match name:
@@ -43,7 +43,7 @@ def reactors(name, kwargs = {}):
         case 'GPHS-RTG': # Used on many satelites; best W/kg of RTGs
             return Generator(name, 57, 300, unit = 'W')
         case _:
-            return Tank(name, kwargs['mass'], kwargs['rate'], unit = 'W')
+            return Generator(name, kwargs['mass'], kwargs['rate'], unit = 'W')
         
 def solar_panels(name, kwargs = {}):
     match name:
