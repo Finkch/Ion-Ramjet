@@ -72,6 +72,9 @@ def draw(screen, timer, zoom, actors, craft):
     # How full the tanks are
     draw_craft_tanks(screen, craft)
 
+    # How fast things are being produces
+    draw_craft_generators(screen, craft)
+
     # Renders the performance onto the screen
     draw_performance(screen, timer)
 
@@ -336,6 +339,10 @@ def draw_focus_readout(screen, focus):
 # Renders the ship's internal data
 def draw_craft_tanks(screen, craft):
     text_column(screen, craft.get_printout_regulators(), [WIDTH - STRING_PADDING, HEIGHT], down = False, left = False)
+
+def draw_craft_generators(screen, craft):
+    text_column(screen, craft.get_printout_generators(), [WIDTH - STRING_PADDING, HEIGHT - (len(craft.get_printout_regulators()) + 1) * STRING_PADDING], down = False, left = False)
+    
 
 
 # Adds some performance metrics
