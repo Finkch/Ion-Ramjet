@@ -17,18 +17,18 @@ class Draw:
         self.GREY4 = (255 // 4, 255 // 4, 255 // 4)
         self.GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
-        # Adds a few fonts
-        self.fonts = {}
-        self.add_font('smaller', 12)
-        self.add_font('small', 14)
-        self.add_font('medium', 16)
-
         # Screen dimensions
         self.WIDTH = width
         self.HEIGHT = height
 
         # Initialises pygame, used to draw
         pygame.init()
+
+        # Adds a few fonts
+        self.fonts = {}
+        self.add_font('smaller', 12)
+        self.add_font('small', 14)
+        self.add_font('medium', 16)
 
         # Obtains the screen
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))

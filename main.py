@@ -25,16 +25,13 @@ def setup():
     timer = o.Time(1, 1000 / 60)
     timer.pause()
 
-    # Sets up the visuals
-    screen = vis.init_visuals(768, 768)
-
 
     # Grabs the actors
     kwargs = {'craft': 'Dawn', 'craft_distance': 13 * c.au, 'craft_speed': 0}
     actors, craft = st.universes('To Alpha Centauri', kwargs)
 
 
-
+    screen = vis.IonRamjetDraw(768, 768)
     zoom = o.Zoom(0, timer, actors)
     keybboard = kb.Keyboard(timer, zoom, actors, craft)
 
@@ -78,8 +75,9 @@ def exist(timer, screen, keybboard, zoom, actors, craft):
             # Updates zoom, if necessary
             zoom()
             
+            #def __call__(self, zoom, clock, actors, kwargs):
             # Draws the screen
-            vis.draw(screen, timer, zoom, actors, craft)
+            screen(timer, zoom, actors, {'craft': craft})
 
             # Handles keyboard inputs
             simulate = keybboard()
