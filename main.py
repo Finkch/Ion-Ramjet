@@ -10,7 +10,7 @@ import visuals as vis
 import keyboard as kb
 import finkchlib.orders as o
 import storage as st
-import constants as c
+import finkchlib.constants as c
 
 # Should debug printout
 DEBUG = False

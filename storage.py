@@ -1,7 +1,7 @@
 # This is a place to store data, such as spacecrafts or planets
 
 from spacecraft import *
-from constants import *
+from finkchlib.constants import *
 
 # GENERATORS
 def thrusters(name, kwargs = {}):

@@ -10,7 +10,7 @@
 
 import finkchlib.vector as v
 import finkchlib.orders as o
-from actor import *
+from finkchlib.actor import *
 import numpy as np
         
 

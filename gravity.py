@@ -1,6 +1,6 @@
 # Simulates gravity
 
-import constants as c
+import finkchlib.constants as c
 import finkchlib.vector as v
 
 # Applies gravity between all pairs of actors
