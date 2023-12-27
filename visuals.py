@@ -36,7 +36,7 @@ class Draw:
 
 
     # Draws to screen
-    def __call__(self, zoom, clock, actors, kwargs):
+    def __call__(self, clock, zoom, actors, kwargs):
 
         # Clears screen to black
         self.screen.fill("black")
@@ -45,7 +45,7 @@ class Draw:
         self.draw_time(clock)
         self.draw_performance(clock)
 
-        self.draw(zoom, clock, actors, kwargs)
+        self.draw(clock, zoom, actors, kwargs)
 
         # Draws
         pygame.display.flip()
@@ -54,7 +54,7 @@ class Draw:
 
     # Puts the things onto the screen.
     # OVERLOAD THIS FUNCTION
-    def draw(self, zoom, actors, kwargs):
+    def draw(self, timer, zoom, actors, kwargs):
         pass
 
 
