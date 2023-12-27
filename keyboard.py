@@ -6,6 +6,8 @@ class IonRamjetKeyboard(Keyboard):
     def __init__(self, timer, zoom, actors, craft):
         super().__init__(timer, zoom, actors, craft)
 
+        self.craft = craft
+
         # Adds the rest of the keys
         self.keys = self.keys | {            
             'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': None}, 
