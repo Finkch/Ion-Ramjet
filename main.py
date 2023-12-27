@@ -33,15 +33,15 @@ def setup():
 
     screen = vis.IonRamjetDraw(768, 768)
     zoom = o.Zoom(0, clock, actors)
-    keybboard = kb.IonRamjetKeyboard(clock, zoom, actors, craft)
+    keyboard = kb.IonRamjetKeyboard(clock, zoom, actors, craft)
 
     # Simulates
-    exist(clock, zoom, screen, keybboard, actors, craft)
+    exist(clock, zoom, screen, keyboard, actors, craft)
 
 
 
 # Simulates
-def exist(clock, zoom, screen, keybboard, actors, craft):
+def exist(clock, zoom, screen, keyboard, actors, craft):
 
     # Keeps track of simulation duration
     simulate = True
@@ -80,7 +80,7 @@ def exist(clock, zoom, screen, keybboard, actors, craft):
             screen(clock, zoom, actors, {'craft': craft})
 
             # Handles keyboard inputs
-            simulate = keybboard()
+            simulate = keyboard()
 
 
 
