@@ -53,6 +53,10 @@ class Draw:
         # Clears screen to black
         self.screen.fill("black")
 
+        # Adds some useful information
+        self.draw_time(clock)
+        self.draw_performance(clock)
+
         self.draw(zoom, clock, actors, kwargs)
 
         # Draws
@@ -182,6 +186,26 @@ def init_visuals(width, height):
 
             # Renders the text row
             self.text(self.screen, strings[i], draw_at, pad = False, left = left)
+
+
+    # Adds a time readout
+    def draw_time(self, clock):
+
+        # Renders timer readout
+        self.text_column(self.screen, clock.get_printout(), [0, 0])
+
+    # Adds some performance metrics
+    def draw_performance(self, clock):
+
+        strings = [
+            f'{1000 / clock.real_time.get_average_difs():.3f} fps',
+            f'{1000 / clock.timer.get_average_difs():.0f} sps'
+        ]
+
+        self.text_column(self.screen, strings, [self.WIDTH - self.STRING_PADDING, 0], left = False)
+
+
+
 
 
 # Draws everything
