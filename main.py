@@ -22,8 +22,8 @@ def setup():
     # Hanldes real-time and sim-time
     #   Initial simulation rate
     #   Framerate
-    timer = o.Time(1, 1000 / 60)
-    timer.pause()
+    clock = o.Time(1, 1000 / 60)
+    clock.pause()
 
 
     # Grabs the actors
@@ -32,25 +32,25 @@ def setup():
 
 
     screen = vis.IonRamjetDraw(768, 768)
-    zoom = o.Zoom(0, timer, actors)
-    keybboard = kb.IonRamjetKeyboard(timer, zoom, actors, craft)
+    zoom = o.Zoom(0, clock, actors)
+    keybboard = kb.IonRamjetKeyboard(clock, zoom, actors, craft)
 
     # Simulates
-    exist(timer, screen, keybboard, zoom, actors, craft)
+    exist(clock, zoom, screen, keybboard, actors, craft)
 
 
 
 # Simulates
-def exist(timer, screen, keybboard, zoom, actors, craft):
+def exist(clock, zoom, screen, keybboard, actors, craft):
 
     # Keeps track of simulation duration
     simulate = True
 
 
     # Simulates a workload for a moment to normalise the timer
-    timer.real_time.stamp()
-    while timer.real_time.dif() < 100:
-        timer.timer.time()
+    clock.real_time.stamp()
+    while clock.real_time.dif() < 100:
+        clock.timer.time()
         g.easy_gravity(actors)
         for actor in actors:
             actor.spacetime.acceleration = v.Vector()
@@ -59,25 +59,25 @@ def exist(timer, screen, keybboard, zoom, actors, craft):
     while simulate:
 
         # Gets the sim time for this step
-        time_step = timer()
+        time_step = clock()
 
 
         # Performs one stpe
-        if not timer.paused:
+        if not clock.paused:
             step(time_step, actors)
 
             # Debug printout
-            debug(timer, craft)
+            debug(clock, craft)
 
         # Handles an input/draw frame
-        if timer.real_time.time():
+        if clock.real_time.time():
 
             # Updates zoom, if necessary
             zoom()
             
             #def __call__(self, zoom, clock, actors, kwargs):
             # Draws the screen
-            screen(timer, zoom, actors, {'craft': craft})
+            screen(clock, zoom, actors, {'craft': craft})
 
             # Handles keyboard inputs
             simulate = keybboard()
