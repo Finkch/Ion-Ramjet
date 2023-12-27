@@ -215,13 +215,10 @@ class IonRamjetDraw(Draw):
         draw_craft_generators(craft)
 
 
-
-
-
-# Draws two orthogonal lines for the axis
-def draw_axis(screen):
-    line(screen, (PIXEL_PADDING, HEIGHT / 2), (WIDTH - PIXEL_PADDING, HEIGHT / 2), GREY4)
-    line(screen, (WIDTH / 2, PIXEL_PADDING), (WIDTH / 2, HEIGHT - PIXEL_PADDING), GREY4)
+    # Draws two orthogonal lines for the axis
+    def draw_axis(self):
+        self.line(self.screen, (self.PIXEL_PADDING, self.HEIGHT / 2), (self.WIDTH - self.PIXEL_PADDING, self.HEIGHT / 2), self.GREY4)
+        self.line(self.screen, (self.WIDTH / 2, self.PIXEL_PADDING), (self.WIDTH / 2, self.HEIGHT - self.PIXEL_PADDING), self.GREY4)
 
 def draw_scale(screen, zoom, scale):
 
