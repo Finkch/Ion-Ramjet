@@ -28,6 +28,12 @@ class Draw:
         self.GREY4 = (255 // 4, 255 // 4, 255 // 4)
         self.GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
+        # Adds a few fonts
+        self.fonts = {}
+        self.add_font('smaller', 12)
+        self.add_font('small', 14)
+        self.add_font('medium', 16)
+
         # Screen dimensions
         self.WIDTH = width
         self.HEIGHT = height
@@ -38,6 +44,15 @@ class Draw:
         # Obtains the screen
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
     
+
+    def add_font(self, name, font_size, type_face = None):
+        
+        # Gets the default for the typeface
+        if not type_face:
+            type_face = self.TYPE_FACE
+
+        # Adds a font to the class' library
+        self.fonts[name] = pygame.font.SysFont(type_face, font_size)
 
 # Prepares the graphics
 def init_visuals(width, height):
