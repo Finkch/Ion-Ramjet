@@ -1,9 +1,10 @@
 import numpy as np
 import spacecraft as sc
 import finkchlib.vector as v
+import finkchlib.draw as d
 
 # The draw class for this simulation
-class IonRamjetDraw(Draw):
+class IonRamjetDraw(d.Draw):
     def __init__(self, width, height):
         super().__init__(width, height)
 
