@@ -117,6 +117,71 @@ def init_visuals(width, height):
 
 
     return screen
+    # Methods to add simple objects
+
+    # Draws a circle
+    def circle(self, position, radius, colour = 'white'):
+        if self.onscreen(position, radius):
+            pygame.draw.circle(self.screen, colour, position, radius)
+
+    # Draws a line
+    def line(self, start, stop, colour = 'white', width = 1):
+        if self.onscreen(start) or self.onscreen(stop):
+            pygame.draw.line(self.screen, colour, start, stop, width = width)
+
+    # Renders a single bit of text
+    def text(self, string, position, pad = True, type_face = 'medium', colour = 'white', antialias = True, left = True):
+
+        # Don't draw if the text is offscreen
+        if not self.onscreen(position):
+            return
+
+        # 'Fixes' scientific notation
+        string = string.replace("e+", "e")
+
+        # Obtains the font object
+        text = self.fonts[type_face].render(string, antialias, colour)
+        text_shape = text.get_rect()
+
+        # Gets the correct amount of padding
+        padding = self.PIXEL_PADDING
+        if not pad:
+            padding = 0
+
+        # Places the text
+        if left:
+            text_shape.topleft = (padding + position[0], padding + position[1])
+        else:
+            text_shape.topright = (padding + position[0], padding + position[1])
+
+        # Renders the text
+        self.screen.blit(text, text_shape)
+            
+
+    # Renders a column of text in rows as specified by strings
+    def text_column(self, strings, position, pad = True, down = True, left = True):
+
+        if not strings:
+            return
+
+        # Gets the correct amount of padding
+        padding = self.PIXEL_PADDING
+        if not pad:
+            padding = 0
+
+        # Iterates over all strings
+        draw_at = [None, None]
+        for i in range(len(strings)):
+
+            # Obtains the position to draw them at
+            draw_at[0] = padding + position[0]
+            if down:
+                draw_at[1] = padding + position[1] + i * self.STRING_PADDING
+            else:
+                draw_at[1] = position[1] - padding - (len(strings) - i) * self.STRING_PADDING
+
+            # Renders the text row
+            self.text(self.screen, strings[i], draw_at, pad = False, left = left)
 
 
 # Draws everything
