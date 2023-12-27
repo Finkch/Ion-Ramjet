@@ -87,12 +87,34 @@ def init_visuals(width, height):
     global WIDTH, HEIGHT
     WIDTH = width
     HEIGHT = height
+    # Checks if the position is within the screen
+    def onscreen(self, position, offset = 0):
+        
+        # Gets the padded bounds
+        x_bounds = [self.WIDTH * (1 - self.PADDING), self.WIDTH * self.PADDING]
+        y_bounds = [self.HEIGHT * (1 - self.PADDING), self.HEIGHT * self.PADDING]
+
+        # Checks the bounds and the offset
+        if offset != 0:
+            return (
+                    self.in_bounds(position[0], x_bounds) and self.in_bounds(position[1], y_bounds)
+                ) or (
+                    self.in_bounds(position[0], x_bounds, offset) and self.in_bounds(position[1], y_bounds, offset)
+                )
+        
+        # Checks just the bounds
+        return self.in_bounds(position[0], x_bounds) and self.in_bounds(position[1], y_bounds)
     
     # Sets a global font
     global SMALLER_FONT, SMALL_FONT, MEDIUM_FONT
     SMALLER_FONT = pygame.font.SysFont(TYPE_FACE, SMALLER_FONT_SIZE)
     SMALL_FONT = pygame.font.SysFont(TYPE_FACE, SMALL_FONT_SIZE)
     MEDIUM_FONT = pygame.font.SysFont(TYPE_FACE, MEDIUM_FONT_SIZE)
+    # Checks for one axis whether it is within the specified bounds
+    def in_bounds(self, position, bounds, offset = 0):
+        return position + offset > bounds[0] and position - offset < bounds[1]
+    
+
 
     return screen
 
