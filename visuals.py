@@ -15,13 +15,6 @@ MEDIUM_FONT_SIZE = 16
 GREY4 = (255 // 4, 255 // 4, 255 // 4)
 GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
-# Holds some basic information on how to draw an object
-class Shape:
-    def __init__(self, radius):
-        self.radius = radius
-        self.colour = "white"
-
-
 
 # Prepares the graphics
 def init_visuals(width, height):
@@ -277,7 +270,7 @@ def draw_actors(screen, zoom, actors, scale):
     for actor in actors:
 
         # Gets the actor's radius
-        radius = actor.shape.radius * scale
+        radius = actor.radius * scale
 
         # If the radius is too small to see, scale it to the minimum size
         if radius < MIN_RADIUS:
