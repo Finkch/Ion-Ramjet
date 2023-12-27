@@ -15,6 +15,7 @@ MEDIUM_FONT_SIZE = 16
 GREY4 = (255 // 4, 255 // 4, 255 // 4)
 GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
+# This class is the screen to draw onto
 class Draw:
     def __init__(self, width, height):
 
@@ -43,8 +44,31 @@ class Draw:
 
         # Obtains the screen
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-    
 
+
+
+    # Draws to screen
+    def __call__(self, zoom, clock, actors, kwargs):
+
+        # Clears screen to black
+        self.screen.fill("black")
+
+        self.draw(zoom, clock, actors, kwargs)
+
+        # Draws
+        pygame.display.flip()
+
+
+
+    # Puts the things onto the screen.
+    # OVERLOAD THIS FUNCTION
+    def draw(self, zoom, actors, kwargs):
+        pass
+
+
+
+
+    # Adds a font to the class' library
     def add_font(self, name, font_size, type_face = None):
         
         # Gets the default for the typeface
