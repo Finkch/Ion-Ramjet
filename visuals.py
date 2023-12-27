@@ -3,18 +3,6 @@ import numpy as np
 import spacecraft as sc
 import finkchlib.vector as v
 
-MIN_SIZE = 0
-MIN_RADIUS = 2
-PADDING = 1.2
-PIXEL_PADDING = 10
-STRING_PADDING = 18
-TYPE_FACE = 'courier'
-SMALLER_FONT_SIZE = 12
-SMALL_FONT_SIZE = 14
-MEDIUM_FONT_SIZE = 16
-GREY4 = (255 // 4, 255 // 4, 255 // 4)
-GREY2 = (255 // 2, 255 // 2, 255 // 2)
-
 # This class is the screen to draw onto
 class Draw:
     def __init__(self, width, height):
@@ -82,15 +70,7 @@ class Draw:
         # Adds a font to the class' library
         self.fonts[name] = pygame.font.SysFont(type_face, font_size)
 
-# Prepares the graphics
-def init_visuals(width, height):
-    pygame.init()
-    screen = pygame.display.set_mode((width, height))
 
-    # Sets global screen size
-    global WIDTH, HEIGHT
-    WIDTH = width
-    HEIGHT = height
     # Checks if the position is within the screen
     def onscreen(self, position, offset = 0):
         
@@ -109,18 +89,12 @@ def init_visuals(width, height):
         # Checks just the bounds
         return self.in_bounds(position[0], x_bounds) and self.in_bounds(position[1], y_bounds)
     
-    # Sets a global font
-    global SMALLER_FONT, SMALL_FONT, MEDIUM_FONT
-    SMALLER_FONT = pygame.font.SysFont(TYPE_FACE, SMALLER_FONT_SIZE)
-    SMALL_FONT = pygame.font.SysFont(TYPE_FACE, SMALL_FONT_SIZE)
-    MEDIUM_FONT = pygame.font.SysFont(TYPE_FACE, MEDIUM_FONT_SIZE)
     # Checks for one axis whether it is within the specified bounds
     def in_bounds(self, position, bounds, offset = 0):
         return position + offset > bounds[0] and position - offset < bounds[1]
     
 
 
-    return screen
     # Methods to add simple objects
 
     # Draws a circle
@@ -246,104 +220,6 @@ def draw(screen, timer, zoom, actors, craft):
 
     # Draws
     pygame.display.flip()
-    
-
-
-
-# Checks if the position is within the screen
-def onscreen(position, offset = 0):
-    
-    # Gets the padded bounds
-    x_bounds = [WIDTH * (1 - PADDING), WIDTH * PADDING]
-    y_bounds = [HEIGHT * (1 - PADDING), HEIGHT * PADDING]
-
-    # Checks the bounds and the offset
-    if offset != 0:
-        return (
-                in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
-            ) or (
-                in_bounds(position[0], x_bounds, offset) and in_bounds(position[1], y_bounds, offset)
-            )
-    
-    # Checks just the bounds
-    return in_bounds(position[0], x_bounds) and in_bounds(position[1], y_bounds)
-
-# Checks for one axis whether it is within the specified bounds
-def in_bounds(position, bounds, offset = 0):
-    return position + offset > bounds[0] and position - offset < bounds[1]
-
-
-
-# Draws a circle
-def circle(screen, position, radius, colour = 'white'):
-    if onscreen(position, radius):
-        pygame.draw.circle(screen, colour, position, radius)
-
-# Draws a line
-def line(screen, start, stop, colour = 'white', width = 1):
-    if onscreen(start) or onscreen(stop):
-        pygame.draw.line(screen, colour, start, stop, width = width)
-
-# Renders a single bit of text
-def text(screen, string, position, pad = True, size = 'medium', colour = 'white', antialias = True, left = True):
-    
-
-    # Don't draw if the text is offscreen
-    if not onscreen(position):
-        return
-
-    # 'Fixes' scientific notation
-    string = string.replace("e+", "e")
-
-    # Obtains the font object
-    text = None
-    if size == 'medium':
-        text = MEDIUM_FONT.render(string, antialias, colour)
-    elif size == "small":
-        text = SMALL_FONT.render(string, antialias, colour)
-    else:
-        text = SMALLER_FONT.render(string, antialias, colour)
-    text_shape = text.get_rect()
-
-    # Gets the correct amount of padding
-    padding = PIXEL_PADDING
-    if not pad:
-        padding = 0
-
-    # Places the text
-    if left:
-        text_shape.topleft = (padding + position[0], padding + position[1])
-    else:
-        text_shape.topright = (padding + position[0], padding + position[1])
-
-    # Renders the text
-    screen.blit(text, text_shape)
-        
-
-# Renders a column of text in rows as specified by strings
-def text_column(screen, strings, position, pad = True, down = True, left = True):
-
-    if not strings:
-        return
-
-    # Gets the correct amount of padding
-    padding = PIXEL_PADDING
-    if not pad:
-        padding = 0
-
-    # Iterates over all strings
-    draw_at = [None, None]
-    for i in range(len(strings)):
-
-        # Obtains the position to draw them at
-        draw_at[0] = padding + position[0]
-        if down:
-            draw_at[1] = padding + position[1] + i * STRING_PADDING
-        else:
-            draw_at[1] = position[1] - padding - (len(strings) - i) * STRING_PADDING
-
-        # Renders the text row
-        text(screen, strings[i], draw_at, pad = False, left = left)
 
 
 
@@ -485,14 +361,6 @@ def draw_labels(screen, actor, pixel_position, radius):
     # Draws a line from the text to the actor
     line(screen, (pixel_position[0] + radius_scaled, pixel_position[1] + radius_scaled), (pixel_position[0] + radius_scaled + distance, pixel_position[1] + radius_scaled + distance))
 
-
-
-
-# Adds a time readout
-def draw_time(screen, timer):
-
-    # Renders timer readout
-    text_column(screen, timer.get_printout(), [0, 0])
     
 
 # Adds some of craft information readout
@@ -509,14 +377,3 @@ def draw_craft_tanks(screen, craft):
 def draw_craft_generators(screen, craft):
     text_column(screen, craft.get_printout_generators(), [WIDTH - STRING_PADDING, HEIGHT - (len(craft.get_printout_regulators()) + 1) * STRING_PADDING], down = False, left = False)
     
-
-
-# Adds some performance metrics
-def draw_performance(screen, timer):
-
-    strings = [
-        f'{1000 / timer.real_time.get_average_difs():.3f} fps',
-        f'{1000 / timer.timer.get_average_difs():.0f} sps'
-    ]
-
-    text_column(screen, strings, [WIDTH - STRING_PADDING, 0], left = False)
