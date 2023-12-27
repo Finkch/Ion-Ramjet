@@ -185,45 +185,34 @@ class IonRamjetDraw(Draw):
     def __init__(self, width, height):
         super().__init__(width, height)
 
-
-# Draws everything
-#   focus is the actor at the centre of the display
-def draw(screen, timer, zoom, actors, craft):
-    
-
-    # Clears screen to black
-    screen.fill("black")
+    # Draws everything
+    #   focus is the actor at the centre of the display
+    def draw(self, timer, zoom, actors, kwargs):
+        
+        # Grabs the star of the show
+        craft = kwargs['craft']
 
 
-    # Finds the maximum distance between the crafts and the PoR.
-    # This distance is used to scale everything to fit on screen.
-    # Extra factor of two is for half the screen
-    scale = (WIDTH - PIXEL_PADDING) / (zoom.zoom()) / 2
+        # Finds the maximum distance between the crafts and the PoR.
+        # This distance is used to scale everything to fit on screen.
+        # Extra factor of two is for half the screen
+        scale = (self.WIDTH - self.PIXEL_PADDING) / (zoom.zoom()) / 2
 
-    # Draws the reference axis and ticks
-    draw_axis(screen)
-    draw_scale(screen, zoom, scale)
+        # Draws the reference axis and ticks
+        draw_axis()
+        draw_scale(zoom, scale)
 
-    # Draws the actors to screen
-    draw_actors(screen, zoom, actors, scale)
+        # Draws the actors to screen
+        draw_actors(zoom, actors, scale)
 
-    # Adds a readout for the current sim time
-    draw_time(screen, timer)
+        # Draws some craft informatiom
+        draw_focus_readout(zoom.focus)
 
-    # Draws some craft informatiom
-    draw_focus_readout(screen, zoom.focus)
+        # How full the tanks are
+        draw_craft_tanks(craft)
 
-    # How full the tanks are
-    draw_craft_tanks(screen, craft)
-
-    # How fast things are being produces
-    draw_craft_generators(screen, craft)
-
-    # Renders the performance onto the screen
-    draw_performance(screen, timer)
-
-    # Draws
-    pygame.display.flip()
+        # How fast things are being produces
+        draw_craft_generators(craft)
 
 
 
