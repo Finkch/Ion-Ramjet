@@ -159,14 +159,14 @@ class Draw:
                 draw_at[1] = position[1] - padding - (len(strings) - i) * self.STRING_PADDING
 
             # Renders the text row
-            self.text(self.screen, strings[i], draw_at, pad = False, left = left)
+            self.text(strings[i], draw_at, pad = False, left = left)
 
 
     # Adds a time readout
     def draw_time(self, clock):
 
         # Renders timer readout
-        self.text_column(self.screen, clock.get_printout(), [0, 0])
+        self.text_column(clock.get_printout(), [0, 0])
 
     # Adds some performance metrics
     def draw_performance(self, clock):
@@ -176,7 +176,7 @@ class Draw:
             f'{1000 / clock.timer.get_average_difs():.0f} sps'
         ]
 
-        self.text_column(self.screen, strings, [self.WIDTH - self.STRING_PADDING, 0], left = False)
+        self.text_column(strings, [self.WIDTH - self.STRING_PADDING, 0], left = False)
 
 
 
@@ -217,8 +217,8 @@ class IonRamjetDraw(Draw):
 
     # Draws two orthogonal lines for the axis
     def draw_axis(self):
-        self.line(self.screen, (self.PIXEL_PADDING, self.HEIGHT / 2), (self.WIDTH - self.PIXEL_PADDING, self.HEIGHT / 2), self.GREY4)
-        self.line(self.screen, (self.WIDTH / 2, self.PIXEL_PADDING), (self.WIDTH / 2, self.HEIGHT - self.PIXEL_PADDING), self.GREY4)
+        self.line((self.PIXEL_PADDING, self.HEIGHT / 2), (self.WIDTH - self.PIXEL_PADDING, self.HEIGHT / 2), self.GREY4)
+        self.line((self.WIDTH / 2, self.PIXEL_PADDING), (self.WIDTH / 2, self.HEIGHT - self.PIXEL_PADDING), self.GREY4)
 
     def draw_scale(self, zoom, scale):
 
