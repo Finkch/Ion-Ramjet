@@ -98,12 +98,12 @@ def step(time_step, actors):
 
 
 # Performs a debug readout
-def debug(timer, craft):
+def debug(clock, craft):
 
     if not DEBUG:
         return
 
-    print("\n\n" + str(timer))
+    print("\n\n" + str(clock))
     print(craft)
 
 
