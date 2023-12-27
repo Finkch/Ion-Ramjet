@@ -15,6 +15,29 @@ MEDIUM_FONT_SIZE = 16
 GREY4 = (255 // 4, 255 // 4, 255 // 4)
 GREY2 = (255 // 2, 255 // 2, 255 // 2)
 
+class Draw:
+    def __init__(self, width, height):
+
+        # Adds constants to help draw
+        self.MIN_SIZE = 0
+        self.MIN_RADIUS = 2
+        self.PADDING = 1.2
+        self.PIXEL_PADDING = 10
+        self.STRING_PADDING = 18
+        self.TYPE_FACE = 'courier'
+        self.GREY4 = (255 // 4, 255 // 4, 255 // 4)
+        self.GREY2 = (255 // 2, 255 // 2, 255 // 2)
+
+        # Screen dimensions
+        self.WIDTH = width
+        self.HEIGHT = height
+
+        # Initialises pygame, used to draw
+        pygame.init()
+
+        # Obtains the screen
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+    
 
 # Prepares the graphics
 def init_visuals(width, height):
