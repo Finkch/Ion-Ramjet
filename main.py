@@ -7,10 +7,10 @@
 import finkchlib.vector as v
 import gravity as g
 import visuals as vis
-import keyboard as kb
 import finkchlib.orders as o
 import storage as st
 import finkchlib.constants as c
+import keyboard as kb
 
 # Should debug printout
 DEBUG = False
