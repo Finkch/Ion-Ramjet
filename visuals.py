@@ -180,6 +180,10 @@ class Draw:
 
 
 
+# The draw class for this simulation
+class IonRamjetDraw(Draw):
+    def __init__(self, width, height):
+        super().__init__(width, height)
 
 
 # Draws everything
