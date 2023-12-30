@@ -4,8 +4,11 @@ import pygame
 # A keyboard class for this specific project
 class IonRamjetKeyboard(Keyboard):
     def __init__(self, timer, zoom, actors, craft):
-        super().__init__(timer, zoom, actors)
+        super().__init__()
 
+        self.timer = timer
+        self.zoom = zoom
+        self.actors = actors
         self.craft = craft
 
         # Adds the rest of the keys
