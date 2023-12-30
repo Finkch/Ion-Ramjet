@@ -33,22 +33,38 @@ class IonRamjetKeyboard(Keyboard):
             'lcontrol':     Key(pygame.K_LCTRL,     self.craft.throttle.decrease,       'held'),
             }
     
+    def __call__(self):
+
+        # Update each key's held status
+        super().update_keys()
+
+        # Performs the functions associated with each key
+        super().perform_keys()
+
+        # Handle pygame events
+        return self.handle_pygame()
+
     # Overloads Keyboard's pygame event handler
     def handle_pygame(self):
+
+        simulate = True
+
         # Looks through pygame events
         for event in pygame.event.get():
             
             # Looks for a quit event
             if event.type == pygame.QUIT:
-                return False
+                simulate = False
             
             # Hanldes specific key events
             elif event.type == pygame.KEYDOWN:
                 
                 # Exits
                 if event.key == pygame.K_ESCAPE:
-                    return False
+                    simulate = False
                 
                 # Pauses
                 elif event.key == pygame.K_SPACE:
                     self.clock.pause()
+
+        return simulate
