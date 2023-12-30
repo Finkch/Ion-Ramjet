@@ -3,10 +3,10 @@ import pygame
 
 # A keyboard class for this specific project
 class IonRamjetKeyboard(Keyboard):
-    def __init__(self, timer, zoom, actors, craft):
+    def __init__(self, clock, zoom, actors, craft):
         super().__init__()
 
-        self.timer = timer
+        self.clock = clock
         self.zoom = zoom
         self.actors = actors
         self.craft = craft
