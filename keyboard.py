@@ -1,4 +1,4 @@
-from finkchlib.keyboard import Keyboard
+from finkchlib.keyboard import Keyboard, Key
 import pygame
 
 # A keyboard class for this specific project
@@ -13,24 +13,22 @@ class IonRamjetKeyboard(Keyboard):
 
         # Adds the rest of the keys
         self.keys = self.keys | {            
-            'up':           {'count': 0, 'key': pygame.K_UP,            'type': self.pressed,       'function': self.clock.fasterer}, 
-            'down':         {'count': 0, 'key': pygame.K_DOWN,          'type': self.pressed,       'function': self.clock.slowerer}, 
-            'right':        {'count': 0, 'key': pygame.K_RIGHT,         'type': self.pressed,       'function': self.clock.faster}, 
-            'left':         {'count': 0, 'key': pygame.K_LEFT,          'type': self.pressed,       'function': self.clock.slower}, 
-            'return':       {'count': 0, 'key': pygame.K_RETURN,        'type': self.held,          'function': self.zoom.decrease}, 
-            'rshift':       {'count': 0, 'key': pygame.K_RSHIFT,        'type': self.held,          'function': self.zoom.increase}, 
-            'quote':        {'count': 0, 'key': pygame.K_QUOTE,         'type': self.pressed,       'function': self.zoom.decrease_order}, 
-            'slash':        {'count': 0, 'key': pygame.K_SLASH,         'type': self.pressed,       'function': self.zoom.increase_order}, 
-            'semicolon':    {'count': 0, 'key': pygame.K_SEMICOLON,     'type': self.pressed,       'function': self.zoom.next}, 
-            'period':       {'count': 0, 'key': pygame.K_PERIOD,        'type': self.pressed,       'function': self.zoom.previous}, 
-            'backslash':    {'count': 0, 'key': pygame.K_BACKSLASH,     'type': self.pressed,       'function': self.zoom.auto_scale.increase},
-            'w':            {'count': 0, 'key': pygame.K_w,             'type': self.held,          'function': None}, 
-            's':            {'count': 0, 'key': pygame.K_s,             'type': self.held,          'function': None}, 
-            'a':            {'count': 0, 'key': pygame.K_a,             'type': self.held,          'function': self.craft.rotate_ccw}, 
-            'd':            {'count': 0, 'key': pygame.K_d,             'type': self.held,          'function': self.craft.rotate_cw}, 
-            'z':            {'count': 0, 'key': pygame.K_z,             'type': self.pressed,       'function': self.craft.throttle.max}, 
-            'x':            {'count': 0, 'key': pygame.K_x,             'type': self.pressed,       'function': self.craft.throttle.min}, 
-            'c':            {'count': 0, 'key': pygame.K_c,             'type': self.pressed,       'function': self.craft.auto_orient.increase}, 
-            'lshift':       {'count': 0, 'key': pygame.K_LSHIFT,        'type': self.held,          'function': self.craft.throttle.increase}, 
-            'lcontrol':     {'count': 0, 'key': pygame.K_LCTRL,         'type': self.held,          'function': self.craft.throttle.decrease},
+            'up':           Key(pygame.K_UP,        self.pressed,   self.clock.fasterer),
+            'down':         Key(pygame.K_DOWN,      self.pressed,   self.clock.slowerer),
+            'right':        Key(pygame.K_RIGHT,     self.pressed,   self.clock.faster), 
+            'left':         Key(pygame.K_LEFT,      self.pressed,   self.clock.slower), 
+            'return':       Key(pygame.K_RETURN,    self.held,      self.zoom.decrease), 
+            'rshift':       Key(pygame.K_RSHIFT,    self.held,      self.zoom.increase), 
+            'quote':        Key(pygame.K_QUOTE,     self.pressed,   self.zoom.decrease_order), 
+            'slash':        Key(pygame.K_SLASH,     self.pressed,   self.zoom.increase_order), 
+            'semicolon':    Key(pygame.K_SEMICOLON, self.pressed,   self.zoom.next), 
+            'period':       Key(pygame.K_PERIOD,    self.pressed,   self.zoom.previous), 
+            'backslash':    Key(pygame.K_BACKSLASH, self.pressed,   self.zoom.auto_scale.increase),
+            'a':            Key(pygame.K_a,         self.held,      self.craft.rotate_ccw), 
+            'd':            Key(pygame.K_d,         self.held,      self.craft.rotate_cw), 
+            'z':            Key(pygame.K_z,         self.pressed,   self.craft.throttle.max), 
+            'x':            Key(pygame.K_x,         self.pressed,   self.craft.throttle.min), 
+            'c':            Key(pygame.K_c,         self.pressed,   self.craft.auto_orient.increase), 
+            'lshift':       Key(pygame.K_LSHIFT,    self.held,      self.craft.throttle.increase), 
+            'lcontrol':     Key(pygame.K_LCTRL,     self.held,      self.craft.throttle.decrease),
             }
